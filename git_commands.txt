@@ -1,0 +1,2 @@
+git pull -> vom remote Repository herunterladen (wird aktualisiert, nicht geklont)
+git restore <file> -> stellt das gelöschte File wieder her
