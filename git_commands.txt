@@ -7,6 +7,17 @@ git checkout master -> zum master branch wechseln
 git remote add upstream <URL vom repo>  -> definiere die URL vom upstream (remote Hauptprojekt)
 git fetch upstream                      -> hole die Änderungen vom remote repo (Hauptprojekt masterbranch) zu dir
 git merge master                        -> zusammenführen vom fetch und dem master branch lokal
-git push --set-upstram origin <branchnamen> -> hochladen vom branch
+git push --set-upstream origin <branchnamen> -> hochladen vom branch
+git remote -v
 
 wenn man zwischen branches wechselt dann sind die Dateien tatsächlich im Ordner anders!!!
+
+
+What is a fork?
+Maybe sometimes you’d want to work on projects where you are not the owner or collaborator. In such situations where you do not have a push access to an existing project, you have an option of forking the repository.
+So, what is a fork? A fork is nothing but a copy of the repository and you get to work on someone else’s project freely without affecting the project. So, forking basically means creating a copy of the repo on your GitHub account without having to bother adding users as collaborators allowing them push access. You can fork a project, push to it, and contribute the changes back to the original repository via what is known as a Pull Request.
+
+Difference between Fork and Branch
+Branching is probably one of the fundamental features available in most modern version control systems. A branch in Git is an isolated environment to add, modify or delete a portion of the code without messing with the main code of the project. 
+Branching is to create another line of development in the project without affecting the main branch or repository. Forking, on the other hand, is to make a clone of the repository on your GitHub account without affecting the main repository. 
+A fork is nothing but a duplicate copy of someone else’s project, whereas a branch is just a version of a repository.
