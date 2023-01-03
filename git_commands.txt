@@ -1,2 +1,4 @@
 git pull -> vom remote Repository herunterladen (wird aktualisiert, nicht geklont)
 git restore <file> -> stellt das gelöschte File wieder her
+git branch -> zeigt in welchem branch man ist
+git checkout -b <branchname> -> wechselt in und erstellt (-b) neuen Branch
