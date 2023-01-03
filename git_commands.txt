@@ -2,3 +2,5 @@ git pull -> vom remote Repository herunterladen (wird aktualisiert, nicht geklon
 git restore <file> -> stellt das gelöschte File wieder her
 git branch -> zeigt in welchem branch man ist
 git checkout -b <branchname> -> wechselt in und erstellt (-b) neuen Branch
+git checkout master -> zum master branch wechseln
+git remote add upstream <URL vom repo> -> hole die Änderungen vom remote repo (Hauptprojekt masterbranch) zu dir
