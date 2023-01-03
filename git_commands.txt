@@ -7,3 +7,6 @@ git remote add upstream <URL vom repo>  -> definiere die URL vom upstream (remot
 git fetch upstream                      -> hole die Änderungen vom remote repo (Hauptprojekt masterbranch) zu dir
 git merge master                        -> zusammenführen vom fetch und dem master branch lokal
 git push --set-upstram origin <branchnamen> -> hochladen vom branch
+
+What is a fork?
+Maybe sometimes you’d want to work on projects where you are not the owner or collaborator. In such situations where you do not have a push access to an existing project, you have an option of forking the repository. 
