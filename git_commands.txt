@@ -3,4 +3,7 @@ git restore <file> -> stellt das gelöschte File wieder her
 git branch -> zeigt in welchem branch man ist
 git checkout -b <branchname> -> wechselt in und erstellt (-b) neuen Branch
 git checkout master -> zum master branch wechseln
-git remote add upstream <URL vom repo> -> hole die Änderungen vom remote repo (Hauptprojekt masterbranch) zu dir
+git remote add upstream <URL vom repo>  -> definiere die URL vom upstream (remote Hauptprojekt)
+git fetch upstream                      -> hole die Änderungen vom remote repo (Hauptprojekt masterbranch) zu dir
+git merge master                        -> zusammenführen vom fetch und dem master branch lokal
+git push --set-upstram origin <branchnamen> -> hochladen vom branch
