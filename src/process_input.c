@@ -6,15 +6,18 @@
 /*   By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:41:25 by mrehberg          #+#    #+#             */
-/*   Updated: 2023/01/04 19:43:38 by mrehberg         ###   ########.fr       */
+/*   Updated: 2023/01/04 23:17:59 by mrehberg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/** compare echo with 5 characters (include \0), otherwise
+ * it would be ok when you type echom (4 chars compares only up to o in echo)
+ **/
 void	cmd_identifier(char **cmd)
 {
-	if (!strncmp(cmd[0], "echo", 4)) // "echom klsdjfk" klappt auch
+	if (!strncmp(cmd[0], "echo", 5))
 		ft_echo(cmd);
 }
 
@@ -22,7 +25,8 @@ void	process_input(char *prompt)
 {
 	char **cmd;
 	add_history(prompt);
-	cmd = ft_split(prompt, ' ');
+	rl_replace_line("", 0);
+	cmd = ft_split(prompt, ' '); // only delimiting by ‘ ‘, not by tabs for example
 
 	cmd_identifier(cmd);
 

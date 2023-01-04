@@ -6,11 +6,13 @@
 #    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/04 19:27:30 by mrehberg         ###   ########.fr        #
+#    Updated: 2023/01/04 23:56:27 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =	minishell
+
+INC = inc
 
 SRCS =	src/main.c \
 	src/clean_up.c \
@@ -30,11 +32,11 @@ all: libft_make $(NAME)
 libft_make:
 	@make -C $(LIBFTDIR)
 
-INCDIR := -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
+INCDIR := -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline -lncurses
 
-$(NAME):	$(OBJS) $(LIBFT) Makefile
+$(NAME): $(LIBFT) Makefile ## without OBJS it works $(OBJS)
 			@cp $(LIBFTDIR)$(LIBFT) $(LIBFT)
-			$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCDIR) -lncurses -o $(NAME) 
+			$(CC) $(CFLAGS) $(SRCS) $(LIBFT) -o $(NAME) $(INCDIR)
 
 $(LIBFT):
 			make all -C $(LIBFTDIR)
