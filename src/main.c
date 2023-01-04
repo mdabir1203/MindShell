@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#             */
-/*   Updated: 2023/01/03 16:59:32 by nrenz            ###   ########.fr       */
+/*   Updated: 2023/01/04 19:45:46 by mrehberg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
+/**	SIGQUIT should do nothing
+ * 
+ **/
 void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
 		printf("OUCH, did you hit Ctrl-C?\n");
-	if (sig == SIGQUIT)
-		printf("OUCH, did you quit\n");
 	(void) *context;
 	(void) *info;
 	exit(0);
@@ -41,19 +42,9 @@ int	main(void)
 		return (2);
 	while (1)
 	{
-		prompt = readline("test> ");
-		if (prompt == NULL)
-		{
-			printf("is NULL\n");
-			exit(0);
-		}
-		if (*prompt)
-		{
-			add_history(prompt);
-			printf("%s\n", prompt);
-			//rl_replace_line("added to the history!", 1);
-			sleep(1);
-		}
+		if (!(prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
+			clean_up(CTRL_D_PRESSED);
+		process_input(prompt);
 	}
 	return (0);
 }

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:08:03 by nrenz             #+#    #+#             */
-/*   Updated: 2023/01/03 15:54:25 by nrenz            ###   ########.fr       */
+/*   Updated: 2023/01/04 19:26:28 by mrehberg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <sys/wait.h>
+# include "../libft/libft.h"
+# include <sys/stat.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <stdlib.h>
@@ -25,5 +26,17 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+
+# define CTRL_D_PRESSED 1
+
+
+void	process_input(char *prompt);
+
+void	ft_echo(char **cmd);
+
+
+void	clean_up(int clean_up_code);
+
 
 #endif

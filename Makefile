@@ -3,16 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+         #
+#    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/03 15:53:29 by nrenz            ###   ########.fr        #
+#    Updated: 2023/01/04 19:27:30 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =	minishell
 
-SRCS =	main.c
+SRCS =	src/main.c \
+	src/clean_up.c \
+	src/process_input.c \
+	src/ft_echo.c \
 
 OBJS =	$(SRCS:.c=.o)
 
@@ -29,12 +32,15 @@ libft_make:
 
 INCDIR := -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 
-$(NAME):	$(OBJS) $(LIBFT)
+$(NAME):	$(OBJS) $(LIBFT) Makefile
 			@cp $(LIBFTDIR)$(LIBFT) $(LIBFT)
-			gcc $(CFLAGS) $(OBJS) $(INCDIR) -lncurses -o $(NAME) 
+			$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCDIR) -lncurses -o $(NAME) 
 
 $(LIBFT):
 			make all -C $(LIBFTDIR)
+
+%.o:%.c $(INC)/minishell.h
+	$(CC) $(CFLAGS) -I $(INC) -c $< -o $@ -I $(INCDIR) -lreadline
 
 e:	all
 	./$(NAME)
@@ -44,7 +50,6 @@ clean:
 			rm -f $(OBJS)
 
 fclean:	clean
-			make clean -C libft
 			rm -f $(NAME)
 			rm -f $(LIBFT)
 
