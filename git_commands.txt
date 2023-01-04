@@ -2,13 +2,14 @@ git pull -> vom remote Repository herunterladen (wird aktualisiert, nicht geklon
 git restore <file> -> stellt das gelöschte File wieder her
 git branch -> zeigt in welchem branch man ist
 git checkout -b <branchname> -> wechselt in und erstellt (-b) neuen Branch
-git checkout -a -> zeigt alle branches
+git branch -a -> zeigt alle branches
 git checkout master -> zum master branch wechseln
 git remote add upstream <URL vom repo>  -> definiere die URL vom upstream (remote Hauptprojekt)
 git fetch upstream                      -> hole die Änderungen vom remote repo (Hauptprojekt masterbranch) zu dir
 git merge master                        -> zusammenführen vom fetch und dem master branch lokal
 git push --set-upstream origin <branchnamen> -> hochladen vom branch
 git remote -v
+Git push -u <upstream Name> <branchname>
 
 wenn man zwischen branches wechselt dann sind die Dateien tatsächlich im Ordner anders!!!
 

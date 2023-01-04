@@ -32,9 +32,12 @@ INCDIR := -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.bre
 $(NAME):	$(OBJS) $(LIBFT)
 			@cp $(LIBFTDIR)$(LIBFT) $(LIBFT)
 			gcc $(CFLAGS) $(OBJS) $(INCDIR) -lncurses -o $(NAME) 
-			
+
 $(LIBFT):
 			make all -C $(LIBFTDIR)
+
+e:	all
+	./$(NAME)
 
 clean:
 			make clean -C libft
@@ -48,10 +51,10 @@ fclean:	clean
 re:		fclean all
 
 norm:
-		
+
 
 leaks:
 		make
 		leaks --atExit -- ./minishell
 
-.PHONY: all clean fclean re norm leaks
+.PHONY: all clean fclean re norm leaks		
