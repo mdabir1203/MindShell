@@ -9,6 +9,7 @@ git fetch upstream                      -> hole die Änderungen vom remote repo 
 git merge master                        -> zusammenführen vom fetch und dem master branch lokal
 git push --set-upstream origin <branchnamen> -> hochladen vom branch
 git remote -v
+Git push -u <upstream Name> <branchname>
 
 wenn man zwischen branches wechselt dann sind die Dateien tatsächlich im Ordner anders!!!
 

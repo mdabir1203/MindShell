@@ -6,7 +6,7 @@
 #    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/03 21:47:48 by mrehberg         ###   ########.fr        #
+#    Updated: 2023/01/04 16:54:24 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,16 @@ INCDIR := -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.bre
 $(NAME):	$(OBJS)
 			gcc $(CFLAGS) $(OBJS) $(INCDIR) -lncurses -o $(NAME)
 			
+e:	all
+	./$(NAME)
 
 clean:
 			rm -f $(OBJS)
 
 fclean:	clean
 			rm -f $(NAME)
+			rm -f *.out
+#make fclean -C $(LIBFTDIR)
 
 re:		fclean all
 
