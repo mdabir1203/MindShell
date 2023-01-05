@@ -24,3 +24,7 @@ Difference between Fork and Branch
 Branching is probably one of the fundamental features available in most modern version control systems. A branch in Git is an isolated environment to add, modify or delete a portion of the code without messing with the main code of the project. 
 Branching is to create another line of development in the project without affecting the main branch or repository. Forking, on the other hand, is to make a clone of the repository on your GitHub account without affecting the main repository. 
 A fork is nothing but a duplicate copy of someone else’s project, whereas a branch is just a version of a repository.
+
+               /----------->
+              /
+-------------/----------------->
