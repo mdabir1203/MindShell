@@ -26,39 +26,46 @@ Branching is to create another line of development in the project without affect
 A fork is nothing but a duplicate copy of someone else’s project, whereas a branch is just a version of a repository.
 
 
-                "git clone ..."    change someting   "git add ."   "git commit -m .."   "git push"
+I               "git clone ..."    change someting   "git add ."   "git commit -m .."   "git push"
 local          /-------------> -------------------------------------------------------------> ----\
               /                                                                                    \
 -------------/-----------------> ----------------------------------------------------------------------->
 remote
 
 
-               "git clone ..."      "git pull"   
-local          /------------->        /----> 
+II             "git clone ..."      "git pull"     A changed  
+local          /------------->        /--------------------> 
               /                      /                                                        
--------------/-----------------> ---/-------->
-remote            change someting
+-------------/-----------------> ---/---------------------->
+remote            change A                        A changed 
 
 
-
-         "git clone ..."   change A    "git pull"     A&B changed 
-local          /-------------> -------/-------------------------> 
+                                      (git does not see changes in A)
+III      "git clone ..."   change A    "git pull"                     A&B changed 
+local          /--------------------> /----> ----------------------------------> 
               /                      /                                                        
 -------------/-----------------> ---/--------------------->
-remote                     change B              only B changed
+remote                   change B            only B changed
 
 
                                     "git add ." +    "git pull --no-rebase" 
-         "git clone ..."  change A  "git commit..."  does not know how to merge        A&B changed 
-local          /-------------> -------/-----------------------------------------------> 
-              /                      /                                                        
--------------/-----------------> ---/--------------------->
-remote                     change B              only B changed
+IV        "git clone ..."  change A  "git commit..."  (does not know how to merge)        A&B changed 
+local          /-------------> -----------------------/-----------------------------------------------> 
+              /                                      /                                                        
+-------------/-----------------> -------------------/--------------------->
+remote                     change B                        only B changed
 
 
-                                    "git add ." +    "git pull --no-rebase" 
-         "git clone ..."  change A  "git commit..."  does not know how to merge        A&B changed 
-local          /-------------> -------/-----------------------------------------------> 
-              /                      /                                                        
--------------/-----------------> ---/--------------------->
-remote                     change B              only B changed
+                                    "git add ." +     "git push" NOT POSSIBLE (remote has commits)
+V      "git clone ..."   change A   "git commit..."    first do IV and then push                       A changed 
+local          /-------------> ------------------------/--------------------------------------------------------> 
+              /                                     XXXXX                                                        
+-------------/-----------------> --------------------/---------------------------------------------------------->
+remote                   change B                                                                      B changed
+
+                                    "git add ." +     "git push" NOT POSSIBLE (remote has commits)
+VI     "git clone ..."   change B   "git commit..."    first do IV and then push                       A changed 
+local          /-------------> ------------------------/--------------------------------------------------------> 
+              /                                     XXXXX                                                        
+-------------/-----------------> --------------------/---------------------------------------------------------->
+remote                  change B                                                                      B changed
