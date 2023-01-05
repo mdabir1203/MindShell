@@ -55,9 +55,43 @@ local          /-------------> -----------------------/-------------------------
 -------------/-----------------> -------------------/--------------------->
 remote                     change B                        only B changed
 
+
+                                    "git add ." +     "git push" NOT POSSIBLE (remote has commits)
+V      "git clone ..."   change A   "git commit..."    first do IV and then push                       A changed 
+local          /-------------> ------------------------/--------------------------------------------------------> 
+              /                                     XXXXX                                                        
+-------------/-----------------> --------------------/---------------------------------------------------------->
+remote                   change B                                                                      B changed
+
+                                    "git add ." +     "git pull --no-rebase"     edit B locally (see beneath)      new B    (as you
+VI   "git clone ..."   change B   "git commit..."   (merge conflicts in B!!)   and commit the changes locally      solve it by hand)
+local          /-------------> ------------------------/---------------------------------------------------------------------------> 
+              /                                       /                                                        
+-------------/-----------------> --------------------/---------------------------------------------------------->
+remote                change B                                                                     old B
+
+
+
+merge conflicts in B: (open B locally in your directory)
+
+...
+...
 <<<<<<< HEAD
-         "git clone ..."   change A    "git pull"     A&B changed 
-local          /-------------> -------/-------------------------> 
-              /                      /                                                        
--------------/-----------------> ---/--------------------->
-remote                     change B              only B changed
+...
+<from local side>
+...
+=======
+...
+<from remote side>
+...
+>>>>>>> 95901655e820fa7a450abde172167277
+
+
+Delete  what you don't want to have:
+
+...
+...
+< a bit from local und a bit from remote >
+...
+...
+
