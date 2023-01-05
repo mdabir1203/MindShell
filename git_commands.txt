@@ -48,9 +48,17 @@ local          /-------------> -------/------------------------->
 remote                     change B              only B changed
 
 
+                                    "git add ." +    "git pull --no-rebase" 
+         "git clone ..."  change A  "git commit..."  does not know how to merge        A&B changed 
+local          /-------------> -------/-----------------------------------------------> 
+              /                      /                                                        
+-------------/-----------------> ---/--------------------->
+remote                     change B              only B changed
 
-         "git clone ..."   change A    "git pull"     A&B changed 
-local          /-------------> -------/-------------------------> 
+
+                                    "git add ." +    "git pull --no-rebase" 
+         "git clone ..."  change A  "git commit..."  does not know how to merge        A&B changed 
+local          /-------------> -------/-----------------------------------------------> 
               /                      /                                                        
 -------------/-----------------> ---/--------------------->
 remote                     change B              only B changed
