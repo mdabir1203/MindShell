@@ -1,0 +1,48 @@
+
+- Remove headers from libft libary
+- why cannot compile rl_replace_line with .o files in Makefile?
+- parser: complete other valid funcs
+- put everything into dir communication/ ?
+- do we need a file for information? Share links, share information how to use GitHub?
+- delete server discord?
+
+
+----------------------------
+Nadine:
+
+
+Nick:
+-delete Headers in all files
++ A task that is done ??? Do we need this?
+
+
+Ranja: (research)
+readline - Max and Nadine already done
+rl_clear_history - 
+rl_on_new_line -
+rl_replace_line - 
+rl_redisplay -
+add_histroy - Max and Nadine already done
+
+
+Max:
+- how can you browse through the commits?
+- how to push, pull, merge etc. 
+
+
+Rough Func Structure Minishell ?usefull??
+
+main
+    Parser
+         Check_if_valid
+     Another func
+
+Or
+
+----
+Commands_valid(argv)
+Check if the commands are valid
+Return 1 if valid
+----
+
+Or write func in files and comment above
