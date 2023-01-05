@@ -10,6 +10,7 @@ git merge master                        -> zusammenführen vom fetch und dem mas
 git push --set-upstream origin <branchnamen>    -> hochladen vom branch
 git remote -v                                   -> shows the remote url of the repo
 Git push -u <upstream Name> <branchname>        -> set upstream
+git pull --all                                  -> pull all branches
 
 wenn man zwischen branches wechselt dann sind die Dateien tatsächlich im Ordner anders!!!
 
