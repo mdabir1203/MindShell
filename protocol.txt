@@ -6,3 +6,5 @@ Change second A
 Third change
 
 Fourth change
+
+B local change
