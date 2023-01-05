@@ -5,7 +5,6 @@ Change second A
 
 Third change
 
-<<<<<<< HEAD
 Fourth change
 
 B local change
