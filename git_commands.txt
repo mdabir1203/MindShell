@@ -25,6 +25,16 @@ Branching is probably one of the fundamental features available in most modern v
 Branching is to create another line of development in the project without affecting the main branch or repository. Forking, on the other hand, is to make a clone of the repository on your GitHub account without affecting the main repository. 
 A fork is nothing but a duplicate copy of someone else’s project, whereas a branch is just a version of a repository.
 
-               /----------->
-              /
--------------/----------------->
+
+local         "git clone ..."    change someting   "git add ."   "git commit -m .."   "git push"
+               /-------------> -------------------------------------------------------------> ----\
+              /                                                                                    \
+-------------/-----------------> ----------------------------------------------------------------------->
+remote
+
+
+local         "git clone ..."      "git pull"   
+               /-------------> -------/----> --------------------------------------------------> ----\
+              /                      /                                                              \
+-------------/-----------------> ---/-------------------------------------------------------------------->
+remote             change someting
