@@ -63,9 +63,37 @@ local          /-------------> ------------------------/------------------------
 -------------/-----------------> --------------------/---------------------------------------------------------->
 remote                   change B                                                                      B changed
 
-                                    "git add ." +     "git push" NOT POSSIBLE (remote has commits)
-VI     "git clone ..."   change B   "git commit..."    first do IV and then push                       A changed 
-local          /-------------> ------------------------/--------------------------------------------------------> 
-              /                                     XXXXX                                                        
+                                    "git add ." +     "git pull --no-rebase"     edit B locally (see beneath)      new B    (as you
+VI   "git clone ..."   change B   "git commit..."   (merge conflicts in B!!)   and commit the changes locally      solve it by hand)
+local          /-------------> ------------------------/---------------------------------------------------------------------------> 
+              /                                       /                                                        
 -------------/-----------------> --------------------/---------------------------------------------------------->
-remote                  change B                                                                      B changed
+remote                change B                                                                     old B
+
+
+
+merge conflicts in B: (open B locally in your diectory)
+
+...
+...
+<<<<<<< HEAD
+...
+<from local side>
+...
+=======
+...
+<from remote side>
+...
+>>>>>>> 95901655e820fa7a450abde172167277c4ea83a6
+
+
+Delete  what you don't want to have:
+
+...
+...
+< a bit from local und a bit from remote >
+...
+...
+
+
+
