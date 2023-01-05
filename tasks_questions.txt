@@ -28,3 +28,21 @@ add_histroy - Max and Nadine already done
 Max:
 - how can you browse through the commits?
 - how to push, pull, merge etc. 
+
+
+Rough Func Structure Minishell ?usefull??
+
+main
+    Parser
+         Check_if_valid
+     Another func
+
+Or
+
+----
+Commands_valid(argv)
+Check if the commands are valid
+Return 1 if valid
+----
+
+Or write func in files and comment above
