@@ -11,6 +11,7 @@ git push --set-upstream origin <branchnamen>    -> hochladen vom branch
 git remote -v                                   -> shows the remote url of the repo
 Git push -u <upstream Name> <branchname>        -> set upstream
 git pull --all                                  -> pull all branches
+git push -u origin <branchname>                 -> creates a remote branch from a local branch
 
 wenn man zwischen branches wechselt dann sind die Dateien tatsächlich im Ordner anders!!!
 
