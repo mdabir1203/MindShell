@@ -2,7 +2,7 @@
 
 ## while <br/>
 int i = -1; <br/>
-while(++i) <br/>
+while(++i < 5) <br/>
 {
 
 }
