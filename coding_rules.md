@@ -1,6 +1,6 @@
 ## Coding rules
 
-#while <br/>
+# while <br/>
 int i = -1; <br/>
 while(++i) <br/>
 {
