@@ -20,7 +20,7 @@ not approved - Max <br/>
 not approved - Max <br/>
 
 - fileslots in header file sorted in order of Vs code explorer<br/>
-not approved <br/>
+not approved - Max <br/>
 
 ## comments
 - describe what the func does right above it, not in header file (there you can't find a special func then) like<br/>
