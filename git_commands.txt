@@ -41,8 +41,16 @@ remote            change someting
 
 
 
-               "git clone ..."      "git pull"   
-local          /------------->        /----> 
+         "git clone ..."   change A    "git pull"     A&B changed 
+local          /-------------> -------/-------------------------> 
               /                      /                                                        
--------------/-----------------> ---/-------->
-remote            change someting
+-------------/-----------------> ---/--------------------->
+remote                     change B              only B changed
+
+
+
+         "git clone ..."   change A    "git pull"     A&B changed 
+local          /-------------> -------/-------------------------> 
+              /                      /                                                        
+-------------/-----------------> ---/--------------------->
+remote                     change B              only B changed
