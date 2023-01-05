@@ -26,15 +26,23 @@ Branching is to create another line of development in the project without affect
 A fork is nothing but a duplicate copy of someone else’s project, whereas a branch is just a version of a repository.
 
 
-local         "git clone ..."    change someting   "git add ."   "git commit -m .."   "git push"
-               /-------------> -------------------------------------------------------------> ----\
+                "git clone ..."    change someting   "git add ."   "git commit -m .."   "git push"
+local          /-------------> -------------------------------------------------------------> ----\
               /                                                                                    \
 -------------/-----------------> ----------------------------------------------------------------------->
 remote
 
 
-local         "git clone ..."      "git pull"   
-               /-------------> -------/----> --------------------------------------------------> ----\
-              /                      /                                                              \
--------------/-----------------> ---/-------------------------------------------------------------------->
-remote             change someting
+               "git clone ..."      "git pull"   
+local          /------------->        /----> 
+              /                      /                                                        
+-------------/-----------------> ---/-------->
+remote            change someting
+
+
+
+               "git clone ..."      "git pull"   
+local          /------------->        /----> 
+              /                      /                                                        
+-------------/-----------------> ---/-------->
+remote            change someting
