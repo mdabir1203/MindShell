@@ -1,8 +1,8 @@
 ## Coding rules
 
-#while
-int i = -1;
-while(++i)
+#while <br/>
+int i = -1; <br/>
+while(++i) <br/>
 {
 
 }
