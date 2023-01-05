@@ -13,3 +13,20 @@ index count starting from 0 <br/>
 number amount is the true number <br/>
 f.e. philos = 3 <br/>
 philos[0], philos[1], philos[2] <br/>
+
+
+-Minishell.h -> always put the functions in the right fileslot <br/>
+
+- fileslots in header file sorted in order of Vs code explorer<br/>
+
+- describe what the func does right above it, not in header file (there you can't find a special func then) like<br/>
+/**<br/>
+*<br/>
+*<br/>
+**/<br/>
+-> hover over the function you can see it -> Max test where to put then , header file or in .c file<br/>
+
+-only merge to main when you version is stable - that anyone can branch from there and start implementing a new feature, not dealing with bugs<br/>
+
+Error codes for every single error? # define ERR_PARSER_MALLOC_INFO 2<br/>
+Then in error(int err_code) summarize <br/>
