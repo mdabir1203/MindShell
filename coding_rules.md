@@ -1,3 +1,9 @@
-# Coding rules
+## Coding rules
 
-intuitive return value of a function
+#while
+int i = -1;
+while(++i)
+{
+
+}
+
