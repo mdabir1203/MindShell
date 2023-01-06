@@ -64,11 +64,11 @@ local          /-------------> --------------------------\----------------------
 remote                   change B                                                                      B changed
 
 
-                                    "git add ." +     "git pull --no-rebase"     edit B locally (see beneath)      new B    (as you
-VI   "git clone ..."   change B   "git commit..."   (merge conflicts in B!!)   ..add.." "..commit.." "..push"      solve it by hand)
+                                    "git add ." +     "git pull --no-rebase"   edit B locally (see beneath) then      new B    (as you
+VI   "git clone ..."   change B   "git commit..."   (merge conflicts in B!!)   ..add.." "..commit.." "..push"         solve it by hand)
 local          /-------------> ------------------------/-----------------------------------------------------\----------------------> 
               /                                       /                                                       \ 
--------------/-----------------> --------------------/----------------------------------------------------->   \------------->
+-------------/-----------------> --------------------/----------------------------------------------------->   \-------------------->
 remote                change B                                                    old B                               new B
 
 
@@ -110,9 +110,9 @@ remote
 
 
 
-local Branch                  change A                      change A lost !!!! (add + commit before checkout to save changes!!!!)
+local Branch     "..checkout -b.."  change A                  change A lost !!!! (add + commit before checkout to save changes!!!!)
                            /------------------------------------------------------------------------->
-        "git clone ..."   /         "git checkout <branchname_A>"
+        "git clone ..."   /               "git checkout <branchname_A>"
 local          /---------/---------------------------------------------------------------------------> 
               /                                                                            
 -------------/--------------------------------------------------------------------------------------->
@@ -120,17 +120,17 @@ remote
 
 
 
-
-local Branch        change A  "..add.." "..commit.."                 change A saved
-                           /------------------------------------------------------------------------->
-        "git clone ..."   /              "git checkout <branchname_A>" (all the Files from Branch A are physically in the directory now!!!)
-local          /---------/---------------------------------------------------------------------------> 
-              /                                                                            
--------------/--------------------------------------------------------------------------------------->
+                "..checkout -b.."   "..add.."
+local Branch           change A    "..commit.."                              changes A saved
+                      /------------------------------------------------------------------------->
+   "git clone ..."   /                 "git checkout <branchname_A>" (all the Files from Branch A are physically in the directory now!!!)
+local     /---------/---------------------------------------------------------------------------> 
+         /                                                                            
+--------/--------------------------------------------------------------------------------------->
 remote 
 
-
-local   Branch_B       change A  "..add.." "..commit.."                                       A changed   (if there are conflicts it's 
+               "..checkout -b.."   "..add.." 
+local   Branch_B       change A   "..commit.."                                       A changed   (if there are conflicts it's 
                            /--------------------------------------------------------------\----------->   the same as above)
         "git clone ..."   /              "git checkout <Branch_A>" "git merge <Branch_B>"  \  A changed
 local          /---------/-------------------------------------------------------------->   \---------> 
