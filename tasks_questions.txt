@@ -39,6 +39,7 @@ add_histroy - Max and Nadine already done
 Max:
 - how can you browse through the commits?
 - how to push, pull, merge etc. 
+- delete discord server and get the important messages
 
 
 Rough Func Structure Minishell ?usefull??
