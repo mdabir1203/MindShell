@@ -40,7 +40,9 @@ not approved - Ranja
 -only merge to main when your version is stable - that anyone can branch from there and start implementing a new feature, not dealing with bugs<br/>
 not approved - Max - Ranja <br/>
 
-## Error Codes
+## Error Codes and Messages
 Error codes for every single error? # define ERR_PARSER_MALLOC_INFO 2<br/>
 Then in error(int err_code) summarize <br/>
+
+Same for our error management (correct input, ...). <br/>
 not approved - Max - Ranja <br/>
