@@ -1,1 +1,1 @@
-moved to -> 
+moved to dir info in -> https://github.com/MaxIhme/minishell_communication
