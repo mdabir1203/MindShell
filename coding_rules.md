@@ -33,6 +33,7 @@ not approved - Max <br/>
 
 ## coding new lines or changing lines 
 - mark changed lines with a // at the end <br/>
+- not approved - <br/>
 
 ## merging
 - pull, merge and push in 5 minutes - that no changes happen on the remote <br/>
