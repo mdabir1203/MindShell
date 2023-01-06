@@ -1,5 +1,4 @@
 
-- Remove headers from libft libary - Nadine: is that a suggestion, qiestion or someone did it alread?!
 - why cannot compile rl_replace_line with .o files in Makefile?
 - parser: complete other valid funcs
 - put everything into dir communication/ ?
@@ -34,6 +33,7 @@ rl_on_new_line -
 rl_replace_line - 
 rl_redisplay -
 add_histroy - Max and Nadine already done
+Remove headers from libft libary - Nadine: is that a suggestion, qiestion or someone did it alread?!
 
 
 Max:
