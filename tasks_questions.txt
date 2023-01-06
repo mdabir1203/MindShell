@@ -16,10 +16,10 @@ wait
 waitpid
 dup2
 pipe
-as I had them in the pipex project, okay?!
+as I had them in the pipex project, okay?! (ok max)
 
 We have two main files, one in the src directory and one in the generall directory, I will delete the main from generall directory,
-because it was very first main and it has only first try with the readline function.
+because it was very first main and it has only first try with the readline function. (ok max)
 
 
 Nick:
