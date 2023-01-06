@@ -8,7 +8,7 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
 		printf("OUCH, did you hit Ctrl-C?\n");
-	(void) *context;
+	(void) context;
 	(void) *info;
 	exit(0);
 }
