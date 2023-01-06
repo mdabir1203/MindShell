@@ -1,10 +1,10 @@
 
-- Remove headers from libft libary
+- Remove headers from libft libary - Nadine: is that a suggestion, qiestion or someone did it alread?!
 - why cannot compile rl_replace_line with .o files in Makefile?
 - parser: complete other valid funcs
 - put everything into dir communication/ ?
 - do we need a file for information? Share links, share information how to use GitHub?
-- delete server discord?
+- delete server discord? - Nadine: I think, the discord server can remain to exchange the tutor video or files, as we can't do it here.
 
 
 ----------------------------
@@ -16,7 +16,7 @@ wait
 waitpid
 dup2
 pipe
-as I had them in the pipex project, okay?
+as I had them in the pipex project, okay?!
 
 
 Nick:
