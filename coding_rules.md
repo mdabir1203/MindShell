@@ -27,7 +27,7 @@ not approved - Max - Ranja <br/>
 /**<br/>
 *<br/>
 *<br/>
-**/<br/>
+*/<br/>
 -> hover over the function you can see it -> Max test where to put then , header file or in .c file<br/>
 not approved - Max - Ranja <br/>
 
