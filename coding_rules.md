@@ -31,7 +31,11 @@ not approved - Max <br/>
 -> hover over the function you can see it -> Max test where to put then , header file or in .c file<br/>
 not approved - Max <br/>
 
+## coding new lines or changing lines 
+- mark changed lines with a // at the end <br/>
+
 ## merging
+- pull, merge and push in 5 minutes - that no changes happen on the remote <br/>
 -only merge to main when you version is stable - that anyone can branch from there and start implementing a new feature, not dealing with bugs<br/>
 not approved - Max <br/>
 
