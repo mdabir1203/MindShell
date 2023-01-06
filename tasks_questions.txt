@@ -18,10 +18,13 @@ dup2
 pipe
 as I had them in the pipex project, okay?!
 
+We have two main files, one in the src directory and one in the generall directory, I will delete the main from generall directory,
+because it was very first main and it has only first try with the readline function.
+
 
 Nick:
 -delete Headers in all files
-+ A task that is done ??? Do we need this?
++ A task that is done ??? Do we need this? - Nadine: I think, we don't need the headers in the git version.
 
 
 Ranja: (research)
