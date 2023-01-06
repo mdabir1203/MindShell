@@ -9,6 +9,14 @@
 
 ----------------------------
 Nadine:
+signal - Max and Nadine already done
+I could explain the functions:
+fork
+wait
+waitpid
+dup2
+pipe
+as I had them in the pipex project, okay?
 
 
 Nick:
