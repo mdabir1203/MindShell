@@ -10,6 +10,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
+# include <siginfo.h> //added by Nick
 # include <signal.h>
 # include <fcntl.h>
 # include <dirent.h>
