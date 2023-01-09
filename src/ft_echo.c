@@ -2,7 +2,6 @@
 #include "../inc/minishell.h"
 
 // -n without the \n
-
 void	ft_echo(char **cmd)
 {
 	int i;
