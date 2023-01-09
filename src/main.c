@@ -14,8 +14,8 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 }
 
 /** readline returns a NULL if ctrl + d is hit
- * ctrl + c ist the signal SIGINT
- * ctrl + \ is the signal SIGQUIT
+ * ctrl + c ist the signal SIGINT; ends child process?
+ * ctrl + \ is the signal SIGQUIT; ends the bash?
  **/
 int	main(void)
 {
