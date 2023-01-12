@@ -1,22 +1,26 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/13 10:46:44 by nrenz             #+#    #+#             */
-/*   Updated: 2022/01/17 11:14:08 by nrenz            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
+/* Function name ft_lstlast
+Prototype t_list *ft_lstlast(t_list *lst);
+Turn in files -
+Parameters lst: The beginning of the list.
+Return value Last node of the list
+External functs. None
+Description Returns the last node of the list.
+ */
 t_list	*ft_lstlast(t_list *lst)
 {
+	int		i;
+	t_list	*temp;
+
 	if (!lst)
-		return (lst);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+		return (NULL);
+	temp = lst;
+	i = 0;
+	while (temp->next)
+	{
+		i++;
+		temp = temp->next;
+	}
+	return (temp);
 }

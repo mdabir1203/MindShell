@@ -1,56 +1,46 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/28 16:59:18 by nrenz             #+#    #+#             */
-/*   Updated: 2022/01/13 11:04:03 by nrenz            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <stdlib.h>
-#include <stdio.h>
 #include "libft.h"
 
-static long long	ft_inttolong(int n)
+static int	count_length(int n)
 {
-	long long	long_n;
+	int	i;
 
-	long_n = (long long)n;
-	if (long_n < 0)
+	i = 1;
+	if (n < 0)
 	{
-		long_n = long_n * -1;
+		n = n * -1;
+		i++;
 	}
-	return (long_n);
+	while (n > 9)
+	{
+		n = n / 10;
+		i++;
+	}
+	return (i);
 }
 
 char	*ft_itoa(int n)
 {
-	char		*p;
-	int			i;
-	int			j;
-	char		c[11];
-	long long	ln;
+	char	*array;
+	int		i;
 
-	ln = ft_inttolong(n);
-	i = 0;
-	while (ln > 0)
-	{
-		c[i++] = (ln % 10) + '0';
-		ln = ln / 10;
-	}
-	if (n == 0)
-		c[i++] = '0';
-	if (n < 0)
-		c[i++] = '-';
-	p = ft_calloc((i + 1), sizeof(char));
-	if (!p)
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	i = count_length(n);
+	array = malloc(sizeof(char) * i + 1);
+	if (!array)
 		return (NULL);
-	j = 0;
-	i = i - 1;
-	while (i >= 0)
-		p[j++] = c[i--];
-	return (p);
+	ft_bzero(array, i + 1);
+	if (n < 0)
+	{
+		array[0] = '-';
+		n = n * -1;
+	}
+	while (n > 9)
+	{
+		array[i - 1] = (n % 10) + '0';
+		n = n / 10;
+		i--;
+	}
+	array[i - 1] = (n % 10) + '0';
+	return (array);
 }

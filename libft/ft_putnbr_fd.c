@@ -1,33 +1,20 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/28 17:06:28 by nrenz             #+#    #+#             */
-/*   Updated: 2022/01/13 11:06:58 by nrenz            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-#include <unistd.h>
-
+//writes a number to a filedescriptor by converting it to ascii value
+//so i can use write function to write them into filescriptor
 void	ft_putnbr_fd(int n, int fd)
 {
-	char	c;
+	unsigned int	ui;
 
-	if (n == -2147483648)
-	{
-		write(fd, "-2147483648", 11);
-		return ;
-	}
 	if (n < 0)
 	{
 		write(fd, "-", 1);
-		n *= -1;
+		ui = (unsigned int)n * -1;
 	}
-	if (n / 10 != 0)
-		ft_putnbr_fd(n / 10, fd);
-	c = (n % 10) + '0';
-	write(fd, &c, 1);
+	else
+		ui = (unsigned int)n;
+	if (ui >= 10)
+		ft_putnbr_fd(ui / 10, fd);
+	ui = ui % 10 + 48;
+	write(fd, &ui, 1);
 }

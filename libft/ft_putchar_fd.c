@@ -1,17 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/28 17:02:47 by nrenz             #+#    #+#             */
-/*   Updated: 2022/01/13 11:05:18 by nrenz            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-#include <unistd.h>
-
+//writes a ascii value to stdout
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);

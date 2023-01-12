@@ -1,28 +1,25 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/13 10:49:51 by nrenz             #+#    #+#             */
-/*   Updated: 2022/01/14 16:07:07 by nrenz            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+/* Parameters lst: The address of a pointer to a node.
+del: The address of the function used to delete
+the content of the node.
+
+Description Deletes and frees the given node and every
+successor of that node, using the function ’del’
+and free(3).
+Finally */
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*temp;
 
-	if (lst)
+	if (!lst)
+		return ;
+	temp = *lst;
+	while (temp)
 	{
-		while (*lst)
-		{
-			temp = (*lst)->next;
-			ft_lstdelone(*lst, del);
-			*lst = temp;
-		}
+		temp = temp->next;
+		ft_lstdelone(*lst, del);
+		*lst = temp;
 	}
+	lst = NULL;
 }
