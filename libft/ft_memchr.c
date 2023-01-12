@@ -1,28 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/08 17:49:45 by nrenz             #+#    #+#             */
-/*   Updated: 2022/01/11 12:00:29 by nrenz            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-#include <string.h>
-#include <stdio.h>
-
+/* From manual: The  memchr()  function scans the initial n 
+bytes of the memory area
+ pointed to by s for the first instance ofc.  Both c and the bytes of 
+ the memory area pointed to by s are interpreted as unsigned char.
+The  memchr()  and memrchr() functions return a pointer to the
+ matching byte or NULL if the character does not
+occur in the given memory area.
+ */
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	size_t			i;
+	unsigned char	*str;
 
-	if (!s || n == 0)
-		return (0);
+	str = (unsigned char *)s;
 	i = 0;
 	while (i < n)
 	{
-		if (*((unsigned char *)s + i) == (unsigned char)c)
+		if (str[i] == (unsigned char)c)
 			return ((void *)s + i);
 		i++;
 	}

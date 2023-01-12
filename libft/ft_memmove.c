@@ -1,36 +1,29 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nrenz <nrenz@student.42wolfsburg.de>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/08 13:14:13 by nrenz             #+#    #+#             */
-/*   Updated: 2022/01/13 11:05:01 by nrenz            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <string.h>
-#include <stdio.h>
 #include "libft.h"
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char		*d;
-	unsigned char		*s;
+	size_t			i;
+	unsigned char	*dst1;
+	unsigned char	*src1;
 
-	d = (unsigned char *) dst;
-	s = (unsigned char *) src;
-	if (!d || !s)
-		return (NULL);
-	if (d <= s)
-		return (ft_memcpy(dst, src, len));
-	else
+	dst1 = (unsigned char *)dst;
+	src1 = (unsigned char *)src;
+	i = 0;
+	if (dst1 < src1)
 	{
-		while (len--)
+		while (i < len)
 		{
-			d[len] = s[len];
+			dst1[i] = src1[i];
+			i++;
 		}
-		return (d);
 	}
+	if (dst1 > src1)
+	{
+		while (len > 0)
+		{
+			dst1[len - 1] = src1[len - 1];
+			len--;
+		}
+	}
+	return (dst1);
 }
