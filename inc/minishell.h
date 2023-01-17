@@ -30,6 +30,7 @@
 typedef struct s_info
 {
 	char	*prompt;
+	char	**envp;
 
 }	t_info;
 
