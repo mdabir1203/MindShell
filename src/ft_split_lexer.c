@@ -114,7 +114,9 @@ void	fill_array(char **array, char *str)
 			buf = after_red(str, &part_len);
 		else if(!sep(*str) && !red(*str))
 			buf = after_word(str, &part_len);
-		array[part_i] = malloc(sizeof(char) * (part_len + 1)); //save malloc -> plus error code
+		array[part_i] = malloc(sizeof(char) * (part_len + 1));
+		if (array[part_i] == NULL)
+			error(ERR_MALLOC_SPLIT);
 		array[part_i][part_len] = '\0';
 		i = -1;
 		while (++i < part_len)
@@ -122,8 +124,6 @@ void	fill_array(char **array, char *str)
 		str = buf;
 		part_i++;
 	}
-
-
 }
 
 char	**split_lexer(char *str)
@@ -133,28 +133,11 @@ char	**split_lexer(char *str)
 
 	//handle unequal number of quotes (single, double)
 
-	// if str is NULL?? handle
+	if(str == NULL || *str == 0) // maybe return a double pointer with malloced space -> better to handle in clean_up?
+		return NULL;
 	word_count = count_parts(str);
 	array = malloc((sizeof(char *) * (word_count + 1)));
 	array[word_count] = 0;
 	fill_array(array, str);
 	return (array);
 }
-
-// #include <stdio.h>
-// int	main(int argc, char **argv)
-// {
-// 	char **ar = split_lexer(argv[1]);
-// 	char **buf = ar;
-// 	int i = -1;
-// 	while (ar[++i] !=  NULL)
-// 	{
-// 		printf("%s\n", ar[i]);
-// 		// free(ar);
-// 		//(void **)ar;
-// 	}
-// 	// free(buf);
-// 	if(*ar && argc)
-// 		ar = buf;
-// 	return (0);
-// }

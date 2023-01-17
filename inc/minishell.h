@@ -20,6 +20,9 @@
 # define CTRL_D_PRESSED 1
 
 
+# define ERR_MALLOC_SPLIT 2
+
+
 void	process_input(char *prompt);
 
 void	ft_echo(char **cmd);
