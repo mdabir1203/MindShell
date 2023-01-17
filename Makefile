@@ -6,7 +6,7 @@
 #    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/04 23:56:27 by mrehberg         ###   ########.fr        #
+#    Updated: 2023/01/17 19:59:51 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,9 @@ SRCS =	src/main.c \
 	src/clean_up.c \
 	src/process_input.c \
 	src/ft_echo.c \
+	src/init.c \
+	src/error.c \
+	src/ft_split_lexer.c \
 
 OBJS =	$(SRCS:.c=.o)
 

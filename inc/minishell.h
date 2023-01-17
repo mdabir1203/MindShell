@@ -21,6 +21,18 @@
 
 # define CTRL_D_PRESSED 1
 
+//**                PARSER CATEGORIES                    **//
+
+# define REDIR_INPUT 4
+# define REDIR_INPUT_PLUS 7
+# define REDIR_OUTPUT 5
+# define REDIR_OUTPUT_APPEND 6
+# define PIPE 8
+# define WORD 9
+# define FLAG 11
+# define BUILTIN_CMD 10
+
+//**                ERROR FLAGS                          **//
 
 # define ERR_MALLOC_SPLIT 2
 
@@ -45,6 +57,8 @@ void	ft_echo(char **cmd);
 
 
 void	clean_up(int clean_up_code);
+t_info	*init();
+int	error(int err);
 
 
 #endif
