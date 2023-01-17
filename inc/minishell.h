@@ -16,12 +16,27 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+//*********************************************************//
+//**                FLAGS                               **//
 
 # define CTRL_D_PRESSED 1
 
 
 # define ERR_MALLOC_SPLIT 2
 
+//*********************************************************//
+//**                STRUCTURES                          **//
+
+typedef struct s_info
+{
+	char	*prompt;
+
+}	t_info;
+
+
+//*********************************************************//
+//**                FUNCTIONS                           **//
+//*******************************************************//
 
 void	process_input(char *prompt);
 
