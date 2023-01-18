@@ -42,7 +42,8 @@
 typedef struct s_info
 {
 	char	*prompt;
-	char	**envp;
+	char	***env;
+	char **paths;
 
 }	t_info;
 
@@ -55,10 +56,10 @@ void	process_input(char *prompt);
 
 void	ft_echo(char **cmd);
 
-
 void	clean_up(int clean_up_code);
-t_info	*init();
+t_info	*init(char **envp);
 int	error(int err);
-
+void	test_env_vars(t_info *info);
+void	make_env(char **envp, t_info *info);
 
 #endif
