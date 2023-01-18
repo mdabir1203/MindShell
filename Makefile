@@ -6,7 +6,7 @@
 #    By: nick <nick@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/18 14:36:51 by nick             ###   ########.fr        #
+#    Updated: 2023/01/18 17:43:53 by nick             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS =	src/main.c \
 	src/ft_split_lexer.c \
 	src/tests.c \
 	src/make_env_arr.c \
-	
+	src/check_if_cmd.c \
 	
 
 OBJS =	$(SRCS:.c=.o)
