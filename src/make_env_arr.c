@@ -23,7 +23,7 @@ void	malloc_paths_from_env(char **envp, t_info *info)
 /*
 Saves all environment variables in a 3d array
 */
-void	malloc_all_env_vars(char **envp, t_info *info)
+void	make_env(char **envp, t_info *info)
 {
 	int i;
 

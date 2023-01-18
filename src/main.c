@@ -32,10 +32,10 @@ int	main(int argc, char **argv, char **envp)
 		return (2);
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		return (2);
-	info = init();
+	info = init(envp);
 	if(info->prompt)
 		printf("prompt"); //to silence the warning
-	malloc_all_env_vars(envp, info);
+	printf("Welcome to the minishell!\n");
 	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
 	while (1)
 	{
