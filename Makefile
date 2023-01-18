@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
+#    By: nick <nick@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/17 19:59:51 by mrehberg         ###   ########.fr        #
+#    Updated: 2023/01/18 14:36:51 by nick             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,10 @@ SRCS =	src/main.c \
 	src/init.c \
 	src/error.c \
 	src/ft_split_lexer.c \
+	src/tests.c \
+	src/make_env_arr.c \
+	
+	
 
 OBJS =	$(SRCS:.c=.o)
 

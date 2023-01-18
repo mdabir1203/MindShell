@@ -14,9 +14,10 @@ int make_prompt(t_info *info)
  */
 int init_envp(t_info *info)
 {
-	info->envp = NULL;
+	info->env = NULL;
 	return (0);
 }
+
 
 t_info	*init()
 {

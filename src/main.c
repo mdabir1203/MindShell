@@ -17,12 +17,14 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
  * ctrl + c ist the signal SIGINT; ends child process?
  * ctrl + \ is the signal SIGQUIT; ends the bash?
  **/
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*prompt;
 	struct sigaction	sa;
 	t_info	*info;
 
+	if (argc > 1 || argv[1])
+		return (1);
 	sa.sa_sigaction = &signal_handler;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
@@ -33,6 +35,8 @@ int	main(void)
 	info = init();
 	if(info->prompt)
 		printf("prompt"); //to silence the warning
+	malloc_all_env_vars(envp, info);
+	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
 	while (1)
 	{
 		if (!(prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
