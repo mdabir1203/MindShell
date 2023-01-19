@@ -45,6 +45,15 @@
 # define MODE_PIPE_IN 32
 # define MODE_PIPE_OUT 64
 
+//**				TEXT OUTPUT							**//
+
+# define STR_PROG_NAME "minishell:"
+# define ERROR "error\n"
+# define STR_LETTER_ERROR "Start command with a small letter!\n"
+# define STR_EXIT_MULTIPLE "Word exit is enough!\n"
+# define STR_EXIT_SUCCESSFULL "Exit successfull!\n"
+# define MALLOC_FAIL "While memory allocation\n"
+
 //*********************************************************//
 //**                STRUCTURES                          **//
 
@@ -67,10 +76,17 @@ typedef struct s_info
 //*******************************************************//
 
 
+//**** input_check.c ****//
+
+void	input_error_check(char **cmd);
+
 //**** clean_up.c ****//
 
 void	clean_up(int clean_up_code);
 
+//**** ft_message.c ****//
+
+int input_message(char *str, int exit_no);
 
 //**** error.c ****//
 
@@ -81,6 +97,9 @@ int	error(int err);
 
 void	ft_echo(char **cmd);
 
+//**** ft_exit.c ****//
+
+void	ft_exit(char **cmd);
 
 //**** init.c ****//
 

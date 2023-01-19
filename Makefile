@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nick <nick@student.42.fr>                  +#+  +:+       +#+         #
+#    By: rschlott <rschlott@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/18 17:43:53 by nick             ###   ########.fr        #
+#    Updated: 2023/01/19 15:41:20 by rschlott         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,14 @@ SRCS =	src/main.c \
 	src/clean_up.c \
 	src/process_input.c \
 	src/ft_echo.c \
+	src/ft_exit.c \
 	src/init.c \
 	src/error.c \
 	src/ft_split_lexer.c \
 	src/tests.c \
 	src/make_env_arr.c \
 	src/check_if_cmd.c \
+	src/ft_message.c \
 	
 
 OBJS =	$(SRCS:.c=.o)
