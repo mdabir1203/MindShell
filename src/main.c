@@ -13,6 +13,19 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 	exit(0);
 }
 
+int	ft_signal(struct sigaction	sa)
+{
+	sa = (struct sigaction){.sa_sigaction = signal_handler}; // new
+	//sa.sa_sigaction = &signal_handler;  // let's leave it in for now;
+	sa.sa_flags = SA_SIGINFO; // without 5 errors from 5 contexts;
+	//sigemptyset(&sa.sa_mask); // without maybe an error, depending on other errors, let's leave this line in for now;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+		return (2);							// why returning 2?
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+		return (2);
+	return (0);
+}
+
 /** readline returns a NULL if ctrl + d is hit
  * ctrl + c ist the signal SIGINT
  * ctrl + \ is the signal SIGQUIT
@@ -30,14 +43,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc > 1 || argv[1])
 		return (1);
-	sa = (struct sigaction){.sa_sigaction = signal_handler}; // new
-	//sa.sa_sigaction = &signal_handler;  // let's leave it in for now;
-	sa.sa_flags = SA_SIGINFO; // without 5 errors from 5 contexts;
-	//sigemptyset(&sa.sa_mask); // without maybe an error, depending on other errors, let's leave this line in for now;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		return (2);							// why returning 2?
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-		return (2);
+	ft_signal(sa);
 	info = init(envp);
 	if(info->prompt)
 		printf("prompt"); //to silence the warning
