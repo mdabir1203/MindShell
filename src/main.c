@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!(prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 			clean_up(CTRL_D_PRESSED);
-		process_input(prompt, info);
+		parser(prompt, info);
 	}
 	return (0);
 }

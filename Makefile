@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rschlott <rschlott@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/19 15:41:20 by rschlott         ###   ########.fr        #
+#    Updated: 2023/01/20 21:01:33 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS =	src/main.c \
 	src/make_env_arr.c \
 	src/check_if_cmd.c \
 	src/ft_message.c \
+	src/categorize.c \
 	
 
 OBJS =	$(SRCS:.c=.o)

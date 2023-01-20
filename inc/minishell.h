@@ -23,13 +23,27 @@
 //**                PARSER CATEGORIES                    **//
 
 # define REDIR_INPUT 4
-# define REDIR_INPUT_PLUS 7
 # define REDIR_OUTPUT 5
 # define REDIR_OUTPUT_APPEND 6
+# define REDIR_INPUT_APPEND 7
 # define PIPE 8
 # define WORD 9
-# define FLAG 11
-# define BUILTIN_CMD 10
+# define FLAG 11 // we don't need to cat it if the ft_order says ok to that ( > -n) then we need to check that again? -> anyways we need to check if the filename is valid
+# define SEPARATOR 12
+
+# define SEPARATOR_ONE " " // this is not so nice
+# define SEPARATOR_TWO "\t"
+# define SEPARATOR_THREE "\n"
+
+# define BUILTIN_START 30
+# define CMD_ECHO 31
+# define CMD_EXIT 32
+# define CMD_CD 33
+# define CMD_PWD 34
+# define CMD_EXPORT 35
+# define CMD_UNSET 36
+# define CMD_ENV 37
+# define BUILTIN_END 40
 
 //**                ERROR FLAGS                          **//
 
@@ -71,10 +85,9 @@ typedef struct s_info
 //**                FUNCTIONS                           **//
 //*******************************************************//
 
-//*********************************************************//
-//**                FUNCTIONS                           **//
-//*******************************************************//
+//**** categorize.c ****//
 
+int categorize(char *str);
 
 //**** input_check.c ****//
 

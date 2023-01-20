@@ -21,15 +21,8 @@ void	process_input(char *prompt, t_info *info)
 	rl_replace_line("", 0);
 	cmd = ft_split(prompt, ' '); // only delimiting by ‘ ‘, not by tabs for example
 
-	input_error_check(cmd);
+	input_error_check(cmd); // no function until now
 	cmd_identifier(cmd, info);
 
-	// printf("%s\n", cmd[0]);
-	// printf("%s\n", cmd[1]);
-	// printf("%s\n", cmd[2]);
-	// printf("%s\n", cmd[1]);
-	// printf("%s\n", cmd[1]);
-	// printf("%s\n", cmd[1]);
-	// printf("%s\n", cmd[1]);
-	// printf("%s\n", cmd[1]);
+
 }

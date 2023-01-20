@@ -141,3 +141,7 @@ char	**split_lexer(char *str)
 	fill_array(array, str);
 	return (array);
 }
+
+// do separator already categorize ?
+// when "" everything inside is one string
+// what about ' '
