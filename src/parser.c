@@ -38,6 +38,9 @@ void	parser(t_info *info)
 													// p.s. before cutting out the redirections we have to save them in the group struct -> we can thing about that later
  		printf("%s__", info->input_lexer[i]);		// only for testing purposes
 		cat = categorize(info->input_lexer[i]);
+
+		// here comes ft_order(cat)
+
 		if (cat == WORD)
 			printf("%d_exe?--", is_an_executable(info->input_lexer[i], info));
 		printf("%d\n", cat);						// only for testing purposes
