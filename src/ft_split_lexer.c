@@ -126,7 +126,7 @@ void	fill_array(char **array, char *str)
 	}
 }
 
-char	**split_lexer(char *str)
+char	**ft_split_lexer(char *str)
 {
 	int	word_count = 0;
 	char **array;

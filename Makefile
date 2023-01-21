@@ -6,7 +6,7 @@
 #    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/20 21:01:33 by mrehberg         ###   ########.fr        #
+#    Updated: 2023/01/21 13:04:31 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ INC = inc
 
 SRCS =	src/main.c \
 	src/clean_up.c \
-	src/process_input.c \
 	src/ft_echo.c \
 	src/ft_exit.c \
 	src/init.c \
@@ -27,6 +26,7 @@ SRCS =	src/main.c \
 	src/check_if_cmd.c \
 	src/ft_message.c \
 	src/categorize.c \
+	src/parser.c \
 	
 
 OBJS =	$(SRCS:.c=.o)

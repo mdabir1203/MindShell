@@ -24,7 +24,6 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
  **/
 int	main(int argc, char **argv, char **envp)
 {
-	char	*prompt;
 	struct sigaction	sa;
 	t_info	*info;
 
@@ -46,9 +45,9 @@ int	main(int argc, char **argv, char **envp)
 	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
 	while (1)
 	{
-		if (!(prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
+		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 			clean_up(CTRL_D_PRESSED);
-		parser(prompt, info);
+		parser(info);
 	}
 	return (0);
 }

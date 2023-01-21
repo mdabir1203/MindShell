@@ -14,15 +14,28 @@ void	cmd_identifier(char **cmd, t_info *info)
 		printf("cmd[0] is root_cmd = %s\n", info->root_cmd);
 }
 
-void	process_input(char *prompt, t_info *info)
+void	parser(t_info *info)
 {
-	char **cmd;
-	add_history(prompt);
-	rl_replace_line("", 0);
-	cmd = ft_split(prompt, ' '); // only delimiting by ‘ ‘, not by tabs for example
+	int i;
+	i = -1;
+	int cat;
+	// //char **cmd;
+	add_history(info->prompt);
+	// //cmd = ft_split(prompt, ' '); // only delimiting by ‘ ‘, not by tabs for example
 
-	input_error_check(cmd); // no function until now
-	cmd_identifier(cmd, info);
+	// //input_error_check(cmd); // no function until now
+	// //cmd_identifier(cmd, info);
+	info->input_lexer = ft_split_lexer(info->prompt);
+	
+	while (info->input_lexer[++i])
+	{
+													// ft_order can also be split in subfunctions -> one for testing only correct redirections (< test) (>>hallo.txt) and another subfunc can test 
+ 		printf("%s__", info->input_lexer[i]);		// only for testing purposes
+		cat = categorize(info->input_lexer[i]);
+		if (cat == WORD)
+			printf("%d_exe?--", is_an_executable(info->input_lexer[i], info));
+		printf("%d\n", cat);						// only for testing purposes
+	}
 
 
 }

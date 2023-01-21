@@ -28,7 +28,7 @@
 # define REDIR_INPUT_APPEND 7
 # define PIPE 8
 # define WORD 9
-# define FLAG 11 // we don't need to cat it if the ft_order says ok to that ( > -n) then we need to check that again? -> anyways we need to check if the filename is valid
+# define FLAG 11 // we don't need to cat it if the ft_order says ok to that ( > -n) then we need to check that again, when using open() it will return a -1 I think if it's not a valid file name.
 # define SEPARATOR 12
 
 # define SEPARATOR_ONE " " // this is not so nice
@@ -74,6 +74,7 @@
 typedef struct s_info
 {
 	char	*prompt;
+	char	**input_lexer;
 	char	***env;
 	char **paths;
 	char *root_cmd;
@@ -114,6 +115,10 @@ void	ft_echo(char **cmd);
 
 void	ft_exit(char **cmd);
 
+//**** ft_split_lexer.c ****//
+
+char	**ft_split_lexer(char *str);
+
 //**** init.c ****//
 
 t_info	*init(char **envp);
@@ -124,9 +129,9 @@ t_info	*init(char **envp);
 void	make_env(char **envp, t_info *info);
 
 
-//**** process_input.c ****//
+//**** parser.c ****//
 
-void	process_input(char *prompt, t_info *info);
+void	parser(t_info *info);
 
 void	test_env_vars(t_info *info);
 
