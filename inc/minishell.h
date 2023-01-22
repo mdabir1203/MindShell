@@ -48,6 +48,7 @@
 //**                ERROR FLAGS                          **//
 
 # define ERR_MALLOC_SPLIT 2
+# define ERR_MALLOC_INIT_GROUPS 3
 
 //**                MODES OF EXECUTION                   **//
 
@@ -79,7 +80,19 @@ typedef struct s_info
 	char **paths;
 	char *root_cmd;
 	int	nb_root_cmd;
+	int		num_groups;
+	struct s_group *groups;
 }	t_info;
+
+typedef struct s_group
+{
+	char *cmd;
+	int		redirect_input;
+	char 	*redirect_input_filename;
+	int		redirect_output;
+	char 	*redirect_output_filename;
+
+}	t_group;
 
 
 //*********************************************************//
@@ -122,6 +135,7 @@ char	**ft_split_lexer(char *str);
 //**** init.c ****//
 
 t_info	*init(char **envp);
+t_group *init_groups(t_info *info);
 
 
 //**** make_env_arr.c ****//
@@ -136,6 +150,8 @@ void	parser(t_info *info);
 void	test_env_vars(t_info *info);
 
 int	is_an_executable(char *prompt, t_info *info);
+
+void	p2d(char **ptr);
 
 
 #endif

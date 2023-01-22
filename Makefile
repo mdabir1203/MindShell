@@ -6,7 +6,7 @@
 #    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/21 13:04:31 by mrehberg         ###   ########.fr        #
+#    Updated: 2023/01/22 16:28:27 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ LIBFTDIR = ./libft/
 
 LIBFT = libft.a
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Werror -Wextra -g #-Wall 
 
 all: libft_make $(NAME)
 
@@ -44,7 +44,7 @@ libft_make:
 
 INCDIR := -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline -lncurses
 
-$(NAME): $(LIBFT) Makefile ## without OBJS it works $(OBJS)
+$(NAME): $(LIBFT) Makefile $(SRCS) ## without OBJS it works $(OBJS)
 			@cp $(LIBFTDIR)$(LIBFT) $(LIBFT)
 			$(CC) $(CFLAGS) $(SRCS) $(LIBFT) -o $(NAME) $(INCDIR)
 

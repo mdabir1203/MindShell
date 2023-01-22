@@ -15,3 +15,16 @@ void	test_env_vars(t_info *info)
 	while (*info->paths)
 		printf("%s\n", *info->paths++);
 }
+
+void	p2d(char **ptr)
+{
+	printf("Start Content of **ptr: %p\n", ptr);
+	printf("Content of *ptr: %p\n", *ptr);
+	int i = -1;
+	while(ptr[++i])
+	{
+		printf("%p : _%s_\n", ptr[i], ptr[i]);
+
+	}
+	printf("%p\n", ptr[i]);
+}
