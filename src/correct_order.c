@@ -9,7 +9,7 @@
 # define REDIR_OUTPUT 5
 # define REDIR_OUTPUT_APPEND 6
 # define PIPE 8
-# define WORD 9
+# define WORD 9             // error management; what is a valid word!!!
 # define CMD_FLAGS 11
 # define BUILTIN_CMD 10
 # define SEPARATOR 12
