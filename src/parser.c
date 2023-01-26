@@ -42,7 +42,7 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
 
-	while (info->input_lexer[++i])
+	while (info->input_lexer[++i]) // Null at end of group
 	{
 		if (!ft_strncmp(info->input_lexer[i], "|", 2))
 			pl->act_group++;
@@ -54,7 +54,7 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 
 		
 	}
-	print_groups(info->groups, info);
+	print_groups(info->groups, info); // möglich <> ??
 	
 
 }
