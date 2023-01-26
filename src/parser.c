@@ -15,7 +15,7 @@ void	cmd_identifier(char **cmd, t_info *info)
 }
 
 /**
- *  @brief the parser goes throu the strings of the lexer one by one and 
+ *  @brief the parser goes through the strings of the lexer one by one and 
  * the temporary struct t_parse_lexer is used. It holds the actual group we are in,
  * the category cat of the categoriser, the falg if the string belongs to a redirect.
  * 
@@ -30,31 +30,27 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	pl->act_group = 0;
 	int i;
 	i = -1;
-	// //char **cmd;
-	add_history(info->prompt);
-	// //cmd = ft_split(prompt, ' '); // only delimiting by ‘ ‘, not by tabs for example
 
-	// //input_error_check(cmd); // no function until now
-	// //cmd_identifier(cmd, info);
-	//if (info->prompt == NULL || *info->prompt == 0)
-		// return new line and wait for new command
+	add_history(info->prompt);
+
 	info->input_lexer = ft_split_lexer(info->prompt);
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
 
 	while (info->input_lexer[++i]) // Null at end of group
 	{
+
 		if (!ft_strncmp(info->input_lexer[i], "|", 2))
 			pl->act_group++;
 		pl->cat = categorize(info->input_lexer[i]);
 
-		// here comes ft_order(cat)
 		pl-> is_red = found_save_redirect(pl, info, info->input_lexer[i]);
-		found_save_executable(pl, info, info->input_lexer[i]);
+	
+		found_save_executable(pl, info, info->input_lexer[i], i);
+
+		printf("_%s_\n", info->input_lexer[i]);
 
 		
 	}
 	print_groups(info->groups, info); // möglich <> ??
-	
-
 }

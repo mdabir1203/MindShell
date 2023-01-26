@@ -95,11 +95,20 @@ typedef struct s_group
 
 }	t_group;
 
+/**
+ * @brief temp struct for the shile loop in the parser
+ * 
+ * @cat 	the int value the categorizer returns f.e. (REDIRECT_OUTPUT)
+ * @act_group 	actual group of commands f.e. (echo Hallo | cat) before the | it's 0 after it's 1
+ * @is_red		is redirect -> the int value that found_save_redirect() returns -> 1 for yes, 0 no redirect
+ * @is_exe		is executable -> int value that found_save_executable() returns -> 1 for yes, 0 no exe
+ */
 typedef struct s_parse_lexer
 {
 	int		cat;
 	int		act_group;
 	int		is_red;
+	int		is_exe;
 
 }	t_parse_lexer;
 
@@ -153,7 +162,7 @@ void	make_env(char **envp, t_info *info);
 
 //**** parser_utils.c ****//
 
-int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
+int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i);
 int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
 int	count_groups(t_info *info);
 

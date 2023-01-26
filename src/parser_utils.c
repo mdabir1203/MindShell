@@ -13,19 +13,24 @@ int	is_redirect(int num)
 	return (0);
 }
 
-int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str) // malloc so groß wie der lexer string ist
+int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i) // malloc so groß wie der lexer string ist
 {
 	static int already_found_exe = 0;
 
-	if (pl->cat == PIPE)
+	if (pl->cat == PIPE || i == 0)
 		already_found_exe = 0;
 	if (already_found_exe == 0 && !pl->is_red && pl->cat != PIPE && pl->cat != SEPARATOR)// (pl->cat == WORD || pl->cat == FLAG || (pl->cat > BUILTIN_START && pl->cat < BUILTIN_END)))
 	{
 		info->groups[pl->act_group].cmd = act_input_lexer_str;
+		pl->is_exe = 1;
 		already_found_exe = 1;
-		return (1);
+		return (pl->is_exe);
 	}
-	return (0);
+	printf("%p\n", act_input_lexer_str);
+	if (act_input_lexer_str == NULL)
+		already_found_exe = 0;
+	pl->is_exe = 0;
+	return (pl->is_exe);
 }
 
 /**

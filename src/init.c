@@ -26,7 +26,7 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 	int i;
 
 	i = -1;
-	if (!(groups = malloc(sizeof(*groups) * info->num_groups)))
+	if (!(groups = malloc(sizeof(*groups) * info->num_groups))) 
 	{
 		error(ERR_MALLOC_INIT_GROUPS, info);
 		return (NULL);
@@ -37,6 +37,7 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 	{
 		//groups[i] = malloc(sizeof(t_group)); // write clean_up
 		//save malloc
+		groups[i].path = NULL;
 		groups[i].redirect_input = 0;
 		groups[i].redirect_input_filename = NULL;
 		groups[i].redirect_output = 0;
