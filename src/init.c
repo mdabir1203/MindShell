@@ -26,8 +26,11 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 	int i;
 
 	i = -1;
-	if (!(groups = malloc(sizeof(*groups) * info->num_groups)));
-		return (error(ERR_MALLOC_INIT_GROUPS))
+	if (!(groups = malloc(sizeof(*groups) * info->num_groups)))
+	{
+		error(ERR_MALLOC_INIT_GROUPS, info);
+		return (NULL);
+	}
 	//save malloc
 	//groups[info->num_groups] = NULL;
 	while (++i < info->num_groups)

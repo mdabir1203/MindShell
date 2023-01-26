@@ -116,7 +116,7 @@ void	fill_array(char **array, char *str)
 			buf = after_word(str, &part_len);
 		array[part_i] = malloc(sizeof(char) * (part_len + 1));
 		if (array[part_i] == NULL)
-			error(ERR_MALLOC_SPLIT);
+			error(ERR_MALLOC_SPLIT, NULL); // ATTENTION!!!!!!!!  have to hand over info, or info will be a global
 		array[part_i][part_len] = '\0';
 		i = -1;
 		while (++i < part_len)
@@ -141,6 +141,9 @@ char	**ft_split_lexer(char *str)
 	fill_array(array, str);
 	return (array);
 }
+
+//something>echo Hallo lksjdfh | cat | cat >test
+
 
 // do separator already categorize ?
 // when "" everything inside is one string

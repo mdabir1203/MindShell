@@ -50,15 +50,15 @@
 # define ERR_MALLOC_SPLIT 2
 # define ERR_MALLOC_INIT_GROUPS 3
 
-//**                MODES OF EXECUTION                   **//
+// //**                MODES OF EXECUTION                   **//
 
-# define MODE_INPUT 1
-# define MODE_INPUT_PLUS 2
-# define MODE_OUTPUT 4
-# define MODE_OUTPUT_APPEND 8
-# define MODE_AND 16
-# define MODE_PIPE_IN 32
-# define MODE_PIPE_OUT 64
+// # define MODE_INPUT 1
+// # define MODE_INPUT_PLUS 2
+// # define MODE_OUTPUT 4
+// # define MODE_OUTPUT_APPEND 8  // don't need?
+// # define MODE_AND 16
+// # define MODE_PIPE_IN 32
+// # define MODE_PIPE_OUT 64
 
 //**				TEXT OUTPUT							**//
 
@@ -74,25 +74,34 @@
 
 typedef struct s_info
 {
-	char	*prompt;
-	char	**input_lexer;
-	char	***env;
-	char **paths;
-	char *root_cmd;
-	int	nb_root_cmd;
-	int		num_groups;
-	struct s_group *groups;
+	char			*prompt;
+	char			**input_lexer;
+	char			***env;
+	char			**paths;
+	char			*root_cmd;
+	int				nb_root_cmd;
+	int				num_groups;
+	struct s_group	*groups;
 }	t_info;
 
 typedef struct s_group
 {
 	char *cmd;
+	char	*path;
 	int		redirect_input;
 	char 	*redirect_input_filename;
 	int		redirect_output;
 	char 	*redirect_output_filename;
 
 }	t_group;
+
+typedef struct s_parse_lexer
+{
+	int		cat;
+	int		act_group;
+	int		is_red;
+
+}	t_parse_lexer;
 
 
 //*********************************************************//
@@ -109,7 +118,7 @@ void	input_error_check(char **cmd);
 
 //**** clean_up.c ****//
 
-void	clean_up(int clean_up_code);
+void	clean_up(int clean_up_code, t_info *info);
 
 //**** ft_message.c ****//
 
@@ -117,7 +126,7 @@ int input_message(char *str, int exit_no);
 
 //**** error.c ****//
 
-int	error(int err);
+int	error(int err, t_info *info);
 
 
 //**** ft_echo.c ****//
@@ -142,6 +151,11 @@ t_group *init_groups(t_info *info);
 
 void	make_env(char **envp, t_info *info);
 
+//**** parser_utils.c ****//
+
+int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
+int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
+int	count_groups(t_info *info);
 
 //**** parser.c ****//
 
@@ -151,7 +165,10 @@ void	test_env_vars(t_info *info);
 
 int	is_an_executable(char *prompt, t_info *info);
 
+//**** tests.c ****//
+
 void	p2d(char **ptr);
+void	print_groups(t_group *groups, t_info *info);
 
 
 #endif

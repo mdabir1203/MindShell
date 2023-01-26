@@ -15,7 +15,7 @@ void	input_error_check(char **cmd)
  * @brief 
  * @return error() returns 1 if everything goes well BEWARE!!!
  */
-int	error(int err)
+int	error(int err, t_info *info)
 {
 	printf("ERROR\n");
 	input_message(ERROR, 0);
@@ -24,7 +24,7 @@ int	error(int err)
 		input_message(MALLOC_FAIL, 0);			//let's do this or
 		//printf("While memory allocation\n");	// this ?
 	}
-	clean_up(err);
+	clean_up(err, info);
 	return (1);
 	//return(0);
 }
