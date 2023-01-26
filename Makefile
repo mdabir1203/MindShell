@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rschlott <rschlott@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/19 15:41:20 by rschlott         ###   ########.fr        #
+#    Updated: 2023/01/26 15:00:42 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ INC = inc
 
 SRCS =	src/main.c \
 	src/clean_up.c \
-	src/process_input.c \
 	src/ft_echo.c \
 	src/ft_exit.c \
 	src/init.c \
@@ -26,6 +25,9 @@ SRCS =	src/main.c \
 	src/make_env_arr.c \
 	src/check_if_cmd.c \
 	src/ft_message.c \
+	src/categorize.c \
+	src/parser.c \
+	src/parser_utils.c \
 	
 
 OBJS =	$(SRCS:.c=.o)
@@ -34,7 +36,7 @@ LIBFTDIR = ./libft/
 
 LIBFT = libft.a
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Werror -Wextra -g #-Wall 
 
 all: libft_make $(NAME)
 
@@ -43,7 +45,7 @@ libft_make:
 
 INCDIR := -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline -lncurses
 
-$(NAME): $(LIBFT) Makefile ## without OBJS it works $(OBJS)
+$(NAME): $(LIBFT) Makefile $(SRCS) ## without OBJS it works $(OBJS)
 			@cp $(LIBFTDIR)$(LIBFT) $(LIBFT)
 			$(CC) $(CFLAGS) $(SRCS) $(LIBFT) -o $(NAME) $(INCDIR)
 

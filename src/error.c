@@ -11,15 +11,20 @@ void	input_error_check(char **cmd)
 	}
 }
 
-int	error(int err)
+/**
+ * @brief 
+ * @return error() returns 1 if everything goes well BEWARE!!!
+ */
+int	error(int err, t_info *info)
 {
-	//printf("ERROR\n");
+	printf("ERROR\n");
 	input_message(ERROR, 0);
-	if (err == ERR_MALLOC_SPLIT)
+	if (err == ERR_MALLOC_SPLIT || err == ERR_MALLOC_INIT_GROUPS)
 	{
-		input_message(MALLOC_FAIL, 0);
-		//printf("While memory allocation\n");
-	}	
-	//return (!clean_up(err));
-	return(0);
+		input_message(MALLOC_FAIL, 0);			//let's do this or
+		//printf("While memory allocation\n");	// this ?
+	}
+	clean_up(err, info);
+	return (1);
+	//return(0);
 }
