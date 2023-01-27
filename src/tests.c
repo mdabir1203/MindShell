@@ -40,5 +40,6 @@ void	print_groups(t_group *groups, t_info *info)
 		printf("redirect_input_filename: \t_%s_\n", groups[i].redirect_input_filename);
 		printf("redirect_output: \t\t_%d_\n", groups[i].redirect_output);
 		printf("redirect_output_filename:\t_%s_\n\n", groups[i].redirect_output_filename);
+		//printf("argument_filename:\t_%s_\n\n", groups[i].argument_filename);
 	}
 }

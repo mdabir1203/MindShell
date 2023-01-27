@@ -25,9 +25,13 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 {
 	t_parse_lexer a;
 	t_parse_lexer *pl;
+	t_group	arg_j;
+	t_group	*pt;
 
 	pl = &a;
 	pl->act_group = 0;
+	pt = &arg_j;
+	pt->arg_j = -1;
 	int i;
 	i = -1;
 
@@ -36,6 +40,8 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	info->input_lexer = ft_split_lexer(info->prompt);
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
+	info->groups->arguments = ft_array_args(info->prompt);	// double pointer for array of arguments
+	//info->groups->arguments = NULL; // move to init.c later; creates seg fault
 
 	while (info->input_lexer[++i]) // Null at end of group
 	{
@@ -44,13 +50,13 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 			pl->act_group++;
 		pl->cat = categorize(info->input_lexer[i]);
 
-		pl-> is_red = found_save_redirect(pl, info, info->input_lexer[i]);
+		pl->is_red = found_save_redirect(pl, info, info->input_lexer[i]);
 	
-		found_save_executable(pl, info, info->input_lexer[i], i);
-
+		pl->is_exe = found_save_executable(pl, info, info->input_lexer[i], i); // cannot identify several executables in one group
+		found_save_arguments(pl, pt, info, i);
 		printf("_%s_\n", info->input_lexer[i]);
-
-		
+		printf("redirect %d\n", pl->is_red);
+		printf("executable %d\n", pl->is_exe);		
 	}
 	print_groups(info->groups, info); // möglich <> ??
 }
