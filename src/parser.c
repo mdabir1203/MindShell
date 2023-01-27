@@ -48,7 +48,7 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	
 		found_save_executable(pl, info, info->input_lexer[i], i);
 
-		printf("_%s_\n", info->input_lexer[i]);
+		//printf("_%s_\n", info->input_lexer[i]);
 
 		
 	}

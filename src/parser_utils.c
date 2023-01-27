@@ -26,7 +26,6 @@ int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer
 		already_found_exe = 1;
 		return (pl->is_exe);
 	}
-	printf("%p\n", act_input_lexer_str);
 	if (act_input_lexer_str == NULL)
 		already_found_exe = 0;
 	pl->is_exe = 0;
