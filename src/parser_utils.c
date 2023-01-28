@@ -74,6 +74,32 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_s
 	return (ret);
 }
 
+void	pipe_detector(t_parse_lexer *pl, t_info *info)
+{
+	//info->groups->pipe_in = 0;
+	//info->groups->pipe_out = 0;
+	printf("act_group %d num_groups %d\n", pl->act_group, info->num_groups);
+	if (info->num_groups > 1 && pl->act_group == 0)	// why gets this one overwritten when going to the next group and why doesn't it understand group 0?
+	{
+		info->groups[pl->act_group].pipe_in = 0;
+		info->groups[pl->act_group].pipe_out = 1;
+	}
+	else if (pl->act_group > 0 && pl->act_group < info->num_groups - 1)
+	{
+		info->groups[pl->act_group].pipe_in = 1;
+		info->groups[pl->act_group].pipe_out = 1;
+	}
+	else if (info->num_groups > 1 && pl->act_group == info->num_groups - 1)
+	{
+		info->groups[pl->act_group].pipe_in = 1;
+		info->groups[pl->act_group].pipe_out = 0;
+	}
+	else if (categorize(info->input_lexer[0]) == PIPE)  // error management!!!
+		info->groups[pl->act_group].pipe_in = 1;
+	printf("act pipe in %d act pipe out %d\n", info->groups[pl->act_group].pipe_in, info->groups[pl->act_group].pipe_out);
+	printf("pipe_in[0] %d pipe_out[0] %d\n", info->groups[0].pipe_in, info->groups[0].pipe_out);
+}
+
 int	count_groups(t_info *info)
 {
 	int num_groups;

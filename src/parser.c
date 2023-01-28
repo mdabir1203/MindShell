@@ -40,14 +40,16 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	while (info->input_lexer[++i]) // Null at end of group
 	{
 
-		if (!ft_strncmp(info->input_lexer[i], "|", 2))
-			pl->act_group++;
+		if (!ft_strncmp(info->input_lexer[i], "|", 2)) // we can use categorize here
+			pl->act_group++;				// this construct cannot handle a pipe as first argument in group 0
+
 		pl->cat = categorize(info->input_lexer[i]);
 
 		pl-> is_red = found_save_redirect(pl, info, info->input_lexer[i]);
 	
 		found_save_executable(pl, info, info->input_lexer[i], i);
-
+		pipe_detector(pl, info);
+		//printf("pipe_in %d pipe_out %d\n", pipe_in(pl, info, i, pipe_out(pl, info, i)), pipe_out(pl, info, i));
 		printf("_%s_\n", info->input_lexer[i]);
 
 		
