@@ -76,7 +76,7 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_s
 
 void	pipe_detector(t_parse_lexer *pl, t_info *info)
 {
-	//info->groups->pipe_in = 0;
+	//info->groups->pipe_in = 0;		init in init file!!!
 	//info->groups->pipe_out = 0;
 	printf("act_group %d num_groups %d\n", pl->act_group, info->num_groups);
 	if (info->num_groups > 1 && pl->act_group == 0)	// why gets this one overwritten when going to the next group and why doesn't it understand group 0?
