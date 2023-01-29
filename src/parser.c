@@ -40,9 +40,10 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	info->input_lexer = ft_split_lexer(info->prompt);
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
-	info->groups->arguments = ft_array_args(info->prompt);	// double pointer for array of arguments
+	while (++i < info->num_groups)
+		info->groups[i].arguments = ft_array_args(info->prompt);	// double pointer for array of arguments
 	//info->groups->arguments = NULL; // move to init.c later; creates seg fault
-
+	i = -1;
 	while (info->input_lexer[++i]) // Null at end of group
 	{
 

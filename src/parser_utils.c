@@ -86,13 +86,7 @@ char **ft_array_args(char *str)
 		return NULL;
 	word_count = count_parts(str);
 	array = (char **)malloc((sizeof(char *) * (word_count + 1)));
-	array[word_count] = 0;
-	while (++i < word_count)
-	{
-		array[i] = (char *) malloc(sizeof(char));
-		if (array[i] == NULL)
-			error(ERR_MALLOC_SPLIT, NULL); // ATTENTION!!!!!!!!  have to hand over info, or info will be a global
-	}
+	array[word_count] = NULL;
 	return (array);
 }
 
@@ -107,10 +101,13 @@ int	found_save_arguments(t_parse_lexer *pl, t_group *pt, t_info *info, int i)
 			pl->cat = categorize(info->input_lexer[i]);
 			//printf("cat %d\n", pl->cat);
 			pl->is_red = found_save_redirect(pl, info, info->input_lexer[i]);
-			if (pl->cat == SEPARATOR)
+			if (pl->cat == SEPARATOR || pl->is_red)
 				continue;							// allowed?
-			else if (pl->cat == PIPE || pl->is_red)
-				break;								// allowed?
+			else if (pl->cat == PIPE)
+			{
+				pt->arg_j = 0;
+				break;							// allowed?
+			}
 			else
 			{
 				pt->arg_j++;
