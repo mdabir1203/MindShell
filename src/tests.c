@@ -31,7 +31,7 @@ void	p2d(char **ptr)
 void	print_groups(t_group *groups, t_info *info)
 {
 	int i = -1;
-	int j = -1;
+	int j;
 	while (++i < info->num_groups)
 	{
 		j = 0;
