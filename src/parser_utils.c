@@ -94,8 +94,6 @@ void	pipe_detector(t_parse_lexer *pl, t_info *info)
 		info->groups[pl->act_group].pipe_in = 1;
 		info->groups[pl->act_group].pipe_out = 0;
 	}
-	else if (categorize(info->input_lexer[0]) == PIPE)  // error management!!!
-		info->groups[pl->act_group].pipe_in = 1;
 	printf("act pipe in %d act pipe out %d\n", info->groups[pl->act_group].pipe_in, info->groups[pl->act_group].pipe_out);
 	printf("pipe_in[0] %d pipe_out[0] %d\n", info->groups[0].pipe_in, info->groups[0].pipe_out);
 }
