@@ -42,6 +42,7 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 		groups[i].redirect_input_filename = NULL;
 		groups[i].redirect_output = 0;
 		groups[i].redirect_output_filename = NULL;
+		groups[i].arguments = NULL;
 		groups[i].pipe_in = 0;
 		groups[i].pipe_out = 0;
 	}

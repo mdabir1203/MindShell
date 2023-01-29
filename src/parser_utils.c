@@ -13,26 +13,6 @@ int	is_redirect(int num)
 	return (0);
 }
 
-int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i) // malloc so groß wie der lexer string ist
-{
-	static int already_found_exe = 0;
-
-	if (pl->cat == PIPE || i == 0)
-		already_found_exe = 0;
-	if (already_found_exe == 0 && !pl->is_red && pl->cat != PIPE && pl->cat != SEPARATOR)// (pl->cat == WORD || pl->cat == FLAG || (pl->cat > BUILTIN_START && pl->cat < BUILTIN_END)))
-	{
-		info->groups[pl->act_group].cmd = act_input_lexer_str;
-		pl->is_exe = 1;
-		already_found_exe = 1;
-		return (pl->is_exe);
-	}
-	printf("%p\n", act_input_lexer_str);
-	if (act_input_lexer_str == NULL)
-		already_found_exe = 0;
-	pl->is_exe = 0;
-	return (pl->is_exe);
-}
-
 /**
  * @brief only call ONCE in the loop? it changes status it is called
  * it returns 1 if it identifies the given str as an redirect i.e. (">", " ", "filename")
@@ -74,11 +54,83 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_s
 	return (ret);
 }
 
+int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i) // malloc so groß wie der lexer string ist
+{
+	static int already_found_exe = 0;
+
+	if (pl->cat == PIPE || i == 0)
+		already_found_exe = 0;
+	if (already_found_exe == 0 && !pl->is_red && pl->cat != PIPE && pl->cat != SEPARATOR)// (pl->cat == WORD || pl->cat == FLAG || (pl->cat > BUILTIN_START && pl->cat < BUILTIN_END)))
+	{
+		info->groups[pl->act_group].cmd = act_input_lexer_str;
+		pl->is_exe = 1;
+		already_found_exe = 1;
+		return (pl->is_exe);
+	}
+	// printf("%p\n", act_input_lexer_str);	// prints out storage adress
+	if (act_input_lexer_str == NULL)
+		already_found_exe = 0;
+	pl->is_exe = 0;
+	return (pl->is_exe);
+}
+
+char **ft_array_args(char *str)
+{
+	int	i;
+	int	word_count;
+	char **array;
+
+	word_count = 0;
+	i = -1;
+	if(str == NULL || *str == 0)
+		return NULL;
+	word_count = count_parts(str);
+	array = (char **)malloc((sizeof(char *) * (word_count + 1)));
+	array[word_count] = NULL;
+	return (array);
+}
+
+void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
+{
+	int	arg_j;
+
+	arg_j = -1;
+	//printf("i %d\n", i);
+	if (pl->is_exe == 1)
+	{
+		// printf("is_exe %d\n", pl->is_exe);
+		while (info->input_lexer[++i])
+		{
+			pl->cat = categorize(info->input_lexer[i]);
+			//printf("cat %d\n", pl->cat);
+			pl->is_red = found_save_redirect(pl, info, info->input_lexer[i]);
+			if (pl->cat == SEPARATOR || pl->is_red)
+				continue;							// allowed?
+			else if (pl->cat == PIPE)
+			{
+				info->groups[pl->act_group].arguments[arg_j + 1] = NULL;
+				arg_j = 0;
+				break;							// allowed?
+			}
+			else
+			{
+				arg_j++;
+				// printf("arg_j %d\n", arg_j);
+				info->groups[pl->act_group].arguments[arg_j] = info->input_lexer[i];	// creates seg fault for > 1 group
+				// printf("arg string %s\n", info->groups->arguments[arg_j]);				// creates seg fault for > 1 group
+				// printf("adress arg %p\n", info->groups[pl->act_group].arguments[arg_j]);	// creates seg fault for > 1 group	
+				// printf("word\n");
+			}	
+			// printf("i2 %d\n", i);
+		}
+	}
+}
+
 void	pipe_detector(t_parse_lexer *pl, t_info *info)
 {
 	//info->groups->pipe_in = 0;		init in init file!!!
 	//info->groups->pipe_out = 0;
-	printf("act_group %d num_groups %d\n", pl->act_group, info->num_groups);
+	// printf("act_group %d num_groups %d\n", pl->act_group, info->num_groups);
 	if (info->num_groups > 1 && pl->act_group == 0)	// why gets this one overwritten when going to the next group and why doesn't it understand group 0?
 	{
 		info->groups[pl->act_group].pipe_in = 0;
@@ -94,8 +146,8 @@ void	pipe_detector(t_parse_lexer *pl, t_info *info)
 		info->groups[pl->act_group].pipe_in = 1;
 		info->groups[pl->act_group].pipe_out = 0;
 	}
-	printf("act pipe in %d act pipe out %d\n", info->groups[pl->act_group].pipe_in, info->groups[pl->act_group].pipe_out);
-	printf("pipe_in[0] %d pipe_out[0] %d\n", info->groups[0].pipe_in, info->groups[0].pipe_out);
+	// printf("act pipe in %d act pipe out %d\n", info->groups[pl->act_group].pipe_in, info->groups[pl->act_group].pipe_out);
+	// printf("pipe_in[0] %d pipe_out[0] %d\n", info->groups[0].pipe_in, info->groups[0].pipe_out);
 }
 
 int	count_groups(t_info *info)
