@@ -167,7 +167,7 @@ void	make_env(char **envp, t_info *info);
 int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
 int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i);
 char	**ft_array_args(char *str);
-int	found_save_arguments(t_parse_lexer *pl, t_info *info, int i);
+void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i);
 int	count_groups(t_info *info);
 
 //**** parser.c ****//
