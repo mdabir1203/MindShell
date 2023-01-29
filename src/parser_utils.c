@@ -90,8 +90,11 @@ char **ft_array_args(char *str)
 	return (array);
 }
 
-int	found_save_arguments(t_parse_lexer *pl, t_group *pt, t_info *info, int i)
+int	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 {
+	int	arg_j;
+
+	arg_j = -1;
 	//printf("i %d\n", i);
 	if (pl->is_exe == 1)
 	{
@@ -105,16 +108,16 @@ int	found_save_arguments(t_parse_lexer *pl, t_group *pt, t_info *info, int i)
 				continue;							// allowed?
 			else if (pl->cat == PIPE)
 			{
-				pt->arg_j = 0;
+				arg_j = 0;
 				break;							// allowed?
 			}
 			else
 			{
-				pt->arg_j++;
-				printf("arg_j %d\n", pt->arg_j);
-				info->groups[pl->act_group].arguments[pt->arg_j] = info->input_lexer[i];	// creates seg fault for > 1 group
-				printf("arg string %s\n", info->groups->arguments[pt->arg_j]);				// creates seg fault for > 1 group
-				printf("adress arg %p\n", info->groups[pl->act_group].arguments[pt->arg_j]);	// creates seg fault for > 1 group	
+				arg_j++;
+				printf("arg_j %d\n", arg_j);
+				info->groups[pl->act_group].arguments[arg_j] = info->input_lexer[i];	// creates seg fault for > 1 group
+				printf("arg string %s\n", info->groups->arguments[arg_j]);				// creates seg fault for > 1 group
+				printf("adress arg %p\n", info->groups[pl->act_group].arguments[arg_j]);	// creates seg fault for > 1 group	
 				printf("word\n");
 			}	
 			printf("i2 %d\n", i);

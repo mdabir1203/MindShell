@@ -87,7 +87,6 @@ typedef struct s_info
 typedef struct s_group
 {
 	char	**arguments;
-	int		arg_j;
 	char	*cmd;
 	char	*path;
 	int		redirect_input;
@@ -168,7 +167,7 @@ void	make_env(char **envp, t_info *info);
 int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
 int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i);
 char	**ft_array_args(char *str);
-int	found_save_arguments(t_parse_lexer *pl, t_group *pt, t_info *info, int i);
+int	found_save_arguments(t_parse_lexer *pl, t_info *info, int i);
 int	count_groups(t_info *info);
 
 //**** parser.c ****//
