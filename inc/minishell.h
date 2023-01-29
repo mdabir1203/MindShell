@@ -93,7 +93,8 @@ typedef struct s_group
 	char 	*redirect_input_filename;
 	int		redirect_output;
 	char 	*redirect_output_filename;
-
+	int		pipe_in;
+	int		pipe_out;
 }	t_group;
 
 /**
@@ -164,10 +165,10 @@ void	make_env(char **envp, t_info *info);
 
 //**** parser_utils.c ****//
 
-int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
 int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i);
 char	**ft_array_args(char *str);
 void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i);
+void	pipe_detector(t_parse_lexer *pl, t_info *info);
 int	count_groups(t_info *info);
 
 //**** parser.c ****//

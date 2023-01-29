@@ -45,6 +45,10 @@ void	print_groups(t_group *groups, t_info *info)
 		while (groups[i].arguments[j++])
 			printf("\targument %d:\t_%s_\n", j, groups[i].arguments[j]);
 		// printf("argument_filename\t_%s_\n\n", groups[i].argument_filename);
+		printf("pipe_in: \t\t_%d_\n", groups[i].pipe_in);
+		printf("pipe_out: \t\t_%d_\n\n", groups[i].pipe_out);
 		printf("\n");
 	}
+	printf("Last group pointer %p\n", &groups[i]);
+	printf("Last group pointer %s\n", groups[i].cmd);
 }

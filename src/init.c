@@ -26,7 +26,7 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 	int i;
 
 	i = -1;
-	if (!(groups = malloc(sizeof(*groups) * info->num_groups))) 
+	if (!(groups = ft_calloc(info->num_groups + 1, sizeof(*groups))))
 	{
 		error(ERR_MALLOC_INIT_GROUPS, info);
 		return (NULL);
@@ -43,6 +43,8 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 		groups[i].redirect_output = 0;
 		groups[i].redirect_output_filename = NULL;
 		groups[i].arguments = NULL;
+		groups[i].pipe_in = 0;
+		groups[i].pipe_out = 0;
 	}
 	printf("ptr %d\n",  groups[0].redirect_output);
 	return (groups);
