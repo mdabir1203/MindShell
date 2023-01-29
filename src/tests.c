@@ -43,4 +43,6 @@ void	print_groups(t_group *groups, t_info *info)
 		printf("pipe_in: \t\t_%d_\n", groups[i].pipe_in);
 		printf("pipe_out: \t\t_%d_\n\n", groups[i].pipe_out);
 	}
+	printf("Last group pointer %p\n", &groups[i]);
+	printf("Last group pointer %s\n", groups[i].cmd);
 }

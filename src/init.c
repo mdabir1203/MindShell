@@ -26,7 +26,7 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 	int i;
 
 	i = -1;
-	if (!(groups = malloc(sizeof(*groups) * info->num_groups))) 
+	if (!(groups = ft_calloc(info->num_groups + 1, sizeof(*groups))))
 	{
 		error(ERR_MALLOC_INIT_GROUPS, info);
 		return (NULL);
