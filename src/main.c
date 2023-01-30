@@ -49,17 +49,12 @@ int	main(int argc, char **argv, char **envp)
 	printf("Welcome to the minishell!\n");
 	//printf("line 5 = %s\n", envp[4]);
 	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
-	int i = -1;
-	while (++i < 3)
+	while (1)
 	{
 		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 			clean_up(CTRL_D_PRESSED, NULL); // ATTENTION, hand over info somehow !!!
 		parser(info);
-		
-		
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
-
-		//break;
 	}
 	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
 	return (0);
