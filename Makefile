@@ -6,7 +6,7 @@
 #    By: mrehberg <maxrehberg@posteo.de>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 10:49:02 by nrenz             #+#    #+#              #
-#    Updated: 2023/01/26 15:00:42 by mrehberg         ###   ########.fr        #
+#    Updated: 2023/01/30 15:10:27 by mrehberg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,9 @@ $(LIBFT):
 
 e:	all
 	./$(NAME)
+
+l:	all
+	leaks --atExit -- ./$(NAME)
 
 clean:
 			make clean -C libft

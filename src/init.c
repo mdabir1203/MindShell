@@ -13,7 +13,7 @@ int make_prompt(t_info *info)
 t_info	*init(char **envp)
 {
 	t_info *info;
-	info = malloc(sizeof(t_info)); //need to clean up 
+	info = malloc(sizeof(t_info));
 	make_env(envp, info);
 	make_prompt(info);
 	info->input_lexer = NULL;

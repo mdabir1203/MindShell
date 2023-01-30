@@ -18,8 +18,6 @@
 //*********************************************************//
 //**                FLAGS                               **//
 
-# define CTRL_D_PRESSED 1
-
 //**                PARSER CATEGORIES                    **//
 
 # define REDIR_INPUT 4
@@ -47,18 +45,14 @@
 
 //**                ERROR FLAGS                          **//
 
-# define ERR_MALLOC_SPLIT 2
-# define ERR_MALLOC_INIT_GROUPS 3
+# define ERR_MALLOC_SPLIT 41
+# define ERR_MALLOC_INIT_GROUPS 42
 
-// //**                MODES OF EXECUTION                   **//
+//**                OTHER FLAGS                          **//
 
-// # define MODE_INPUT 1
-// # define MODE_INPUT_PLUS 2
-// # define MODE_OUTPUT 4
-// # define MODE_OUTPUT_APPEND 8  // don't need?
-// # define MODE_AND 16
-// # define MODE_PIPE_IN 32
-// # define MODE_PIPE_OUT 64
+# define CTRL_D_PRESSED 43
+# define CLEAN_UP_REST_BEFORE_EXIT 44
+# define CLEAN_UP_FOR_NEW_PROMPT 45
 
 //**				TEXT OUTPUT							**//
 
@@ -129,6 +123,9 @@ void	input_error_check(char **cmd);
 
 //**** clean_up.c ****//
 
+void	clean_up_group_structs(t_info *info);
+void	clean_up_prompt(t_info *info);
+void	clean_up_lexer(t_info *info);
 void	clean_up(int clean_up_code, t_info *info);
 
 //**** ft_message.c ****//
