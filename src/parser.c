@@ -37,7 +37,7 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
 	while (++i < info->num_groups)
-		info->groups[i].arguments = ft_array_args(info->prompt);	// double pointer for array of arguments
+		info->groups[i].arguments = ft_array_args(info->prompt, info);	// double pointer for array of arguments
 	i = -1;
 	while (info->input_lexer[++i]) // Null at end of group
 	{

@@ -78,6 +78,18 @@ void clean_up_arguments(t_info *info)
 	}
 }
 
+void	clean_up_path_to_executable(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	while (i++ < info->num_groups)
+	{
+		if (info->groups[i].path)
+			free(info->groups[i].path);
+	}
+}
+
 void	clean_up(int clean_up_code, t_info *info)
 {
 	if (clean_up_code == CTRL_D_PRESSED) 
@@ -99,6 +111,7 @@ void	clean_up(int clean_up_code, t_info *info)
 		clean_up_lexer(info);
 		clean_up_prompt(info);
 		clean_up_arguments(info);
+		clean_up_path_to_executable(info);
 	}
 	
 	return;

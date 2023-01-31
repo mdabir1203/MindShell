@@ -54,17 +54,50 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_s
 	return (ret);
 }
 
+int	is_builtin(char *str)
+{
+	if (!ft_strncmp(str, "echo\0", 5))
+		return (CMD_ECHO);
+	if (!ft_strncmp(str, "exit", 5))
+		return (CMD_EXIT);
+	if (!ft_strncmp(str, "cd", 3))
+		return (CMD_CD);
+	if (!ft_strncmp(str, "pwd", 4))
+		return (CMD_PWD);
+	if (!ft_strncmp(str, "export", 7))
+		return (CMD_EXPORT);
+	if (!ft_strncmp(str, "unset", 6))
+		return (CMD_UNSET);
+	if (!ft_strncmp(str, "env", 4))
+		return (CMD_ENV);
+	return (0);
+}
+
 int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i) // malloc so groß wie der lexer string ist
 {
 	static int already_found_exe = 0;
+	char		*path_to_executable;
 
 	if (pl->cat == PIPE || i == 0)
 		already_found_exe = 0;
 	if (already_found_exe == 0 && !pl->is_red && pl->cat != PIPE && pl->cat != SEPARATOR)// (pl->cat == WORD || pl->cat == FLAG || (pl->cat > BUILTIN_START && pl->cat < BUILTIN_END)))
 	{
-		info->groups[pl->act_group].cmd = act_input_lexer_str;
+		// info->groups[pl->act_group].cmd = act_input_lexer_str;
 		pl->is_exe = 1;
 		already_found_exe = 1;
+		path_to_executable = is_an_executable(act_input_lexer_str, info);
+		if (is_builtin(act_input_lexer_str))
+		{
+			info->groups[pl->act_group].builtin = is_builtin(act_input_lexer_str);
+			info->groups[pl->act_group].arguments[0] = act_input_lexer_str;
+		}
+		else if (path_to_executable)
+		{
+			info->groups[pl->act_group].path = path_to_executable; // and needs to be the first arg
+			info->groups[pl->act_group].arguments[0] = act_input_lexer_str; // and needs to be the first arg
+		}
+		else
+			error(ERR_CMD_NOT_FOUND, info); // minishell: echox: command not found
 		return (pl->is_exe);
 	}
 	// printf("%p\n", act_input_lexer_str);	// prints out storage adress
@@ -74,34 +107,18 @@ int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer
 	return (pl->is_exe);
 }
 
-char **ft_array_args(char *str)
-{
-	int	i;
-	int	word_count;
-	char **array;
-
-	word_count = 0;
-	i = -1;
-	if(str == NULL || *str == 0)
-		return NULL;
-	word_count = count_parts(str);
-	array = (char **)malloc((sizeof(char *) * (word_count + 1)));
-	array[word_count] = NULL;
-	return (array);
-}
-
 void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 {
 	int	arg_j;
 
-	arg_j = -1;
+	arg_j = 0;
 	//printf("i %d\n", i);
 	if (pl->is_exe == 1)
 	{
 		// printf("is_exe %d\n", pl->is_exe);
 		while (info->input_lexer[++i])
 		{
-			pl->cat = categorize(info->input_lexer[i]);
+			pl->cat = categorize(info->input_lexer[i]); // pl->cat steht wenn wir zurück gehen immernoch auf der PIPE oder so wichtig?
 			//printf("cat %d\n", pl->cat);
 			pl->is_red = found_save_redirect(pl, info, info->input_lexer[i]);
 			if (pl->cat == SEPARATOR || pl->is_red)
@@ -114,7 +131,7 @@ void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 			}
 			else
 			{
-				arg_j++;
+				++arg_j;
 				// printf("arg_j %d\n", arg_j);
 				info->groups[pl->act_group].arguments[arg_j] = info->input_lexer[i];	// creates seg fault for > 1 group
 				// printf("arg string %s\n", info->groups->arguments[arg_j]);				// creates seg fault for > 1 group
