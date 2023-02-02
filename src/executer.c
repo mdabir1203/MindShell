@@ -45,21 +45,14 @@ void	test_group(t_info *info)
 void	open_infile(t_group *group)
 {
 	if (group->redirect_input == REDIR_INPUT)
-		group->pipe_in = open(group->redirect_input_filename, O_RDONLY, 0644);
+		group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
 	else if (group->redirect_input == REDIR_INPUT_APPEND)
-		group->pipe_in = open(group->redirect_input_filename, O_RDONLY, 0644);
+		group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
 	if (group->pipe_in < 0)
 	{
-		perror("dup error");
+		perror("open_infile() cannot open file");
 		exit(1);
 	}
-}
-
-/*When input should be READ end of pipe*/
-void	pipe_in(t_group *group)
-{
-	if (group->pipe_in && !group->redirect_input) // is this the pipe or 
-		close(group->pipe_fd_in[WRITE]);
 }
 
 /*Makes a pipe and overwrites STDOU with write end, so execve outputs to pipe instead of STDOUT*/
@@ -80,7 +73,7 @@ void	open_outfile(t_group *group)
 	}
 	if (temp < 0)
 	{
-		perror("open");
+		perror("could not open outfile");
 		exit(1);
 	}
 }
@@ -117,8 +110,8 @@ void	execute_exec(t_info	*info, t_group *group)
 		}
 		if (group->redirect_output)
 			dup_fd(group->pipe_fd_out[WRITE], 1);
-		else if (group->pipe_in > 1)
-			dup_fd(group->pipe_fd_in[READ], 0);
+		else if (group->pipe_out > 1)
+			dup_fd(group->pipe_fd_out[READ], 1);
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
 			//clean up all structs..??
@@ -128,22 +121,32 @@ void	execute_exec(t_info	*info, t_group *group)
 	}
 }
 
-int	executer(t_info	*info)
+void	executer(t_group	*group)
 {
 	int status;
+	int i;
 	
+	i = -1;
 	//test_group(info);
-	printf("num groups %d", info->num_groups);
-	print_groups(info->groups, info);
-	while (info->groups)
+	printf("num groups %d\n", group->info->num_groups);
+	//print_groups(group, group->info); // makes segfault
+	while (++i < group->info->num_groups)
 	{
-		open_infile(info->groups);
-		open_outfile(info->groups);
-		pipe_out(info->groups);
-		if (info->groups->path) //executables
-			execute_exec(info, info->groups);
-		waitpid(info->groups->pid, &status, 0);
-		info->groups++;
-		return (0);
+		printf("start of group %d\n", group->pipe_in);
+		open_infile(group);
+		open_outfile(group);
+		pipe_out(group);
+		if (group->path) //executables
+			execute_exec(group->info, group);
+		// if (group->builtin)
+		waitpid(group->pid, &status, 0);
+		if (group->pipe_in > 0)
+		{
+			close(group->pipe_fd_in[READ]);
+			close(group->pipe_fd_in[WRITE]);
+		}
+		printf("END OF LOOP\n");
+		if (group->info->num_groups > 1)
+			group++;
 	}
 }

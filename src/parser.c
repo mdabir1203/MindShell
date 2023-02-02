@@ -59,5 +59,5 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 
 		
 	}
-	//print_groups(info->groups, info); // möglich <> ??
+	print_groups(info->groups, info); // möglich <> ??
 }

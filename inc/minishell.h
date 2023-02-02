@@ -100,6 +100,7 @@ typedef struct s_group
 	int		*pipe_fd_in;
 	int		*pipe_fd_out;
 	pid_t	pid;
+	t_info	*info;
 }	t_group;
 
 /**
@@ -192,7 +193,7 @@ void	test_env_vars(t_info *info);
 
 //**** executer.c ****//
 
-int	executer(t_info	*info);
+void	executer(t_group	*info);
 
 //**** tests.c ****//
 
