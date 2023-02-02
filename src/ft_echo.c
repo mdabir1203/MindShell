@@ -1,8 +1,22 @@
 
 #include "../inc/minishell.h"
 
+void	ft_echo(t_group *groups, t_parse_lexer *pl)
+{
+	int arg_j;
+
+	arg_j = -1;
+	while (groups[pl->act_group].arguments[++arg_j])
+	{
+		ft_putstr_fd(groups[pl->act_group].arguments[arg_j], 1);
+		ft_putchar_fd(' ', 1);
+		//printf("arg_j %d", arg_j);
+	}
+	ft_putchar_fd('\n', 1);
+}
+
 // -n without the \n
-void	ft_echo(char **cmd)
+/*void	ft_echo(char **cmd)
 {
 	int i;
 	int	flag;
@@ -24,4 +38,4 @@ void	ft_echo(char **cmd)
 	if (flag == 1)
 		ft_putchar_fd('%', 1);
 	ft_putchar_fd('\n', 1);
-}
+}*/

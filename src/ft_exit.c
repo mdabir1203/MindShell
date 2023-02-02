@@ -1,9 +1,9 @@
 
 #include "../inc/minishell.h"
 
-void	ft_exit(char **cmd)
+void	ft_exit(t_info *info)
 {
-    if (cmd[1])
+    if (info->input_lexer[1])
     {
         input_message(STR_EXIT_MULTIPLE, 0);
         //printf("Word exit is enough!\n");

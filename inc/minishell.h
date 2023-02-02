@@ -145,11 +145,11 @@ int	error(int err, t_info *info);
 
 //**** ft_echo.c ****//
 
-void	ft_echo(char **cmd);
+void	ft_echo(t_group *groups, t_parse_lexer *pl);
 
 //**** ft_exit.c ****//
 
-void	ft_exit(char **cmd);
+void	ft_exit(t_info *info);
 
 //**** ft_split_lexer.c ****//
 
