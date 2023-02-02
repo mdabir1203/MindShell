@@ -14,6 +14,7 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 
 //*********************************************************//
 //**                FLAGS                               **//
@@ -65,6 +66,11 @@
 # define STR_EXIT_SUCCESSFULL "Exit successfull!\n"
 # define MALLOC_FAIL "While memory allocation\n"
 
+//**				pipes							**//
+
+# define WRITE 1
+# define READ 0
+
 //*********************************************************//
 //**                STRUCTURES                          **//
 
@@ -91,6 +97,9 @@ typedef struct s_group
 	char 	*redirect_output_filename;
 	int		pipe_in;
 	int		pipe_out;
+	int		*pipe_fd_in;
+	int		*pipe_fd_out;
+	pid_t	pid;
 }	t_group;
 
 /**
@@ -180,6 +189,10 @@ int		count_groups(t_info *info);
 void	parser(t_info *info);
 
 void	test_env_vars(t_info *info);
+
+//**** executer.c ****//
+
+int	executer(t_info	*info);
 
 //**** tests.c ****//
 

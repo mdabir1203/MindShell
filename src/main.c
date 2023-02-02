@@ -55,6 +55,7 @@ int	main(int argc, char **argv, char **envp)
 			clean_up(CTRL_D_PRESSED, NULL); // ATTENTION, hand over info somehow !!!
 		parser(info);
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+		executer(info);
 	}
 	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
 	return (0);
