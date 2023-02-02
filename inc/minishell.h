@@ -86,6 +86,25 @@ typedef struct s_info
 	struct s_group	*groups;
 }	t_info;
 
+/**
+ * @brief there is one group for every command that is typed into the minishell
+ * we assume, that every command is separated by a | . 
+ * For example if is typed in> echo Hallo | cat
+ * there will be 2 groups. in group[0] echo is the command and Hallo the argument. 
+ * We put both into **arguments: {"echo", "Hallo", NULL}. The command itself 
+ * will allways be the first argument. group[1].arguments: {"cat", NULL}.
+ * This for example: <infile echo -n <infile_2 Hallo >>outfile du | cat >out_2
+ * will give us group[0].arguments: {"echo", "-n", "Hallo", "du", NULL}
+ * group[0].path: NULL -> we shall code echo ourselfs, so no path to the executable
+ * group[0].builtin: 31 -> CMD_ECHO is defined to 31, see line 38 in this Headerfile
+ * group[0].redirect_input: 4 -> REDIR_INPUT is defined to 4, see line 24 in this file
+ * group[0].redirect_input_filename: "infile_2" -> only the last redirect 
+ * in the category input will be saved. The redirect from infile will be ignored.
+ * 
+ * 
+ *  
+ * 
+ */
 typedef struct s_group
 {
 	char	**arguments;
