@@ -1,9 +1,9 @@
 #include "../inc/minishell.h"
 
-void	execute_builtins(t_info	*info)
-{
-	//find the macro interger and pass param to eg ft_echo
-}
+// void	execute_builtins(t_info	*info)
+// {
+// 	//find the macro interger and pass param to eg ft_echo
+// }
 
 void	fork_process(t_group *group)
 {
@@ -96,7 +96,7 @@ void	pipe_out(t_group *group)
 	}
 }
 
-void	execute_exec(t_info	*info, t_group *group)
+void	execute_exec(t_group *group)
 {
 	fork_process(group);
 	if (group->pid == 0)
@@ -137,7 +137,7 @@ void	executer(t_group	*group)
 		open_outfile(group);
 		pipe_out(group);
 		if (group->path) //executables
-			execute_exec(group->info, group);
+			execute_exec(group);
 		// if (group->builtin)
 		waitpid(group->pid, &status, 0);
 		if (group->pipe_in > 0)
