@@ -18,8 +18,6 @@
 //*********************************************************//
 //**                FLAGS                               **//
 
-# define CTRL_D_PRESSED 1
-
 //**                PARSER CATEGORIES                    **//
 
 # define REDIR_INPUT 4
@@ -47,18 +45,16 @@
 
 //**                ERROR FLAGS                          **//
 
-# define ERR_MALLOC_SPLIT 2
-# define ERR_MALLOC_INIT_GROUPS 3
+# define ERR_MALLOC_SPLIT 41
+# define ERR_MALLOC_INIT_GROUPS 42
+# define ERR_CMD_NOT_FOUND 43
+# define ERR_MALLOC_ARRAY_ARGS 44
 
-// //**                MODES OF EXECUTION                   **//
+//**                OTHER FLAGS                          **//
 
-// # define MODE_INPUT 1
-// # define MODE_INPUT_PLUS 2
-// # define MODE_OUTPUT 4
-// # define MODE_OUTPUT_APPEND 8  // don't need?
-// # define MODE_AND 16
-// # define MODE_PIPE_IN 32
-// # define MODE_PIPE_OUT 64
+# define CTRL_D_PRESSED 60
+# define CLEAN_UP_REST_BEFORE_EXIT 61
+# define CLEAN_UP_FOR_NEW_PROMPT 62
 
 //**				TEXT OUTPUT							**//
 
@@ -87,8 +83,8 @@ typedef struct s_info
 typedef struct s_group
 {
 	char	**arguments;
-	char	*cmd;
 	char	*path;
+	int		builtin;
 	int		redirect_input;
 	char 	*redirect_input_filename;
 	int		redirect_output;
@@ -98,7 +94,7 @@ typedef struct s_group
 }	t_group;
 
 /**
- * @brief temp struct for the shile loop in the parser
+ * @brief temp struct for the while loop in the parser
  * 
  * @cat 	the int value the categorizer returns f.e. (REDIRECT_OUTPUT)
  * @act_group 	actual group of commands f.e. (echo Hallo | cat) before the | it's 0 after it's 1
@@ -123,12 +119,19 @@ typedef struct s_parse_lexer
 
 int categorize(char *str);
 
+//**** check_if_cmd.c ****//
+
+char	*is_an_executable(char *cmd, t_info *t_info);
+
 //**** input_check.c ****//
 
 void	input_error_check(char **cmd);
 
 //**** clean_up.c ****//
 
+void	clean_up_group_structs(t_info *info);
+void	clean_up_prompt(t_info *info);
+void	clean_up_lexer(t_info *info);
 void	clean_up(int clean_up_code, t_info *info);
 
 //**** ft_message.c ****//
@@ -156,6 +159,7 @@ char	**ft_split_lexer(char *str);
 //**** init.c ****//
 
 t_info	*init(char **envp);
+char	**ft_array_args(char *str, t_info *info);
 t_group *init_groups(t_info *info);
 
 
@@ -167,7 +171,6 @@ void	make_env(char **envp, t_info *info);
 
 int		found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str);
 int		found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i);
-char	**ft_array_args(char *str);
 void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i);
 void	pipe_detector(t_parse_lexer *pl, t_info *info);
 int		count_groups(t_info *info);
@@ -177,8 +180,6 @@ int		count_groups(t_info *info);
 void	parser(t_info *info);
 
 void	test_env_vars(t_info *info);
-
-int	is_an_executable(char *prompt, t_info *info);
 
 //**** tests.c ****//
 
