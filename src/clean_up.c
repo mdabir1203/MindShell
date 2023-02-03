@@ -101,7 +101,7 @@ void	clean_up(int clean_up_code, t_info *info)
 	
 	if (clean_up_code == CLEAN_UP_REST_BEFORE_EXIT)
 	{
-		clean_up_group_structs(info);
+		clean_up_group_structs(info); // do that in the while loop, before the new prompt comes
 		clean_up_env(info);
 		clean_up_paths(info);
 		clean_up_info_struct(info);

@@ -54,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 			clean_up(CTRL_D_PRESSED, NULL); // ATTENTION, hand over info somehow !!!
 		parser(info);
+		executer(info->groups);
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 	}
 	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);

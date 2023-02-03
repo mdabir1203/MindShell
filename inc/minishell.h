@@ -14,6 +14,7 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 
 //*********************************************************//
 //**                FLAGS                               **//
@@ -68,6 +69,11 @@
 # define EXIT_ERROR_1 "Exit: command not found\n"
 # define REDIRECT_ERROR_1 "-bash: [name]: No such file or directory\n"
 
+//**				pipes							**//
+
+# define WRITE 1
+# define READ 0
+
 //*********************************************************//
 //**                STRUCTURES                          **//
 
@@ -94,6 +100,10 @@ typedef struct s_group
 	char 	*redirect_output_filename;
 	int		pipe_in;
 	int		pipe_out;
+	int		*pipe_fd_in;
+	int		*pipe_fd_out;
+	pid_t	pid;
+	t_info	*info;
 }	t_group;
 
 /**
@@ -183,6 +193,10 @@ int		count_groups(t_info *info);
 void	parser(t_info *info);
 
 void	test_env_vars(t_info *info);
+
+//**** executer.c ****//
+
+void	executer(t_group	*info);
 
 //**** tests.c ****//
 
