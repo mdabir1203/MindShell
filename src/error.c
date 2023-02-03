@@ -1,14 +1,30 @@
 
 #include "../inc/minishell.h"
 
-void	input_error_check(char **cmd)
+int	input_error_check(t_info *info, t_group *groups)
 {
-	if (!strncmp(cmd[0], "Echo", 5) || !strncmp(cmd[0], "Exit", 5))
+	if (!strncmp(info->input_lexer[0], "|", 2))
+	{
+		input_message(PIPE_ERROR_1, 0);
+		return (0);
+	}
+	if (!strncmp(info->input_lexer[0], "Exit", 5))	// several error messages appeal; tidy up!!!
+	{
+		input_message(EXIT_ERROR_1, 0);
+		return (0);
+	}
+	if (groups[0].redirect_input == REDIR_INPUT)
+	{
+			input_message(REDIRECT_ERROR_1, 0);
+			return (0);
+	}
+	/*if (!strncmp(cmd[0], "Echo", 5))
 	{
         input_message(STR_LETTER_ERROR, 0);
         //printf("Write 'echo'!\n");
         return ;
-	}
+	}*/
+	return (1);
 }
 
 /**

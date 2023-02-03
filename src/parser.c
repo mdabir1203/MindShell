@@ -52,6 +52,13 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 		pl-> is_red = found_save_redirect(pl, info, info->input_lexer[i]);
 	
 		pl->is_exe = found_save_executable(pl, info, info->input_lexer[i], i);
+
+		if (input_error_check(info, info->groups) == 0)		// loup through the whole group to detect the redirect_input at once
+		{
+			printf("break\n");
+			break;
+		}
+		
 		found_save_arguments(pl, info, i);
 
 		pipe_detector(pl, info);
@@ -61,6 +68,7 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 		// printf("executable %d\n", pl->is_exe);
 		if (pl->cat == CMD_ECHO)
 			ft_echo(info->groups, pl);
+		printf("break failed\n");
 		//printf("cat1 %d\n", pl->cat);
 	}
 	//print_groups(info->groups, info); // möglich <> ??

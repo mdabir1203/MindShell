@@ -64,6 +64,9 @@
 # define STR_EXIT_MULTIPLE "Word exit is enough!\n"
 # define STR_EXIT_SUCCESSFULL "Exit successfull!\n"
 # define MALLOC_FAIL "While memory allocation\n"
+# define PIPE_ERROR_1 "-bash: syntax error near unexpected token `|'\n"
+# define EXIT_ERROR_1 "Exit: command not found\n"
+# define REDIRECT_ERROR_1 "-bash: [name]: No such file or directory\n"
 
 //*********************************************************//
 //**                STRUCTURES                          **//
@@ -125,7 +128,7 @@ char	*is_an_executable(char *cmd, t_info *t_info);
 
 //**** input_check.c ****//
 
-void	input_error_check(char **cmd);
+int	input_error_check(t_info *info, t_group *groups);
 
 //**** clean_up.c ****//
 
