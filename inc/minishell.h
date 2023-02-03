@@ -74,6 +74,29 @@
 //*********************************************************//
 //**                STRUCTURES                          **//
 
+/**
+ * @brief  info struct holds all informations
+ * @prompt:	stores the whole command line the user types in 
+ * -> has to be freed in the main while loop before user can
+ *  enter the next commands
+ * @input_lexer: holds a 2d char array, all the commands, 
+ * arguments, emptyspacec, pipes and so on are separated
+ * @env: 3d array to all the environment variables.
+ * *env is an array of ptrs for the different vars.
+ * each of the ptrs point to an array of 2 ptrs. [0] points to
+ * the string of the env variables name.
+ * [1] points to the string of the variables value.
+ * @paths: 2d char array that holds all the paths to the bin folders
+ * that are saved in the env variable PATH
+ * @root_cmd: ask Nick
+ * @nb_root_cmd: ask Nick
+ * @num_groups: number of groups in the prompt (separated by pipes | )
+ * @groups: ptr to all the groups. All groups are behind each other
+ * in the memory. There are no pointers in between that point to 
+ * every group. The last group is 0. Cannot check in while loop
+ * like this while(group[i]) -> has to be done like this
+ * while(++i < info->num_groups) don't know why.
+ */
 typedef struct s_info
 {
 	char			*prompt;
@@ -94,15 +117,26 @@ typedef struct s_info
  * We put both into **arguments: {"echo", "Hallo", NULL}. The command itself 
  * will allways be the first argument. group[1].arguments: {"cat", NULL}.
  * This for example: <infile echo -n <infile_2 Hallo >>outfile du | cat >out_2
- * will give us group[0].arguments: {"echo", "-n", "Hallo", "du", NULL}
+ * will give us :
+ * group[0].arguments: {"echo", "-n", "Hallo", "du", NULL}
  * group[0].path: NULL -> we shall code echo ourselfs, so no path to the executable
  * group[0].builtin: 31 -> CMD_ECHO is defined to 31, see line 38 in this Headerfile
  * group[0].redirect_input: 4 -> REDIR_INPUT is defined to 4, see line 24 in this file
  * group[0].redirect_input_filename: "infile_2" -> only the last redirect 
  * in the category input will be saved. The redirect from infile will be ignored.
- * 
- * 
- *  
+ * group[0].redirect_output: 6 -> # define REDIR_OUTPUT_APPEND 6
+ * group[0].redirect_output_filename: "outfile"
+ * group[0].pipe_in: 0
+ * group[0].pipe_out: 1
+ * *pipe_fd_in, *pipe_fd_out, pid: will be later used in the executer
+ * info ist a pointer to the info struct.
+ * For group[1] there will only be showed the variables 
+ * group[1].arguments: {"cat", NULL}
+ * group[1].path: "usr/bin/cat" -> the path will be something like this (including the executable)
+ * group[1].builtin: 0
+ * group[1].redirect_output: 5 -> # define REDIR_OUTPUT 5
+ * group[1].redirect_output_filename: "out_2"
+ * group[1].pipe_in: 1
  * 
  */
 typedef struct s_group
@@ -125,10 +159,10 @@ typedef struct s_group
 /**
  * @brief temp struct for the while loop in the parser
  * 
- * @cat 	the int value the categorizer returns f.e. (REDIRECT_OUTPUT)
- * @act_group 	actual group of commands f.e. (echo Hallo | cat) before the | it's 0 after it's 1
- * @is_red		is redirect -> the int value that found_save_redirect() returns -> 1 for yes, 0 no redirect
- * @is_exe		is executable -> int value that found_save_executable() returns -> 1 for yes, 0 no exe
+ * @cat: 	the int value the categorizer returns f.e. (REDIRECT_OUTPUT)
+ * @act_group:	actual group of commands f.e. (echo Hallo | cat) before the | it's 0 after it's 1
+ * @is_red:		is redirect -> the int value that found_save_redirect() returns -> 1 for yes, 0 no redirect
+ * @is_exe:		is executable -> int value that found_save_executable() returns -> 1 for yes, 0 no exe
  */
 typedef struct s_parse_lexer
 {
