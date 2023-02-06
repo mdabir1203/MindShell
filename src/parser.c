@@ -66,9 +66,9 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 		// printf("_%s_\n", info->input_lexer[i]);
 		// printf("redirect %d\n", pl->is_red);
 		// printf("executable %d\n", pl->is_exe);
-		if (pl->cat == CMD_ECHO)
-			ft_echo(info->groups, pl);
-		printf("break failed\n");
+		// if (pl->cat == CMD_ECHO)
+		// 	ft_echo(info->groups, pl);
+		//printf("break failed\n");
 		//printf("cat1 %d\n", pl->cat);
 	}
 	//print_groups(info->groups, info); // möglich <> ??

@@ -1,14 +1,14 @@
 
 #include "../inc/minishell.h"
 
-void	ft_echo(t_group *groups, t_parse_lexer *pl)
+void	ft_echo(char	**args)
 {
 	int arg_j;
 
 	arg_j = -1;
-	while (groups[pl->act_group].arguments[++arg_j])
+	while (args[++arg_j])
 	{
-		ft_putstr_fd(groups[pl->act_group].arguments[arg_j], 1);
+		ft_putstr_fd(args[arg_j], 1);
 		ft_putchar_fd(' ', 1);
 		//printf("arg_j %d", arg_j);
 	}

@@ -32,6 +32,7 @@ void	print_groups(t_group *groups, t_info *info)
 {
 	int i = -1;
 	int j;
+	printf("num groups %d\n", groups->info->num_groups);
 	while (++i < info->num_groups)
 	{
 		j = -1;
@@ -50,5 +51,5 @@ void	print_groups(t_group *groups, t_info *info)
 		printf("pipe_out: \t\t_%d_\n\n", groups[i].pipe_out);
 		printf("\n");
 	}
-	printf("Last group pointer %p\n", &groups[i]);
+	// printf("Last group pointer %p\n", &groups[i]);
 }

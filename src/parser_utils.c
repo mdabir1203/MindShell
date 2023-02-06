@@ -128,7 +128,7 @@ void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 				continue;							// allowed?
 			else if (pl->cat == PIPE)
 			{
-				info->groups[pl->act_group].arguments[arg_j + 1] = NULL;
+				info->groups[pl->act_group].arguments[arg_j + 1] = NULL; //
 				//arg_j = 0;
 				break;							// allowed?
 			}

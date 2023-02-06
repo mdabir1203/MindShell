@@ -153,8 +153,7 @@ typedef struct s_group
 	char 	*redirect_output_filename;
 	int		pipe_in;
 	int		pipe_out;
-	int		*pipe_fd_in;
-	int		*pipe_fd_out;
+	int		pipe_fd[2];
 	pid_t	pid;
 	t_info	*info;
 }	t_group;
@@ -211,7 +210,7 @@ int	error(int err, t_info *info);
 
 //**** ft_echo.c ****//
 
-void	ft_echo(t_group *groups, t_parse_lexer *pl);
+void	ft_echo(char	**args);
 
 //**** ft_exit.c ****//
 

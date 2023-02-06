@@ -24,94 +24,85 @@ void	dup_fd(int	fd_new, int fd_old)
 	}
 }
 
-void	test_group(t_info *info)
+/*Open an infile when "<infile" is present and overwrites STDIN*/
+int	open_infile(t_group *group)
 {
-	info->groups->path = "/bin/cat";
-	info->groups->arguments = (char **)malloc(sizeof(char *) * 2);
-	info->groups->arguments[0] = "infile";
-	info->groups->arguments[1] = NULL;
-	info->groups->redirect_input_filename = "infile";
-	info->groups->redirect_input = REDIR_INPUT;
-	// info->groups->redirect_output_filename = "outfile";
-	// info->groups->redirect_output = REDIR_OUTPUT;
-	info->groups->pipe_out = 1;
-	info->groups[1].path = "/bin/cat";
-	info->groups[1].arguments = (char **)malloc(sizeof(char *) * 2);
-	info->groups[1].arguments[0] = "-e";
-	info->groups[1].arguments[1] = NULL;
-}
-
-/*Open an infile when "<infile" is presentn and overwrites STDIN*/
-void	open_infile(t_group *group)
-{
-	if (group->redirect_input == REDIR_INPUT)
-		group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
-	else if (group->redirect_input == REDIR_INPUT_APPEND)
-		group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
-	if (group->pipe_in < 0)
+	if ( group->redirect_input == REDIR_INPUT || group->redirect_input == REDIR_INPUT_APPEND)
 	{
-		perror("open_infile() cannot open file");
-		exit(1);
+		if (group->redirect_input == REDIR_INPUT)
+			group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
+		else
+			group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
+		if (group->pipe_in < 0)
+		{
+			perror("open_infile() cannot open file");
+			exit(1);
+		}
+		return (1);
 	}
+	return (0);
 }
 
 /*Makes a pipe and overwrites STDOU with write end, so execve outputs to pipe instead of STDOUT*/
-void	open_outfile(t_group *group)
+int	open_outfile(t_group *group)
 {
 	int temp;
 
 	temp = 0;
-	if (group->redirect_output == REDIR_OUTPUT)
+	if ( group->redirect_output == REDIR_OUTPUT || group->redirect_output == REDIR_OUTPUT_APPEND)
 	{
-		temp = open(group->redirect_output_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		group->pipe_fd_out[WRITE] = temp;
-	}
-	else if (group->redirect_output == REDIR_OUTPUT_APPEND)
-	{
-		temp = open(group->redirect_output_filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		group->pipe_fd_out[WRITE] = temp;
-	}
-	if (temp < 0)
-	{
-		perror("could not open outfile");
-		exit(1);
-	}
-}
-
-void	pipe_out(t_group *group)
-{
-	t_group *temp = group;
-	int write;
-	int	read;
-	
-	if (group->pipe_out && !group->redirect_output)
-	{
-		if (pipe(group->pipe_fd_out) == -1)
+		if (group->redirect_output == REDIR_OUTPUT)
+			group->pipe_fd[WRITE] = open(group->redirect_output_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else
+			group->pipe_fd[WRITE] = open(group->redirect_output_filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		dup_fd(group->pipe_fd[WRITE], 1);
+		if (group->pipe_fd[WRITE] < 0)
 		{
-			perror("pipe error");
+			perror("could not open outfile");
 			exit(1);
 		}
-		if(++temp)
-			temp->pipe_fd_in = group->pipe_fd_out;
+		return (1);
+	}
+	return (0);
+}
+
+int	make_pipe(t_group *group)
+{
+	int pipe_fd[2];
+
+	if(pipe(pipe_fd) == -1)
+	{
+		perror("pipe error");
+		exit(1);
+	}
+	group->pid = fork();
+	printf("forked\n");
+	if (group->pid == -1)
+	{
+		perror("fork error");
+		exit(1);
+	}
+	else if (group->pid == 0) //CHILD
+	{
+		close(pipe_fd[WRITE]);
+		dup_fd(pipe_fd[READ], 0);
+		return (1);
+	}
+	else
+	{
+		close(pipe_fd[READ]);
+		dup_fd(pipe_fd[WRITE], 1);
+		return (2);
 	}
 }
 
-void	execute_exec(t_group *group)
+void	exec_executables(t_group *group)
 {
-	fork_process(group);
-	if (group->pid == 0)
+	int status;
+
+	if (group->pipe) //CHILD
 	{
-		if (group->redirect_input)
-			dup_fd(group->pipe_in, 0);
-		else if (group->pipe_in > 0)
-		{
-			close(group->pipe_fd_in[WRITE]);
-			dup_fd(group->pipe_fd_in[READ], 0);
-		}
-		if (group->redirect_output)
-			dup_fd(group->pipe_fd_out[WRITE], 1);
-		else if (group->pipe_out > 1)
-			dup_fd(group->pipe_fd_out[READ], 1);
+		printf("executing: %s argument: %s\n", group->path, group->arguments[0]);
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
 			//clean up all structs..??
@@ -119,34 +110,95 @@ void	execute_exec(t_group *group)
 			exit(2);
 		}
 	}
+	else
+		waitpid(group->pid, &status, 0);
+}
+
+int	builtins(t_group *group)
+{
+	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
+	{
+		// printf("executing echo\n");
+		ft_echo(group->arguments);
+		return (1);
+	}
 }
 
 void	executer(t_group	*group)
 {
-	int status;
 	int i;
+	int pipe;
+	t_group *temp;
 	
 	i = -1;
-	//test_group(info);
-	printf("num groups %d\n", group->info->num_groups);
-	//print_groups(group, group->info); // makes segfault
+	print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		printf("start of group %d\n", group->pipe_in);
-		open_infile(group);
-		open_outfile(group);
-		pipe_out(group);
-		if (group->path) //executables
-			execute_exec(group);
-		// if (group->builtin)
-		waitpid(group->pid, &status, 0);
-		if (group->pipe_in > 0)
-		{
-			close(group->pipe_fd_in[READ]);
-			close(group->pipe_fd_in[WRITE]);
-		}
+		//printf("group argument 1: %s\n", group->arguments[0]);
+		pipe = make_pipe(group);
+		printf("HERE\n");
+		//open_infile(group) && !open_outfile(group))
+		if (!builtins(group))
+			if (group->path)
+				exec_executables(group);
 		printf("END OF LOOP\n");
-		if (group->info->num_groups > 1)
+		if (i + 1 < group->info->num_groups)
 			group++;
+		else
+			break;
 	}
+	printf("after waitpid\n");
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  make_pipe
+	// 	if (group->pipe_in)
+	// 	{
+	// 		close(group->pipe_out
+	// 		dup_fd(group->pipe_in, 0);
+	// 		close(group->pipe_in);
+	// 	}
+	// 	if (group->pipe_out)
+	// 	{
+	// 		dup_fd(group->pipe_out, 1);
+	// 		close(group->pipe_out);
+	// 	}
+	// 	if (execve(group->path, group->arguments, NULL) == -1)
+	// 	{
+	// 		perror("exec didnt work\n");
+	// 		exit(2);
+	// 	}
+	// }
+	// if (group->pipe_out && !group->redirect_output)
+	// {
+	// 	if (pipe(group->pipe_fd))
+	// 	{
+	// 		perror("pipe error");
+	// 		exit(1);
+	// 	}
+	// 	// close(group->pipe_fd[READ]);
+	// 	dup_fd(group->pipe_fd[WRITE], 1);
+	// 	// close(group->pipe_fd[WRITE]);
+	// 	printf("pipe out\n");
+	// 	if(++temp)
+	// 	{
+	// 		temp->pipe_fd_in[READ] = group->pipe_fd[READ];
+	// 		temp->pipe_fd_in[WRITE] = group->pipe_fd[WRITE];
+	// 	}
+	// }
