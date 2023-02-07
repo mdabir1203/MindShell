@@ -100,9 +100,9 @@ void	exec_executables(t_group *group)
 
 	if (group->arguments) //CHILD
 	{
-		group->arguments[0] = "cat";
-		group->arguments[1] = "infile";
-		group->arguments[2] = NULL;
+		// group->arguments[0] = "cat";
+		// group->arguments[1] = "infile";
+		// group->arguments[2] = NULL;
 		//printf("executing: %s argument: %s\n", group->path, group->arguments[0]);
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{

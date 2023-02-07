@@ -118,6 +118,7 @@ void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 	if (pl->is_exe == 1)
 	{
 		// printf("is_exe %d\n", pl->is_exe);
+		i--; // change that a bit nicer
 		while (info->input_lexer[++i])
 		{
 			//printf("str: %s\n", info->input_lexer[i]);
