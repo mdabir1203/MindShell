@@ -16,6 +16,8 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
+struct s_info *g_info;
+
 //*********************************************************//
 //**                FLAGS                               **//
 
@@ -51,6 +53,7 @@
 # define ERR_CMD_NOT_FOUND 43
 # define ERR_MALLOC_ARRAY_ARGS 44
 # define ERR_WRONG_AMOUNT_QUOTATION_MARKS 45
+# define ERR_MALLOC_SPLIT_ONE 46
 
 //**                OTHER FLAGS                          **//
 
@@ -196,7 +199,7 @@ int	input_error_check(t_info *info, t_group *groups);
 //**** clean_up.c ****//
 
 void	clean_up_group_structs(t_info *info);
-void	clean_up_prompt(t_info *info);
+void	clean_up_prompt();
 void	clean_up_lexer(t_info *info);
 void	clean_up(int clean_up_code, t_info *info);
 
@@ -243,7 +246,7 @@ int		count_groups(t_info *info);
 
 //**** parser.c ****//
 
-void	parser(t_info *info);
+int		parser(t_info *info);
 
 void	test_env_vars(t_info *info);
 

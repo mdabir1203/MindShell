@@ -161,7 +161,7 @@ char *mal_copy(char * str)
  * @param array 
  * @param str 
  */
-void	fill_array(char **array, char *str)
+int	fill_array(char **array, char *str)
 {
 	int part_i = 0;
 	int part_len = 0;
@@ -180,7 +180,10 @@ void	fill_array(char **array, char *str)
 			buf = after_word(str, &part_len);
 		array[part_i] = malloc(sizeof(char) * (part_len + 1));
 		if (array[part_i] == NULL)
+		{
 			error(ERR_MALLOC_SPLIT, NULL); // ATTENTION!!!!!!!!  have to hand over info, or info will be a global
+			return (0);
+		}
 		array[part_i][part_len] = '\0';
 		i = -1;
 		while (++i < part_len)
@@ -188,6 +191,7 @@ void	fill_array(char **array, char *str)
 		str = buf;
 		part_i++;
 	}
+	return (1);
 }
 
 /**
@@ -240,12 +244,20 @@ char	**ft_split_lexer(char *str)
 	if(str == NULL || *str == 0) // maybe return a double pointer with malloced space -> better to handle in clean_up?
 		return NULL;
 	if(!correct_amount_of_quot_marks(str))
-		printf("quote marks wrong\n"); //delete
-		//error(ERR_WRONG_AMOUNT_QUOTATION_MARKS); //info and return NULL?
+	{
+		error(ERR_WRONG_AMOUNT_QUOTATION_MARKS, NULL); //info and return NULL?
+		return (NULL);
+	}
 	word_count = count_parts(str);
 	array = malloc((sizeof(char *) * (word_count + 1)));
+	if (!array)
+	{
+		error(ERR_MALLOC_SPLIT_ONE, NULL);
+		return (NULL);
+	}
 	array[word_count] = 0;
-	fill_array(array, str);
+	if (!fill_array(array, str))
+		return (NULL);
 	return (array);
 }
 

@@ -43,7 +43,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv[1])
 		return (1);
 	ft_signal(sa);
-	info = init(envp);
+	g_info = init(envp);
+	info = g_info;
 	if(info->prompt)
 		printf("prompt"); //to silence the warning
 	printf("Welcome to the minishell!\n");
@@ -53,7 +54,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 			clean_up(CTRL_D_PRESSED, NULL); // ATTENTION, hand over info somehow !!!
-		parser(info);
+		if (!parser(info))
+			continue;
 		//executer(info->groups);
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 	}

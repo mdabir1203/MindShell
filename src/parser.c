@@ -21,7 +21,7 @@
  * 
  * @param info 
  */
-void	parser(t_info *info) // after lexer.. groups and make space for ptr to group structs and group structs and clean_up
+int	parser(t_info *info) // after lexer.. groups and make space for ptr to group structs and group structs and clean_up
 {
 	t_parse_lexer a;
 	t_parse_lexer *pl;
@@ -34,6 +34,8 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	add_history(info->prompt);
 
 	info->input_lexer = ft_split_lexer(info->prompt);
+	if (!info->input_lexer)
+		return (0);
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
 	while (++i < info->num_groups)
@@ -74,4 +76,5 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 	p2d(info->input_lexer);
 	
 	print_groups(info->groups, info); // möglich <> ??
+	return (1);
 }
