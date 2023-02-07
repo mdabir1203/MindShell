@@ -2,14 +2,21 @@
 
 int	sep(char c)
 {
-	if(c == ' ' || c == '\t' || c == '\n')
+	if (c == ' ' || c == '\t' || c == '\n')
 		return (1);
 	return (0);
 }
 
 int	red(char c)
 {
-	if(c == '<' || c == '>')
+	if (c == '<' || c == '>')
+		return (1);
+	return (0);
+}
+
+int quote(char c)
+{
+	if (c == '\"' || c == '\'')
 		return (1);
 	return (0);
 }
@@ -43,17 +50,50 @@ char	*after_sep(char *str, int *buf)
 		*buf = i;
 	return (str);
 }    
+char	*after_word(char *str, int *buf);
 
-char	*after_word(char *str, int *buf)
+char	*after_quote(char *str, int *buf)
 {
-	int i = 0;
-	while(!sep(*str) && !red(*str) && *str != '\0')
+	int i;
+	int i_word = 0;
+	char start_quote;
+
+	start_quote = *str;
+	i = 1;
+	str++;
+	while(*str != start_quote)
 	{
 		i++;
 		str++;
 	}
+	i++;
+	str++;
+	if (!sep(*str) && !red(*str) && *str != '\0')
+		str = after_word(str, &i_word);
 	if (buf)
-		*buf = i;
+		*buf = i + i_word;
+	return (str);
+}
+
+char	*after_word(char *str, int *buf)
+{
+	int i;
+	int i_quote;
+
+	i = 0;
+	i_quote = 0;
+	while(!sep(*str) && !red(*str) && *str != '\0') // test if o"hallo <outf"ile // test in bash "hallo<outfile"<outfile
+	{
+		if (quote(*str))
+			str = after_quote(str, &i_quote);
+		else
+		{
+			i++;
+			str++;
+		}
+	}
+	if (buf)
+		*buf = i + i_quote;
 	return (str);
 }
 
@@ -72,12 +112,17 @@ int	count_parts(char *str)
 			i++;
 			str = after_sep(str, NULL);
 		}
-		if(red(*str))
+		else if(red(*str))
 		{
 			i++;
 			str = after_red(str, NULL);
 		}
-		if(!sep(*str) && !red(*str))
+		else if(quote(*str))
+		{
+			i++;
+			str = after_quote(str, NULL);
+		}
+		else// if(!sep(*str) && !red(*str)) // you can write an else
 		{
 			i++;
 			str = after_word(str, NULL);
@@ -103,6 +148,19 @@ char *mal_copy(char * str)
 	return (word);
 }		
 
+/**
+ * @brief runs though string and saves the parts into array[i].
+ * gets with the subfuncs after_.... the amount of characters
+ * in the next part and saves the value in part_len. buf points 
+ * to the char after the part. 
+ * Mallocs memory with part_len + 1 and saves the ptr in array[]
+ * puts at the end of the new memory a \0
+ * copies the chars of the part into the new memory. Sets str to
+ * the char after the part. 
+ * 
+ * @param array 
+ * @param str 
+ */
 void	fill_array(char **array, char *str)
 {
 	int part_i = 0;
@@ -116,7 +174,9 @@ void	fill_array(char **array, char *str)
 			buf = after_sep(str, &part_len);
 		else if(red(*str))
 			buf = after_red(str, &part_len);
-		else if(!sep(*str) && !red(*str))
+		else if(quote(*str))
+			buf = after_quote(str, &part_len);
+		else if(!sep(*str) && !red(*str)) // you can write else?
 			buf = after_word(str, &part_len);
 		array[part_i] = malloc(sizeof(char) * (part_len + 1));
 		if (array[part_i] == NULL)
@@ -147,17 +207,27 @@ int	correct_amount_of_quot_marks(char *str)
 
 	double_quote = 0;
 	single_quote = 0;
-	while (str)
+	while (*str)
 	{
-		if (str == '"')
+		if (*str == '\"' && !single_quote)
 		{
 			if (double_quote == 0)
 				double_quote = 1;
-			if (double_quote == 1)
+			else
 				double_quote = 0;
+		}
+		else if (*str == '\'' && !double_quote)
+		{
+			if (single_quote == 0)
+				single_quote = 1;
+			else
+				single_quote = 0;
 		}
 		str++;
 	}
+	if (double_quote == 0 && single_quote == 0)
+		return (1);
+	return (0);
 }
 
 char	**ft_split_lexer(char *str)
@@ -169,6 +239,9 @@ char	**ft_split_lexer(char *str)
 
 	if(str == NULL || *str == 0) // maybe return a double pointer with malloced space -> better to handle in clean_up?
 		return NULL;
+	if(!correct_amount_of_quot_marks(str))
+		printf("quote marks wrong\n"); //delete
+		//error(ERR_WRONG_AMOUNT_QUOTATION_MARKS); //info and return NULL?
 	word_count = count_parts(str);
 	array = malloc((sizeof(char *) * (word_count + 1)));
 	array[word_count] = 0;

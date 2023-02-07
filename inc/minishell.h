@@ -50,6 +50,7 @@
 # define ERR_MALLOC_INIT_GROUPS 42
 # define ERR_CMD_NOT_FOUND 43
 # define ERR_MALLOC_ARRAY_ARGS 44
+# define ERR_WRONG_AMOUNT_QUOTATION_MARKS 45
 
 //**                OTHER FLAGS                          **//
 
