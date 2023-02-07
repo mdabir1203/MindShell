@@ -124,11 +124,11 @@ typedef struct s_info
  * group[0].arguments: {"echo", "-n", "Hallo", "du", NULL}
  * group[0].path: NULL -> we shall code echo ourselfs, so no path to the executable
  * group[0].builtin: 31 -> CMD_ECHO is defined to 31, see line 38 in this Headerfile
- * group[0].redirect_input: 4 -> REDIR_INPUT is defined to 4, see line 24 in this file
- * group[0].redirect_input_filename: "infile_2" -> only the last redirect 
+ * group[0].redir_in: 4 -> REDIR_INPUT is defined to 4, see line 24 in this file
+ * group[0].redir_infile: "infile_2" -> only the last redirect 
  * in the category input will be saved. The redirect from infile will be ignored.
- * group[0].redirect_output: 6 -> # define REDIR_OUTPUT_APPEND 6
- * group[0].redirect_output_filename: "outfile"
+ * group[0].redir_out: 6 -> # define REDIR_OUTPUT_APPEND 6
+ * group[0].redir_outfile: "outfile"
  * group[0].pipe_in: 0
  * group[0].pipe_out: 1
  * *pipe_fd_in, *pipe_fd_out, pid: will be later used in the executer
@@ -137,8 +137,8 @@ typedef struct s_info
  * group[1].arguments: {"cat", NULL}
  * group[1].path: "usr/bin/cat" -> the path will be something like this (including the executable)
  * group[1].builtin: 0
- * group[1].redirect_output: 5 -> # define REDIR_OUTPUT 5
- * group[1].redirect_output_filename: "out_2"
+ * group[1].redir_out: 5 -> # define REDIR_OUTPUT 5
+ * group[1].redir_outfile: "out_2"
  * group[1].pipe_in: 1
  * 
  */
@@ -147,10 +147,10 @@ typedef struct s_group
 	char	**arguments;
 	char	*path;
 	int		builtin;
-	int		redirect_input;
-	char 	*redirect_input_filename;
-	int		redirect_output;
-	char 	*redirect_output_filename;
+	int		redir_in;
+	char 	*redir_infile;
+	int		redir_out;
+	char 	*redir_outfile;
 	int		pipe_in;
 	int		pipe_out;
 	int		pipe_fd[2];

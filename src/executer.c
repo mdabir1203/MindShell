@@ -25,14 +25,14 @@ void	dup_fd(int	fd_new, int fd_old)
 }
 
 /*Open an infile when "<infile" is present and overwrites STDIN*/
-int	open_infile(t_group *group)
+int	redir_in(t_group *group)
 {
-	if ( group->redirect_input == REDIR_INPUT || group->redirect_input == REDIR_INPUT_APPEND)
+	if (group->redir_in == REDIR_INPUT || group->redir_in == REDIR_INPUT_APPEND)
 	{
-		if (group->redirect_input == REDIR_INPUT)
-			group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
+		if (group->redir_in == REDIR_INPUT)
+			group->pipe_in = open(group->redir_infile, O_RDONLY);
 		else
-			group->pipe_in = open(group->redirect_input_filename, O_RDONLY);
+			group->pipe_in = open(group->redir_infile, O_RDONLY);
 		if (group->pipe_in < 0)
 		{
 			perror("open_infile() cannot open file");
@@ -40,22 +40,19 @@ int	open_infile(t_group *group)
 		}
 		return (1);
 	}
+	dup2(group->pipe_in, 0);
 	return (0);
 }
 
 /*Makes a pipe and overwrites STDOU with write end, so execve outputs to pipe instead of STDOUT*/
-int	open_outfile(t_group *group)
+int	redir_out(t_group *group)
 {
-	int temp;
-
-	temp = 0;
-	if ( group->redirect_output == REDIR_OUTPUT || group->redirect_output == REDIR_OUTPUT_APPEND)
+	if ( group->redir_out == REDIR_OUTPUT || group->redir_out == REDIR_OUTPUT_APPEND)
 	{
-		if (group->redirect_output == REDIR_OUTPUT)
-			group->pipe_fd[WRITE] = open(group->redirect_output_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (group->redir_out == REDIR_OUTPUT)
+			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else
-			group->pipe_fd[WRITE] = open(group->redirect_output_filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		dup_fd(group->pipe_fd[WRITE], 1);
+			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->pipe_fd[WRITE] < 0)
 		{
 			perror("could not open outfile");
@@ -63,6 +60,7 @@ int	open_outfile(t_group *group)
 		}
 		return (1);
 	}
+	dup_fd(group->redir_out, 1);
 	return (0);
 }
 
@@ -102,7 +100,10 @@ void	exec_executables(t_group *group)
 
 	if (group->arguments) //CHILD
 	{
-		printf("executing: %s argument: %s\n", group->path, group->arguments[0]);
+		group->arguments[0] = "cat";
+		group->arguments[1] = "infile";
+		group->arguments[2] = NULL;
+		//printf("executing: %s argument: %s\n", group->path, group->arguments[0]);
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
 			//clean up all structs..??
@@ -112,6 +113,7 @@ void	exec_executables(t_group *group)
 	}
 	else
 		waitpid(group->pid, &status, 0);
+	printf("after waitpid id: %d\n", group->pid);
 }
 
 int	builtins(t_group *group)
@@ -134,30 +136,19 @@ void	executer(t_group	*group)
 	print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		printf("bla\n");
-		printf("test: %s\n", group[i].arguments[0]);
-		if (group[i].pipe_out && !group[i + 1].redirect_input)
-			make_pipe(&group[i]);
-		//if pipe and no commands then 
-		
-	printf("after loop\n");
+		if (group->redir_in) //pipein is higher priority than redirect input
+			redir_in(group);
+		if (group->redir_out)
+			redir_out(group);
+		if(group->path)
+			exec_executables(group);
+		// else
+		// 	builtins(group);
+		// if (group[i].pipe_out && !group[i + 1].redir_in)
+		// 	make_pipe(&group[i]);
+		printf("after executer cycle\n");
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //  make_pipe
@@ -178,7 +169,7 @@ void	executer(t_group	*group)
 	// 		exit(2);
 	// 	}
 	// }
-	// if (group->pipe_out && !group->redirect_output)
+	// if (group->pipe_out && !group->redir_out)
 	// {
 	// 	if (pipe(group->pipe_fd))
 	// 	{

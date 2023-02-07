@@ -29,13 +29,13 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_s
 	{
 		ret = 1;
 		before_cat = pl->cat;
-		info->groups[pl->act_group].redirect_input = pl->cat;
+		info->groups[pl->act_group].redir_in = pl->cat;
 	}
 	if (pl->cat == REDIR_OUTPUT_APPEND || pl->cat == REDIR_OUTPUT)
 	{
 		ret = 1;
 		before_cat = pl->cat;
-		info->groups[pl->act_group].redirect_output = pl->cat;
+		info->groups[pl->act_group].redir_out = pl->cat;
 	}
 	if (pl->cat == SEPARATOR && is_redirect(before_cat))
 		ret = 1;
@@ -45,9 +45,9 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_s
 		{
 			ret = 1;
 			if (before_cat == REDIR_INPUT_APPEND || before_cat == REDIR_INPUT)
-				info->groups[pl->act_group].redirect_input_filename = act_input_lexer_str;
+				info->groups[pl->act_group].redir_infile = act_input_lexer_str;
 			if (before_cat == REDIR_OUTPUT_APPEND || before_cat == REDIR_OUTPUT)
-				info->groups[pl->act_group].redirect_output_filename = act_input_lexer_str;
+				info->groups[pl->act_group].redir_outfile = act_input_lexer_str;
 			before_cat = 0;
 		}
 	}

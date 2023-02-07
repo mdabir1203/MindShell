@@ -59,14 +59,14 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 		groups[i].arguments = NULL;
 		groups[i].path = NULL;
 		groups[i].builtin = 0;
-		groups[i].redirect_input = 0;
-		groups[i].redirect_input_filename = NULL;
-		groups[i].redirect_output = 0;
-		groups[i].redirect_output_filename = NULL;
+		groups[i].redir_in = 0;
+		groups[i].redir_infile = NULL;
+		groups[i].redir_out = 0;
+		groups[i].redir_outfile = NULL;
 		groups[i].pipe_in = 0;
 		groups[i].pipe_out = 0;
 		groups[i].info = info;
 	}
-	printf("ptr %d\n",  groups[0].redirect_output);
+	printf("ptr %d\n",  groups[0].redir_out);
 	return (groups);
 }

@@ -13,7 +13,7 @@ int	input_error_check(t_info *info, t_group *groups)
 		input_message(EXIT_ERROR_1, 0);
 		return (0);
 	}
-	if (groups[0].redirect_input == REDIR_INPUT)
+	if (groups[0].redir_in == REDIR_INPUT)
 	{
 			input_message(REDIRECT_ERROR_1, 0);
 			return (0);
