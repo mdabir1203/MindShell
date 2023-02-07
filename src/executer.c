@@ -100,7 +100,7 @@ void	exec_executables(t_group *group)
 {
 	int status;
 
-	if (group->pipe) //CHILD
+	if (group->arguments) //CHILD
 	{
 		printf("executing: %s argument: %s\n", group->path, group->arguments[0]);
 		if (execve(group->path, group->arguments, NULL) == -1)
@@ -134,20 +134,13 @@ void	executer(t_group	*group)
 	print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		//printf("group argument 1: %s\n", group->arguments[0]);
-		pipe = make_pipe(group);
-		printf("HERE\n");
-		//open_infile(group) && !open_outfile(group))
-		if (!builtins(group))
-			if (group->path)
-				exec_executables(group);
-		printf("END OF LOOP\n");
-		if (i + 1 < group->info->num_groups)
-			group++;
-		else
-			break;
-	}
-	printf("after waitpid\n");
+		printf("bla\n");
+		printf("test: %s\n", group[i].arguments[0]);
+		if (group[i].pipe_out && !group[i + 1].redirect_input)
+			make_pipe(&group[i]);
+		//if pipe and no commands then 
+		
+	printf("after loop\n");
 }
 
 
