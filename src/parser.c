@@ -71,5 +71,5 @@ void	parser(t_info *info) // after lexer.. groups and make space for ptr to grou
 		//printf("break failed\n");
 		//printf("cat1 %d\n", pl->cat);
 	}
-	//print_groups(info->groups, info); // möglich <> ??
+	print_groups(info->groups, info); // möglich <> ??
 }

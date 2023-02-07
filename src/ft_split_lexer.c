@@ -57,6 +57,10 @@ char	*after_word(char *str, int *buf)
 	return (str);
 }
 
+/**
+ * @brief shall count how many character, separator, 
+ * redirect, etc. parts we have
+ */
 int	count_parts(char *str)
 {
 	int i = 0;
@@ -123,6 +127,36 @@ void	fill_array(char **array, char *str)
 			array[part_i][i] = str[i];
 		str = buf;
 		part_i++;
+	}
+}
+
+/**
+ * @brief counts amount of quotation marks ("" and '')
+ * "skdhfjh skjdhf" -> return 1
+ * "skdhfjh skjdhf -> return 0
+ * "skdhfjh ' skjdhf" -> return 1 ' is inside " ", that's ok
+ * 
+ * 
+ * 
+ * @returns 1 if the amount is correct
+ */
+int	correct_amount_of_quot_marks(char *str)
+{
+	int	double_quote;
+	int	single_quote;
+
+	double_quote = 0;
+	single_quote = 0;
+	while (str)
+	{
+		if (str == '"')
+		{
+			if (double_quote == 0)
+				double_quote = 1;
+			if (double_quote == 1)
+				double_quote = 0;
+		}
+		str++;
 	}
 }
 
