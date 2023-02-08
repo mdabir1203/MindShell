@@ -142,10 +142,19 @@ void	executer(t_group	*group)
 			redir_out(group);
 		if(group->path)
 			exec_executables(group);
+		
 		// else
 		// 	builtins(group);
 		// if (group[i].pipe_out && !group[i + 1].redir_in)
 		// 	make_pipe(&group[i]);
+		// if (group->pipe_in)
+		// 	close(group->pipe_in);
+		// 	if (group->pipe_out)
+		// 		close(group->pipe_out);
+		if (group->redir_in)
+			close(group->redir_in);
+		if (group->redir_out)
+			close(group->redir_out);
 		printf("after executer cycle\n");
 	}
 }
