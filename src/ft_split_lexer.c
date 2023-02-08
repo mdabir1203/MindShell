@@ -21,6 +21,13 @@ int quote(char c)
 	return (0);
 }
 
+int pipesign(char c)
+{
+	if (c == '|')
+		return (1);
+	return (0);
+}
+
 /**
  * @brief returns ptr to place after the redirect signs
  * saves num of signs in buf if buf is not NULL
@@ -49,7 +56,15 @@ char	*after_sep(char *str, int *buf)
 	if (buf)
 		*buf = i;
 	return (str);
-}    
+}
+
+char	*after_pipe(char *str, int *buf)
+{
+	if (buf)
+		*buf = 1;
+	return (++str);
+}
+
 char	*after_word(char *str, int *buf);
 
 char	*after_quote(char *str, int *buf)
@@ -82,7 +97,7 @@ char	*after_word(char *str, int *buf)
 
 	i = 0;
 	i_quote = 0;
-	while(!sep(*str) && !red(*str) && *str != '\0') // test if o"hallo <outf"ile // test in bash "hallo<outfile"<outfile
+	while(!sep(*str) && !red(*str) && !pipesign(*str) && *str != '\0') // test if o"hallo <outf"ile // test in bash "hallo<outfile"<outfile
 	{
 		if (quote(*str))
 			str = after_quote(str, &i_quote);
@@ -108,45 +123,36 @@ int	count_parts(char *str)
 	while(*str != '\0')
 	{
 		if(sep(*str))
-		{
-			i++;
 			str = after_sep(str, NULL);
-		}
 		else if(red(*str))
-		{
-			i++;
 			str = after_red(str, NULL);
-		}
 		else if(quote(*str))
-		{
-			i++;
 			str = after_quote(str, NULL);
-		}
+		else if(pipesign(*str))
+			str = after_pipe(str, NULL);
 		else// if(!sep(*str) && !red(*str)) // you can write an else
-		{
-			i++;
 			str = after_word(str, NULL);
-		}
+		i++;
 	}
 	return (i);
 }
 
-char *mal_copy(char * str)
-{
-	int word_len = 0;
-	char *word;
-	int i = 0;
+// char *mal_copy(char * str)
+// {
+// 	int word_len = 0;
+// 	char *word;
+// 	int i = 0;
 
-	after_word(str, &word_len);
-	word = malloc(sizeof(char) * (word_len + 1));
-	word[word_len] = '\0';
-	while (i < word_len)
-	{
-		word[i] = str[i];
-		i++;
-	}
-	return (word);
-}		
+// 	after_word(str, &word_len);
+// 	word = malloc(sizeof(char) * (word_len + 1));
+// 	word[word_len] = '\0';
+// 	while (i < word_len)
+// 	{
+// 		word[i] = str[i];
+// 		i++;
+// 	}
+// 	return (word);
+// }		
 
 /**
  * @brief runs though string and saves the parts into array[i].
@@ -170,19 +176,21 @@ int	fill_array(char **array, char *str)
 
 	while(*str)
 	{
-		if(sep(*str)) // evtl in a separate func
+		if (sep(*str))
 			buf = after_sep(str, &part_len);
-		else if(red(*str))
+		else if (red(*str))
 			buf = after_red(str, &part_len);
-		else if(quote(*str))
+		else if (quote(*str))
 			buf = after_quote(str, &part_len);
-		else if(!sep(*str) && !red(*str)) // you can write else?
+		else if (pipesign(*str))
+			buf = after_pipe(str, &part_len);
+		else
 			buf = after_word(str, &part_len);
 		array[part_i] = malloc(sizeof(char) * (part_len + 1));
 		if (array[part_i] == NULL)
 		{
-			error(ERR_MALLOC_SPLIT, NULL); // ATTENTION!!!!!!!!  have to hand over info, or info will be a global
-			return (0);
+			return (!error(ERR_MALLOC_SPLIT, NULL)); // ATTENTION!!!!!!!!  have to hand over info, or info will be a global
+			//return (0);
 		}
 		array[part_i][part_len] = '\0';
 		i = -1;
