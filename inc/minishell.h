@@ -220,6 +220,10 @@ void	ft_echo(char	**args);
 
 void	ft_exit(t_info *info);
 
+//**** ft_export.c ****//
+
+int	ft_export();
+
 //**** ft_split_lexer.c ****//
 
 int	count_parts(char *str);

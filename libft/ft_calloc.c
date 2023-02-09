@@ -1,5 +1,8 @@
 #include "libft.h"
 
+/**
+ * @brief mallocs count * size no extra zero at the end
+ */
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*ptr;

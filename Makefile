@@ -16,7 +16,8 @@ SRCS =	src/main.c \
 	src/categorize.c \
 	src/parser.c \
 	src/parser_utils.c \
-	src/executer.c
+	src/executer.c \
+	src/ft_export.c
 	
 
 OBJS =	$(SRCS:.c=.o)
@@ -25,7 +26,7 @@ LIBFTDIR = ./libft/
 
 LIBFT = libft.a
 
-CFLAGS = -Werror -Wextra -g #-Wall 
+CFLAGS =  -Wextra -g -Wall #-Werror
 
 all: libft_make $(NAME)
 
