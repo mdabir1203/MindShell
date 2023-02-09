@@ -54,6 +54,7 @@ struct s_info *g_info;
 # define ERR_MALLOC_ARRAY_ARGS 44
 # define ERR_WRONG_AMOUNT_QUOTATION_MARKS 45
 # define ERR_MALLOC_SPLIT_ONE 46
+# define ERR_NO_EQUAL_IN_EXPORT_ARG 47
 
 //**                OTHER FLAGS                          **//
 

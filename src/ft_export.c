@@ -74,6 +74,7 @@ void populate_var(char *str, char *arg)
 		i++;
 	}
 }
+
 void populate_cont(char *str, char *arg)
 {
 	int i;
@@ -87,6 +88,31 @@ void populate_cont(char *str, char *arg)
 	{
 		str[++j] = arg[i];
 	}
+}
+
+/**
+ * @brief start at i = 0 because first argument is export
+ */
+int	error_check(char **args)
+{
+	int equal_flag;
+	int i;
+	int j;
+
+	i = 0;
+	while (args[++i])
+	{
+		equal_flag = 0;
+		j = -1;
+		while (args[i][++j])
+		{
+			if (args[i][j] == '=')
+				equal_flag = 1;
+		}
+		if (equal_flag == 0)
+			return (1);
+	}
+	return (0);
 }
 
 /**
@@ -111,14 +137,17 @@ void populate_cont(char *str, char *arg)
  * 		
  * @return 0
  */
-int	ft_export(char **args)
+int	ft_export(char **args) // export sjkdfh without = sign??
 {
 	int	num_new_args;
 	char	***env_buf;
 	int	i;
 
 	num_new_args = num_args(args);
-	//error prüfen args
+	if (num_new_args == 0)	
+		return (0);
+	if (error_check(args))
+		return (error(ERR_NO_EQUAL_IN_EXPORT_ARG, NULL));
 	i = 0;
 	env_buf = g_info->env;
 	g_info->env = ft_calloc((num_env_args(g_info->env) + num_new_args + 1), sizeof(char *));

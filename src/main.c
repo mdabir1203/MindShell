@@ -57,7 +57,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!parser(info))
 			continue;
 		//executer(info->groups);
-		ft_export(info->groups[0].arguments); // for testing 
+		ft_export(info->groups[0].arguments); // for testing
+		test_env_vars(g_info);
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 	}
 	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);

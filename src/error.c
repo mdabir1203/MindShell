@@ -49,6 +49,10 @@ int	error(int err, t_info *info)
 	{
 		printf("Wrong amount of quotation marks\n");
 	}
+	if (err == ERR_NO_EQUAL_IN_EXPORT_ARG)
+	{
+		printf("No '=' sign in export argument\n");
+	}
 	clean_up(err, info);
 	return (1);
 	//return(0);
