@@ -124,6 +124,7 @@ int	builtins(t_group *group)
 		ft_echo(group->arguments);
 		return (1);
 	}
+	return (0); // is that ok Nick?
 }
 
 void	executer(t_group	*group)
