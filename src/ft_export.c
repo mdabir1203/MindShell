@@ -96,7 +96,7 @@ void populate_cont(char *str, char *arg)
  * @returns 0 if everything is ok, 1 if at least one arg has no '=',
  * besides the first one (that is "export")
  */
-int	error_check(char **args)
+int	error_check_export(char **args)
 {
 	int equal_flag; 
 	int i;
@@ -149,7 +149,7 @@ int	ft_export(char **args) // export sjkdfh without = sign??
 	num_new_args = num_args(args);
 	if (num_new_args == 0)	
 		return (0);
-	if (error_check(args))
+	if (error_check_export(args))
 		return (error(ERR_NO_EQUAL_IN_EXPORT_ARG, NULL));
 	i = 0;
 	env_buf = g_info->env;
