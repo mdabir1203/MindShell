@@ -55,6 +55,7 @@ struct s_info *g_info;
 # define ERR_WRONG_AMOUNT_QUOTATION_MARKS 45
 # define ERR_MALLOC_SPLIT_ONE 46
 # define ERR_NO_EQUAL_IN_EXPORT_ARG 47
+# define ERR_EQUAL_IN_UNSET_ARG 48
 
 //**                OTHER FLAGS                          **//
 
@@ -223,7 +224,12 @@ void	ft_exit(t_info *info);
 
 //**** ft_export.c ****//
 
-int	ft_export();
+int	num_env_args(char ***args);
+int	ft_export(char **args);
+
+//**** ft_unset.c ****//
+
+int	ft_unset(char **args);
 
 //**** ft_split_lexer.c ****//
 

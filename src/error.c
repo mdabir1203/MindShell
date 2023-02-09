@@ -53,6 +53,10 @@ int	error(int err, t_info *info)
 	{
 		printf("No '=' sign in export argument\n");
 	}
+	if (err == ERR_EQUAL_IN_UNSET_ARG)
+	{
+		printf("Not a valid identifier\n");
+	}
 	clean_up(err, info);
 	return (1);
 	//return(0);

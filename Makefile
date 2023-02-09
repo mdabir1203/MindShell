@@ -17,7 +17,9 @@ SRCS =	src/main.c \
 	src/parser.c \
 	src/parser_utils.c \
 	src/executer.c \
-	src/ft_export.c
+	src/ft_export.c \
+	src/ft_unset.c \
+	
 	
 
 OBJS =	$(SRCS:.c=.o)

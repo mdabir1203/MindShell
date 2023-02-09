@@ -91,11 +91,14 @@ void populate_cont(char *str, char *arg)
 }
 
 /**
- * @brief start at i = 0 because first argument is export
+ * @brief looks for a '=' sign in every argument
+ * start at i = 0 because first argument is export
+ * @returns 0 if everything is ok, 1 if at least one arg has no '=',
+ * besides the first one (that is "export")
  */
 int	error_check(char **args)
 {
-	int equal_flag;
+	int equal_flag; 
 	int i;
 	int j;
 
@@ -171,6 +174,5 @@ int	ft_export(char **args) // export sjkdfh without = sign??
 		args++;
 		i++;
 	}
-	test_env_vars(g_info);
 	return (0);
 }
