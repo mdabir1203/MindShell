@@ -168,7 +168,8 @@ void	executer(t_group	*group)
 		// 	close(group->redir_in);
 		// if (group->redir_out)
 		// 	close(group->redir_out);
-		group++;
+		if (i < group->info->num_groups - 1)
+			group++;
 	}
 }
 
