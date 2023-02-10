@@ -36,20 +36,20 @@ void	print_groups(t_group *groups, t_info *info)
 	while (++i < info->num_groups)
 	{
 		j = -1;
-		printf("\n\t\t\t\tGROUP %d\n", i);
+		printf("GROUP %d\n", i);
 		while (groups[i].arguments[++j])
 			printf("\targument %d:\t_%s_\n", j, groups[i].arguments[j]);
 		printf("\targument %d:\t_%s_\n", j, groups[i].arguments[j]);
-		printf("path: \t\t\t\t_%s_\n", groups[i].path);
-		printf("builtin: \t\t\t_%d_\n", groups[i].builtin);
+		printf("path: \t\t\t_%s_\n", groups[i].path);
+		printf("builtin: \t\t_%d_\n", groups[i].builtin);
 		printf("redir_in: \t\t_%d_\n", groups[i].redir_in);
 		printf("redir_infile: \t_%s_\n", groups[i].redir_infile);
 		printf("redir_out: \t\t_%d_\n", groups[i].redir_out);
 		printf("redir_outfile:\t_%s_\n", groups[i].redir_outfile);
 		// printf("argument_filename\t_%s_\n\n", groups[i].argument_filename);
 		printf("pipe_in: \t\t_%d_\n", groups[i].pipe_in);
-		printf("pipe_out: \t\t_%d_\n\n", groups[i].pipe_out);
-		printf("\n");
+		printf("pipe_out: \t\t_%d_\n", groups[i].pipe_out);
 	}
+	printf("----------------------------------------\n");
 	// printf("Last group pointer %p\n", &groups[i]);
 }

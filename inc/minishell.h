@@ -160,6 +160,7 @@ typedef struct s_group
 	int		pipe_in;
 	int		pipe_out;
 	int		pipe_fd[2];
+	int		pipe_exec[2];
 	pid_t	pid;
 	t_info	*info;
 }	t_group;
