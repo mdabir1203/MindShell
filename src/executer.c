@@ -66,7 +66,7 @@ int	redir_out(t_group *group)
 	return (0);
 }
 
-int	make_pipe(t_group *group)
+void	make_pipe(t_group *group)
 {
 	//------------------pipe------------------
 	if(pipe(group->pipe_fd) == -1)
@@ -147,8 +147,6 @@ int	builtins(t_group *group)
 void	executer(t_group	*group)
 {
 	int i;
-	t_group *temp;
-	int pipe;
 	
 	i = -1;
 	print_groups(group, group->info);

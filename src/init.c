@@ -23,12 +23,10 @@ t_info	*init(char **envp)
 
 char **ft_array_args(char *str, t_info *info)
 {
-	int	i;
 	int	word_count;
 	char **array;
 
 	word_count = 0;
-	i = -1;
 	if(str == NULL || *str == 0)
 		return NULL;
 	word_count = count_parts(str);
