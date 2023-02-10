@@ -40,7 +40,6 @@ int	redir_in(t_group *group)
 		}
 		return (1);
 	}
-	dup2(group->pipe_in, 0);
 	return (0);
 }
 
@@ -50,7 +49,11 @@ int	redir_out(t_group *group)
 	if ( group->redir_out == REDIR_OUTPUT || group->redir_out == REDIR_OUTPUT_APPEND)
 	{
 		if (group->redir_out == REDIR_OUTPUT)
-			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		{
+			if (group->pipe_out && group)
+				group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+		}
 		else
 			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->pipe_fd[WRITE] < 0)
@@ -60,59 +63,73 @@ int	redir_out(t_group *group)
 		}
 		return (1);
 	}
-	dup_fd(group->redir_out, 1);
 	return (0);
 }
 
 int	make_pipe(t_group *group)
 {
-	int pipe_fd[2];
-
-	if(pipe(pipe_fd) == -1)
+	//------------------pipe------------------
+	if(pipe(group->pipe_fd) == -1)
 	{
 		perror("pipe error");
 		exit(1);
 	}
-	group->pid = fork();
-	printf("forked\n");
-	if (group->pid == -1)
-	{
-		perror("fork error");
-		exit(1);
-	}
-	else if (group->pid == 0) //CHILD
-	{
-		close(pipe_fd[WRITE]);
-		dup_fd(pipe_fd[READ], 0);
-		return (1);
-	}
-	else
-	{
-		close(pipe_fd[READ]);
-		dup_fd(pipe_fd[WRITE], 1);
-		return (2);
-	}
+}
+
+void	replace_pipe_in_next_group(t_group *group)
+{
+	t_group *temp;
+
+	temp = group;
+	temp++;
+	temp->pipe_in = group->pipe_fd[READ];
+	// printf("next argument = %s pipe in = %d\n", temp->arguments[0], temp->pipe_in);
+	// dup2(temp->pipe_in, 0);
+	// execve(temp->path, temp->arguments, NULL);
 }
 
 void	exec_executables(t_group *group)
 {
 	int status;
 
-	if (group->arguments) //CHILD
+	fork_process(group);
+	if (group->pid == 0)
 	{
-		// group->arguments[0] = "cat";
-		// group->arguments[1] = "infile";
-		// group->arguments[2] = NULL;
-		//printf("executing: %s argument: %s\n", group->path, group->arguments[0]);
+		//-------OUTPUT-------
+		if (group->redir_out)
+			dup_fd(group->redir_out, 1);
+		if (group->pipe_out)
+		{
+			close(group->pipe_fd[READ]);
+			dup_fd(group->pipe_fd[WRITE], 1); //dont it need a file?
+		}
+		//-------INPUT-------
+		if (group->redir_in)
+		{
+			dup_fd(group->redir_in, 0);
+			if (group->pipe_in)
+				close (group->pipe_in);
+		}
+		else if (group->pipe_in)
+		{
+			printf("found pipe in = %d argument[0] = %s\n", group->pipe_in, group->arguments[0]);
+			dup_fd(group->pipe_in, 0);
+		}
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
+			close(group->pipe_fd[READ]);
 			//clean up all structs..??
 			perror("exec didnt work\n");
 			exit(2);
 		}
 	}
 	else
+	{
+		close(group->pipe_fd[WRITE]);
+		if (group->pipe_out)
+			replace_pipe_in_next_group(group);
 		waitpid(group->pid, &status, 0);
+	}
 	printf("after waitpid id: %d\n", group->pid);
 }
 
@@ -129,33 +146,29 @@ int	builtins(t_group *group)
 void	executer(t_group	*group)
 {
 	int i;
-	int pipe;
 	t_group *temp;
+	int pipe;
 	
 	i = -1;
 	print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		if (group->redir_in) //pipein is higher priority than redirect input
+		if (group->redir_in)
 			redir_in(group);
 		if (group->redir_out)
 			redir_out(group);
+		if (group->pipe_out)
+			make_pipe(group);
 		if(group->path)
 			exec_executables(group);
-		
 		// else
 		// 	builtins(group);
-		// if (group[i].pipe_out && !group[i + 1].redir_in)
-		// 	make_pipe(&group[i]);
-		// if (group->pipe_in)
-		// 	close(group->pipe_in);
-		// 	if (group->pipe_out)
-		// 		close(group->pipe_out);
-		if (group->redir_in)
-			close(group->redir_in);
-		if (group->redir_out)
-			close(group->redir_out);
-		printf("after executer cycle\n");
+		
+		// if (group->redir_in)
+		// 	close(group->redir_in);
+		// if (group->redir_out)
+		// 	close(group->redir_out);
+		group++;
 	}
 }
 
