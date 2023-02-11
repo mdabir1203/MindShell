@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			clean_up(CTRL_D_PRESSED, NULL); // ATTENTION, hand over info somehow !!!
 		if (!parser(info))
 			continue;
-		//executer(info->groups);
+		executer(info->groups);
 		//ft_export(info->groups[0].arguments); // for testing
 		// ft_unset(info->groups[0].arguments); // for testing
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
