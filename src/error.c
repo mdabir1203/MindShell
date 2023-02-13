@@ -1,6 +1,9 @@
 
 #include "../inc/minishell.h"
 
+/**
+ * Correct spelling of commands is just for testing. Needs to be handled proper, later. 
+ */
 int	input_error_check(t_info *info, t_group *groups)
 {
 	if (!strncmp(info->input_lexer[0], "|", 2))
@@ -8,9 +11,9 @@ int	input_error_check(t_info *info, t_group *groups)
 		input_message(PIPE_ERROR_1, 0);
 		return (0);
 	}
-	if (!strncmp(info->input_lexer[0], "Exit", 5))	// several error messages appeal; tidy up!!!
+	if (!strncmp(info->input_lexer[0], "Exit", 5))
 	{
-		input_message(EXIT_ERROR_1, 0);
+		input_message(STR_WRITE_ERROR, 0);
 		return (0);
 	}
 	if (groups[0].redir_in == REDIR_INPUT)
@@ -18,12 +21,11 @@ int	input_error_check(t_info *info, t_group *groups)
 			input_message(REDIRECT_ERROR_1, 0);
 			return (0);
 	}
-	/*if (!strncmp(cmd[0], "Echo", 5))
+	if (!strncmp(info->input_lexer[0], "Echo", 5))
 	{
-        input_message(STR_LETTER_ERROR, 0);
-        //printf("Write 'echo'!\n");
-        return ;
-	}*/
+        input_message(STR_WRITE_ERROR, 0);
+        return (0);
+	}
 	return (1);
 }
 

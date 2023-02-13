@@ -5,14 +5,14 @@ void	ft_echo(char	**args, int pipe_out)
 {
 	int arg_j;
 
-	arg_j = -1;
-	while (args[++arg_j])
+	arg_j = 0;
+	while (args[++arg_j])	// starting from 1 as 0 is the command itself
 	{
-		ft_putstr_fd(args[arg_j + 1], 1);	// counting 
+		ft_putstr_fd(args[arg_j], 1);	// counting 
 		ft_putchar_fd(' ', 1);
 		//printf("arg_j %d", arg_j);
 	}
-	if (args[arg_j + 1] || !(pipe_out == 1))
+	if (args[arg_j] || !(pipe_out == 1))
 		ft_putchar_fd('\n', 1);
 }
 

@@ -67,12 +67,11 @@ struct s_info *g_info;
 
 # define STR_PROG_NAME "minishell:"
 # define ERROR "error\n"
-# define STR_LETTER_ERROR "Start command with a small letter!\n"
 # define STR_EXIT_MULTIPLE "Word exit is enough!\n"
 # define STR_EXIT_SUCCESSFULL "Exit successfull!\n"
 # define MALLOC_FAIL "While memory allocation\n"
 # define PIPE_ERROR_1 "-bash: syntax error near unexpected token `|'\n"
-# define EXIT_ERROR_1 "Exit: command not found\n"
+# define STR_WRITE_ERROR "Command not found\n"
 # define REDIRECT_ERROR_1 "-bash: [name]: No such file or directory\n"
 
 //**				pipes							**//
