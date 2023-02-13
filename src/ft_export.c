@@ -115,7 +115,7 @@ int	error_check_export(char **args)
 		if (equal_flag == 0)
 			return (1);
 	}
-	return (0);
+	return (0);		// we return 0 for error in paser and 1 for sucess
 }
 
 /**
