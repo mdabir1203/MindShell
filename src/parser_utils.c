@@ -257,7 +257,7 @@ void	delete_quotationmarks(char	**array)
 			buf = array[i][j];
 			if (!d_quote && buf == '\'')
 			{
-				shift_str_left(&array[i][j]);
+				shift_str_left(&array[i][j]); // the same with \", the rest li: 265 - 281 put in a function -> lexer uses that too
 				j--;
 
 			}
@@ -274,10 +274,11 @@ void	delete_quotationmarks(char	**array)
 			{
 				shift_str_left(&array[i][j]);
 				j--;
-				if (d_quote == 0)
-					d_quote = 1;
-				else
-					d_quote = 0;
+				d_quote = !d_quote;  // better
+				// if (d_quote == 0)
+				// 	d_quote = 1;
+				// else
+				// 	d_quote = 0;
 			}
 
 		}

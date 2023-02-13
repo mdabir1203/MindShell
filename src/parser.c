@@ -36,7 +36,8 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	info->input_lexer = ft_split_lexer(info->prompt);
 	if (!info->input_lexer)
 		return (0);
-	delete_quotationmarks(g_info->input_lexer);
+	//here comes expand_vars
+	delete_quotationmarks(g_info->input_lexer); //think if it shall be in the while loop
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
 	while (++i < info->num_groups)
@@ -44,8 +45,7 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	i = -1;
 	while (info->input_lexer[++i]) // Null at end of group
 	{
-
-		if (!strncmp(info->input_lexer[0], "exit", 5))
+		if (!strncmp(info->input_lexer[0], "exit", 5)) // check for leaks and segfault
 			ft_exit(info);
 		if (!ft_strncmp(info->input_lexer[i], "|", 2)) // we can use categorize here
 			pl->act_group++;				// this construct cannot handle a pipe as first argument in group 0

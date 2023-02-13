@@ -214,6 +214,13 @@ int input_message(char *str, int exit_no);
 
 int	error(int err, t_info *info);
 
+//**** executer.c ****//
+
+void	executer(t_group	*info);
+
+//**** expand_variables.c ****//
+
+void	expand_variables(char	**array);
 
 //**** ft_echo.c ****//
 
@@ -262,10 +269,6 @@ void	delete_quotationmarks(char	**array);
 int		parser(t_info *info);
 
 void	test_env_vars(t_info *info);
-
-//**** executer.c ****//
-
-void	executer(t_group	*info);
 
 //**** tests.c ****//
 

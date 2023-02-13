@@ -19,6 +19,7 @@ SRCS =	src/main.c \
 	src/executer.c \
 	src/ft_export.c \
 	src/ft_unset.c \
+	src/expand_variables.c \
 	
 	
 
