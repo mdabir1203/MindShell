@@ -217,7 +217,7 @@ int	error(int err, t_info *info);
 
 //**** ft_echo.c ****//
 
-void	ft_echo(char	**args);
+void	ft_echo(char	**args, int pipe_out);
 
 //**** ft_exit.c ****//
 

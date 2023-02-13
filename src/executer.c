@@ -137,8 +137,8 @@ int	builtins(t_group *group)
 {
 	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
 	{
-		// printf("executing echo\n");
-		ft_echo(group->arguments);
+		//printf("executing echo\n");
+		ft_echo(group->arguments, group->pipe_out);
 		return (1);
 	}
 	return (0); // is that ok Nick?
@@ -160,8 +160,8 @@ void	executer(t_group	*group)
 			make_pipe(group);
 		if(group->path)
 			exec_executables(group);
-		// else
-		// 	builtins(group);
+		//else
+		//	builtins(group);
 		
 		// if (group->redir_in)
 		// 	close(group->redir_in);
