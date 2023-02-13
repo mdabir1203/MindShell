@@ -255,6 +255,7 @@ int		found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexe
 void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i);
 void	pipe_detector(t_parse_lexer *pl, t_info *info);
 int		count_groups(t_info *info);
+void	delete_quotationmarks(char	**array);
 
 //**** parser.c ****//
 

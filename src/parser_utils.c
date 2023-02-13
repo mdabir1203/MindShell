@@ -227,3 +227,59 @@ int	count_groups(t_info *info)
 	}
 	return (num_groups);
 }
+
+
+void	shift_str_left(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		str[i] = str[i + 1];
+}
+
+void	delete_quotationmarks(char	**array)
+{
+	int i;
+	int j;
+	int d_quote;
+	int s_quote;
+	char buf;
+
+	i = -1;
+	d_quote = 0;
+	s_quote = 0;
+	while (array[++i])
+	{
+		j = -1;
+		while (array[i][++j])
+		{
+			buf = array[i][j];
+			if (!d_quote && buf == '\'')
+			{
+				shift_str_left(&array[i][j]);
+				j--;
+
+			}
+
+			if (!d_quote && buf == '\'')
+			{
+				
+				if (s_quote == 0)
+					s_quote = 1;
+				else
+					s_quote = 0;
+			}
+			else if (!s_quote && buf == '\"')
+			{
+				shift_str_left(&array[i][j]);
+				j--;
+				if (d_quote == 0)
+					d_quote = 1;
+				else
+					d_quote = 0;
+			}
+
+		}
+	}
+}
