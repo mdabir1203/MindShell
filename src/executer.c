@@ -173,7 +173,7 @@ void	executer(t_group	*group)
 		//pipe if no redirections and pipe out is present
 		if (group->pipe_out && !group->redir_out && !group->redir_in)
 			make_pipe(group); //maybe change pipe_in
-		printf("cycle befor exec: %d pipe in = %d\n", i, group->pipe_in);
+		printf("cycle befor exec:  %d path %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
 		if(group->path)
 			exec_executables(group);
 		// else
