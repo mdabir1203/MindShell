@@ -50,6 +50,8 @@ $(LIBFT):
 e:	all
 	./$(NAME)
 
+fds:	re
+	valgrind --track-fds=yes ./$(NAME)
 l:	all
 	leaks --atExit -- ./$(NAME)
 
