@@ -160,13 +160,14 @@ void	executer(t_group	*group)
 			exec_executables(group);
 		// else
 		// 	builtins(group);
-		//LAST CYCLE----------------------
+		//last cycle----------------------
 		if (i == group->info->num_groups - 1)
 		{
 			close(0);
 			close(1);
 			close(2);
 		}
+		//increment group pointer
 		if (i < group->info->num_groups - 1)
 			group++;
 	}
