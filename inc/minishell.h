@@ -16,8 +16,6 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
-struct s_info *g_info;
-
 //*********************************************************//
 //**                FLAGS                               **//
 
@@ -67,12 +65,11 @@ struct s_info *g_info;
 
 # define STR_PROG_NAME "minishell:"
 # define ERROR "error\n"
-# define STR_LETTER_ERROR "Start command with a small letter!\n"
 # define STR_EXIT_MULTIPLE "Word exit is enough!\n"
 # define STR_EXIT_SUCCESSFULL "Exit successfull!\n"
 # define MALLOC_FAIL "While memory allocation\n"
 # define PIPE_ERROR_1 "-bash: syntax error near unexpected token `|'\n"
-# define EXIT_ERROR_1 "Exit: command not found\n"
+# define STR_WRITE_ERROR "Command not found\n"
 # define REDIRECT_ERROR_1 "-bash: [name]: No such file or directory\n"
 
 //**				pipes							**//
@@ -214,14 +211,6 @@ int input_message(char *str, int exit_no);
 
 int	error(int err, t_info *info);
 
-//**** executer.c ****//
-
-void	executer(t_group	*info);
-
-//**** expand_variables.c ****//
-
-void	expand_variables(char	**array);
-
 //**** ft_echo.c ****//
 
 void	ft_echo(char	**args, int pipe_out);
@@ -233,16 +222,16 @@ void	ft_exit(t_info *info);
 //**** ft_export.c ****//
 
 int	num_env_args(char ***args);
-int	ft_export(char **args);
-
-//**** ft_unset.c ****//
-
-int	ft_unset(char **args);
+int	ft_export(char **args, t_info *info);
 
 //**** ft_split_lexer.c ****//
 
 int	count_parts(char *str);
 char	**ft_split_lexer(char *str);
+
+//**** ft_unset.c ****//
+
+int	ft_unset(char **args, t_info *info);
 
 //**** init.c ****//
 
