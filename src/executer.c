@@ -130,16 +130,16 @@ void	exec_executables(t_group *group)
 		waitpid(group->pid, &status, 0);
 		// if (group->pipe_out && !next_have_pipe_out(group))
 		// 	close(group->pipe_fd[WRITE]);
-		if (group->pipe_in)
-		 	close(group->pipe_fd[READ]);
+		// if (group->pipe_in)
+		//  	close(group->pipe_fd[READ]);
 		if (group->pipe_out)
 			close(group->pipe_fd[WRITE]);
-		if (group->pipe_in && !group->redir_in)
-			close(group->pipe_in);
+		// if (group->pipe_in && !group->redir_in)
+		// 	close(group->pipe_in);
 		//manual setting of pipe_in for next group
 		if (group->pipe_out && !group->redir_out)
 			replace_pipe_in_next_group(group, group->pipe_fd[READ]);
-		if (group->pipe_out && group->redir_out)
+		else if (group->pipe_out && group->redir_out)
 			replace_pipe_in_next_group(group, 0);
 	}
 	printf("after waitpid id: %d\n", group->pid);
@@ -182,7 +182,7 @@ void	executer(t_group	*group)
 		if (i < group->info->num_groups - 1) //increment group pointer
 			group++;
 	}
-	close(0);
-	close(1);
-	close(2);
+	// close(0);
+	// close(1);
+	// close(2);
 }
