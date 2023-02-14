@@ -130,9 +130,12 @@ void	exec_executables(t_group *group)
 		waitpid(group->pid, &status, 0);
 		// if (group->pipe_out && !next_have_pipe_out(group))
 		// 	close(group->pipe_fd[WRITE]);
-		// if (group->pipe_in)
-		// 	close(group->pipe_fd[READ]);
-
+		if (group->pipe_in)
+		 	close(group->pipe_fd[READ]);
+		if (group->pipe_out)
+			close(group->pipe_fd[WRITE]);
+		if (group->pipe_in && !group->redir_in)
+			close(group->pipe_in);
 		//manual setting of pipe_in for next group
 		if (group->pipe_out && !group->redir_out)
 			replace_pipe_in_next_group(group, group->pipe_fd[READ]);
