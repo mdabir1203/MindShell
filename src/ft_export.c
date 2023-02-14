@@ -140,7 +140,7 @@ int	error_check_export(char **args)
  * 		
  * @return 0
  */
-int	ft_export(char **args) // export sjkdfh without = sign??
+int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 {
 	int	num_new_args;
 	char	***env_buf;
@@ -152,13 +152,13 @@ int	ft_export(char **args) // export sjkdfh without = sign??
 	if (error_check_export(args))
 		return (error(ERR_NO_EQUAL_IN_EXPORT_ARG, NULL));
 	i = 0;
-	env_buf = g_info->env;
-	g_info->env = ft_calloc((num_env_args(g_info->env) + num_new_args + 1), sizeof(char *));
-	if (!g_info->env)
+	env_buf = info->env;
+	info->env = ft_calloc((num_env_args(info->env) + num_new_args + 1), sizeof(char *));
+	if (!info->env)
 		return (0); // save really please !!!
-	populate_new_env(g_info->env, env_buf);
+	populate_new_env(info->env, env_buf);
 	free (env_buf);
-	env_buf = g_info->env;
+	env_buf = info->env;
 	args++;
 	while (env_buf[i])
 			i++;

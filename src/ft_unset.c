@@ -78,7 +78,7 @@ int	error_check_unset(char **args)
  * 		free the old env* array
  * @return 0
  */
-int	ft_unset(char **args)
+int	ft_unset(char **args, t_info *info)
 {
 	int		var_pos;
 	int		num_vars;
@@ -90,7 +90,7 @@ int	ft_unset(char **args)
 	args++;
 	while (*args)
 	{
-		env = g_info->env;
+		env = info->env;
 		var_pos = var_pos_in_env(*args, env);
 		if (var_pos == -1)
 		{
@@ -101,11 +101,11 @@ int	ft_unset(char **args)
 		free(env[var_pos][1]);
 		free(env[var_pos]);
 		num_vars = num_env_args(env);
-		g_info->env = ft_calloc((num_vars - 1 + 1), sizeof(char *));
-		populate_env(g_info->env, env, var_pos);
+		info->env = ft_calloc((num_vars - 1 + 1), sizeof(char *));
+		populate_env(info->env, env, var_pos);
 		free(env);
 		args++;
 	}
-	test_env_vars(g_info);
+	test_env_vars(info);
 	return (0);
 }

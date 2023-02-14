@@ -36,7 +36,7 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	info->input_lexer = ft_split_lexer(info->prompt);
 	if (!info->input_lexer)
 		return (0);
-	delete_quotationmarks(g_info->input_lexer);
+	delete_quotationmarks(info->input_lexer);
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
 	while (++i < info->num_groups)

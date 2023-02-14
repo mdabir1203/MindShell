@@ -28,9 +28,9 @@ void	clean_up_paths(t_info *info)
 	free(paths_);
 }
 
-void	clean_up_prompt()
+void	clean_up_prompt(t_info *info)
 {
-	free(g_info->prompt);
+	free(info->prompt);
 }
 
 void clean_up_env(t_info *info)
@@ -109,13 +109,13 @@ void	clean_up(int clean_up_code, t_info *info)
 	if (clean_up_code == CLEAN_UP_FOR_NEW_PROMPT)
 	{
 		clean_up_lexer(info);
-		clean_up_prompt();
+		clean_up_prompt(info);
 		clean_up_arguments(info);
 		clean_up_path_to_executable(info);
 	}
 	if (clean_up_code == ERR_WRONG_AMOUNT_QUOTATION_MARKS)
 	{
-		clean_up_prompt();
+		clean_up_prompt(info);
 	}
 	
 	return;

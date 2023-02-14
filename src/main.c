@@ -43,8 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv[1])
 		return (1);
 	ft_signal(sa);
-	g_info = init(envp);
-	info = g_info;
+	info = init(envp);
 	if(info->prompt)
 		printf("prompt"); //to silence the warning
 	printf("Welcome to the minishell!\n");

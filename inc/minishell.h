@@ -16,8 +16,6 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
-struct s_info *g_info;
-
 //*********************************************************//
 //**                FLAGS                               **//
 
@@ -213,7 +211,6 @@ int input_message(char *str, int exit_no);
 
 int	error(int err, t_info *info);
 
-
 //**** ft_echo.c ****//
 
 void	ft_echo(char	**args, int pipe_out);
@@ -225,16 +222,16 @@ void	ft_exit(t_info *info);
 //**** ft_export.c ****//
 
 int	num_env_args(char ***args);
-int	ft_export(char **args);
-
-//**** ft_unset.c ****//
-
-int	ft_unset(char **args);
+int	ft_export(char **args, t_info *info);
 
 //**** ft_split_lexer.c ****//
 
 int	count_parts(char *str);
 char	**ft_split_lexer(char *str);
+
+//**** ft_unset.c ****//
+
+int	ft_unset(char **args, t_info *info);
 
 //**** init.c ****//
 
