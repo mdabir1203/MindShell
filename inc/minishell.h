@@ -211,6 +211,14 @@ int input_message(char *str, int exit_no);
 
 int	error(int err, t_info *info);
 
+//**** executer.c ****//
+
+void	executer(t_group	*group);
+
+//**** expand_variables.c.c ****//
+
+void	expand_variables(char	**array, char ***env);
+
 //**** ft_echo.c ****//
 
 void	ft_echo(char	**args, int pipe_out);
