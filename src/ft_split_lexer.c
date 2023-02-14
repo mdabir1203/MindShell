@@ -150,7 +150,7 @@ int	count_parts(char *str)
  * @param array 
  * @param str 
  */
-int	fill_array(char **array, char *str)
+int	fill_array(char **array, char *str, t_info *info)
 {
 	int part_i = 0;
 	int part_len = 0;
@@ -172,7 +172,7 @@ int	fill_array(char **array, char *str)
 		array[part_i] = malloc(sizeof(char) * (part_len + 1));
 		if (array[part_i] == NULL)
 		{
-			return (!error(ERR_MALLOC_SPLIT, NULL)); // ATTENTION!!!!!!!!  have to hand over info, or info will be a global
+			return (!error(ERR_MALLOC_SPLIT, info)); // ATTENTION!!!!!!!!  have to hand over info, or info will be a global
 			//return (0);
 		}
 		array[part_i][part_len] = '\0';
@@ -222,7 +222,7 @@ int	correct_amount_of_quot_marks(char *str)
 	return (0);
 }
 
-char	**ft_split_lexer(char *str)
+char	**ft_split_lexer(char *str, t_info *info)
 {
 	int	word_count = 0;
 	char **array;
@@ -231,18 +231,18 @@ char	**ft_split_lexer(char *str)
 		return NULL;
 	if(!correct_amount_of_quot_marks(str))
 	{
-		error(ERR_WRONG_AMOUNT_QUOTATION_MARKS, NULL); //info and return NULL?
+		error(ERR_WRONG_AMOUNT_QUOTATION_MARKS, info); //info and return NULL?
 		return (NULL);
 	}
 	word_count = count_parts(str);
 	array = malloc((sizeof(char *) * (word_count + 1)));
 	if (!array)
 	{
-		error(ERR_MALLOC_SPLIT_ONE, NULL);
+		error(ERR_MALLOC_SPLIT_ONE, info);
 		return (NULL);
 	}
 	array[word_count] = 0;
-	if (!fill_array(array, str))
+	if (!fill_array(array, str, info))
 		return (NULL);
 	return (array);
 }

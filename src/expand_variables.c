@@ -89,10 +89,10 @@ void	expand_variables(char	**array, char ***env)
 			if (!s_quote && *buf == '$')
 			{
 				num_var = variable_name_count(buf);
-                printf("num_var: %d\n", num_var);
+                // printf("num_var: %d\n", num_var);
                 var = ft_substr( buf, 1, num_var); // malloc and copy var name
                 //save malloc from substr
-                printf("_%s_\n", var);
+                // printf("_%s_\n", var);
                 value = value_of_variable_from_env(env, var, num_var);
 				if (!value)
 				{
@@ -105,8 +105,8 @@ void	expand_variables(char	**array, char ***env)
                 array[i] = malloc(sizeof(char) * (strlen - (num_var + 1) + num_value + 1));
                 // always starts with a $ ?? "hallo $vari du da" ??
                 replace_first_var_in_str(array[i], old_str, value, num_var, num_value);
-				printf("old: %s\n", old_str);
-				printf("new: %s\n", array[i]); //newline irgendwo her
+				// printf("old: %s\n", old_str);
+				// printf("new: %s\n", array[i]); //newline irgendwo her
 
                 // copy old text   whats with "hallo $vari und so $vari lala"
 
