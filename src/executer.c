@@ -75,13 +75,13 @@ void	make_pipe(t_group *group)
 	}
 }
 
-void	replace_pipe_in_next_group(t_group *group)
+void	replace_pipe_in_next_group(t_group *group, int new_pipe_in)
 {
 	t_group *temp;
 
 	temp = group;
 	temp++;
-	temp->pipe_in = group->pipe_fd[READ];
+	temp->pipe_in = new_pipe_in;
 }
 
 void	exec_executables(t_group *group)
@@ -92,15 +92,11 @@ void	exec_executables(t_group *group)
 	if (group->pid == 0)
 	{
 		//-------INPUT-----------------------------------
-		if (group->pipe_in)
-			close(group->pipe_fd[WRITE]);
-		if (group->pipe_out)
-			close(group->pipe_fd[READ]);
 		if (group->redir_in)
 		{
-			dup_fd(group->redir_in, 0);
 			if (group->pipe_in)
 				close (group->pipe_in);
+			dup_fd(group->redir_in, 0);
 		}
 		else if (group->pipe_in)
 			dup_fd(group->pipe_in, 0);
@@ -109,22 +105,26 @@ void	exec_executables(t_group *group)
 			dup_fd(group->redir_out, 1);
 		else if (group->pipe_out)
 			dup_fd(group->pipe_fd[WRITE], 1);
-		if (group->pipe_out && group->redir_out)
-			close(group->pipe_fd[WRITE]);
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
 			close(group->pipe_fd[WRITE]);
 			close(group->pipe_fd[READ]);
 			perror("exec didnt work\n");
-			
 			//clean up all structs..??
 			exit(2);
 		}
 	}
 	else
 	{
-		close(group->pipe_fd[WRITE]);
 		waitpid(group->pid, &status, 0);
+		if (group->pipe_out)
+			close(group->pipe_fd[WRITE]);
+		if (group->pipe_in)
+			close(group->pipe_fd[READ]);
+		if (group->pipe_out && !group->redir_out)
+			replace_pipe_in_next_group(group, group->pipe_fd[READ]);
+		else if (group->pipe_out && group->redir_out)
+			replace_pipe_in_next_group(group, 0);
 	}
 	printf("after waitpid id: %d\n", group->pid);
 }
@@ -154,19 +154,19 @@ void	executer(t_group	*group)
 			redir_in(group);
 		if (group->redir_out)
 			redir_out(group);
-		if (group->pipe_out)
-			make_pipe(group);
+		if (group->pipe_out && !group->redir_out)
+			make_pipe(group); //maybe change pipe_in
 		if(group->path)
 			exec_executables(group);
-		else
-			builtins(group);
-		//all this is for parent process
-		if (group->pipe_out)
-			replace_pipe_in_next_group(group);
-		if (group->redir_in)
-			close(group->redir_in); //need?
-		if (group->redir_out)
-			close(group->redir_out); //need?
+		// else
+		// 	builtins(group);
+		//LAST CYCLE----------------------
+		if (i == group->info->num_groups - 1)
+		{
+			close(0);
+			close(1);
+			close(2);
+		}
 		if (i < group->info->num_groups - 1)
 			group++;
 	}
