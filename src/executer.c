@@ -91,16 +91,11 @@ void	exec_executables(t_group *group)
 	fork_process(group);
 	if (group->pid == 0)
 	{
-		close(group->pipe_fd[READ]);
-		//-------OUTPUT-------
-		if (group->redir_out)
-			dup_fd(group->redir_out, 1);
-		else if (group->pipe_out)
-		{
+		//-------INPUT-----------------------------------
+		if (group->pipe_in)
+			close(group->pipe_fd[WRITE]);
+		if (group->pipe_out)
 			close(group->pipe_fd[READ]);
-			dup_fd(group->pipe_fd[WRITE], 1); //dont it need a file?
-		}
-		//-------INPUT-------
 		if (group->redir_in)
 		{
 			dup_fd(group->redir_in, 0);
@@ -108,20 +103,29 @@ void	exec_executables(t_group *group)
 				close (group->pipe_in);
 		}
 		else if (group->pipe_in)
-		{
-			//printf("found pipe in = %d argument[0] = %s\n", group->pipe_in, group->arguments[0]);
 			dup_fd(group->pipe_in, 0);
-		}
+		//-------OUTPUT-----------------------------------
+		if (group->redir_out)
+			dup_fd(group->redir_out, 1);
+		else if (group->pipe_out)
+			dup_fd(group->pipe_fd[WRITE], 1);
+		if (group->pipe_out && group->redir_out)
+			close(group->pipe_fd[WRITE]);
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
+			close(group->pipe_fd[WRITE]);
 			close(group->pipe_fd[READ]);
-			//clean up all structs..??
 			perror("exec didnt work\n");
+			
+			//clean up all structs..??
 			exit(2);
 		}
 	}
 	else
+	{
+		close(group->pipe_fd[WRITE]);
 		waitpid(group->pid, &status, 0);
+	}
 	printf("after waitpid id: %d\n", group->pid);
 }
 
@@ -156,17 +160,13 @@ void	executer(t_group	*group)
 			exec_executables(group);
 		else
 			builtins(group);
-		
-		//all this is for parent
-		close(group->pipe_fd[WRITE]);
+		//all this is for parent process
 		if (group->pipe_out)
 			replace_pipe_in_next_group(group);
 		if (group->redir_in)
 			close(group->redir_in); //need?
 		if (group->redir_out)
 			close(group->redir_out); //need?
-		if (group->pipe_in)
-			close(group->pipe_in);
 		if (i < group->info->num_groups - 1)
 			group++;
 	}
