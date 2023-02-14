@@ -84,6 +84,17 @@ void	replace_pipe_in_next_group(t_group *group, int new_pipe_in)
 	temp->pipe_in = new_pipe_in;
 }
 
+int	next_have_pipe_out(t_group *group)
+{
+	t_group *temp;
+
+	temp = group;
+	temp++;
+	if (temp->pipe_out)
+		return (1);
+	return (0);
+}
+
 void	exec_executables(t_group *group)
 {
 	int status;
@@ -117,7 +128,7 @@ void	exec_executables(t_group *group)
 	else
 	{
 		waitpid(group->pid, &status, 0);
-		if (group->pipe_out)
+		if (group->pipe_out && !next_have_pipe_out(group))
 			close(group->pipe_fd[WRITE]);
 		if (group->pipe_in)
 			close(group->pipe_fd[READ]);
@@ -154,7 +165,8 @@ void	executer(t_group	*group)
 			redir_in(group);
 		if (group->redir_out)
 			redir_out(group);
-		if (group->pipe_out && !group->redir_out)
+		//if pipe in, dont make another pipe
+		if (group->pipe_out && !group->redir_out && !group->pipe_in)
 			make_pipe(group); //maybe change pipe_in
 		if(group->path)
 			exec_executables(group);
