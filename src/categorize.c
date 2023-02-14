@@ -1,5 +1,18 @@
 #include "../inc/minishell.h"
 
+int	only_separator_in_string(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!sep(str[i]))
+			return (0);
+	}
+	return (1);
+}
+
 int categorize(char *str)
 {
 	if (!ft_strncmp(str, "<<", 3)) // does it really compare with \0 the last sign, please check
@@ -12,12 +25,12 @@ int categorize(char *str)
 		return (REDIR_OUTPUT_APPEND);
 	if (!ft_strncmp(str, "|", 2))
 		return (PIPE);
-	if (!ft_strncmp(str, SEPARATOR_ONE, 1)) // doppelt - da im lexer auch schon unterschieden
-		return (SEPARATOR);
-	if (!ft_strncmp(str, SEPARATOR_TWO, 1)) // not really good, only compares the first character
-		return (SEPARATOR);
-	if (!ft_strncmp(str, SEPARATOR_THREE, 1))
-		return (SEPARATOR);
+	// if (!ft_strncmp(str, SEPARATOR_ONE, 1)) // doppelt - da im lexer auch schon unterschieden
+	// 	return (SEPARATOR);
+	// if (!ft_strncmp(str, SEPARATOR_TWO, 1)) // not really good, only compares the first character
+	// 	return (SEPARATOR);
+	// if (!ft_strncmp(str, SEPARATOR_THREE, 1))
+		// return (SEPARATOR);
 	if (!ft_strncmp(str, "echo", 5))
 		return (CMD_ECHO);
 	if (!ft_strncmp(str, "exit", 5))
@@ -34,5 +47,7 @@ int categorize(char *str)
 		return (CMD_ENV);
 	if (!ft_strncmp(str, "-", 1))
 		return (FLAG);
+	if (only_separator_in_string(str))
+		return (SEPARATOR);
 	return (WORD);
 }

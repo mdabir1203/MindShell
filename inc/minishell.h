@@ -234,7 +234,8 @@ int	ft_export(char **args, t_info *info);
 
 //**** ft_split_lexer.c ****//
 
-int	count_parts(char *str);
+int		sep(char c);
+int		count_parts(char *str);
 char	**ft_split_lexer(char *str, t_info *info);
 
 //**** ft_unset.c ****//
