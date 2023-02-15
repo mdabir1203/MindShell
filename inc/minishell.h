@@ -54,6 +54,7 @@
 # define ERR_MALLOC_SPLIT_ONE 46
 # define ERR_NO_EQUAL_IN_EXPORT_ARG 47
 # define ERR_EQUAL_IN_UNSET_ARG 48
+# define ERR_MALLOC_EXPAND_VARIABLES 49
 
 //**                OTHER FLAGS                          **//
 
@@ -217,7 +218,7 @@ void	executer(t_group	*group);
 
 //**** expand_variables.c.c ****//
 
-void	expand_variables(char	**array, char ***env);
+int	expand_variables(char	**array, char ***env, t_info *info);
 
 //**** ft_echo.c ****//
 
