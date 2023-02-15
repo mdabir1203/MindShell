@@ -107,6 +107,9 @@ int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer
 	return (pl->is_exe);
 }
 
+/**
+ * @brief The arguments are only ptrs that point tho the right lexer strings
+ */
 void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 {
 	int	arg_j;
