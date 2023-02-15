@@ -167,7 +167,7 @@ void	executer(t_group	*group)
 		if (!input_error_check(group->info, group))
 		{
 			printf("inside2\n");
-			break;
+			// break;
 		}
 		if (group->redir_in)
 			redir_in(group);
