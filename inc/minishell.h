@@ -70,7 +70,7 @@
 # define MALLOC_FAIL "While memory allocation\n"
 # define PIPE_ERROR_1 "-bash: syntax error near unexpected token `|'\n"
 # define STR_WRITE_ERROR "Command not found\n"
-# define REDIRECT_ERROR_1 "-bash: [name]: No such file or directory\n"
+# define REDIRECT_ERROR_1 "No such file or directory\n"
 
 //**				pipes							**//
 

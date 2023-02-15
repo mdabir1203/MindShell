@@ -152,8 +152,11 @@ void	executer(t_group	*group)
 	print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		if (input_error_check(group->info, group) == 0)
+		if (!input_error_check(group->info, group))
+		{
+			printf("inside2\n");
 			break;
+		}
 		if (group->redir_in)
 			redir_in(group);
 		if (group->redir_out)
