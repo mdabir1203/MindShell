@@ -21,6 +21,11 @@ t_info	*init(char **envp)
 	return (info);
 }
 
+/**
+ * @brief the arguments are only an array of pointers that point to 
+ * the right lexer strings -> so we don't need extra memory for the 
+ * strings itself
+ */
 char **ft_array_args(char *str, t_info *info)
 {
 	int	word_count;
