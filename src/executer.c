@@ -39,13 +39,15 @@ int	redir_in(t_group *group)
 			return (0);
 			//exit(1);
 		}
+		dup_fd(group->redir_in, 0);
+		close(group->redir_in);
 		return (1);
 	}
 	return (0);
 }
 
 /*Makes a pipe and overwrites STDOU with write end, so execve outputs to pipe instead of STDOUT*/
-int	redir_out(t_group *group)
+int	redir_out(t_group *group) //make remove return of int
 {
 	if ( group->redir_out == REDIR_OUTPUT || group->redir_out == REDIR_OUTPUT_APPEND)
 	{
@@ -61,6 +63,8 @@ int	redir_out(t_group *group)
 			perror("could not open outfile");
 			exit(1);
 		}
+		dup_fd(group->redir_out, 1);
+		close(group->redir_out);
 		return (1);
 	}
 	return (0);
@@ -117,12 +121,12 @@ void	exec_executables(t_group *group)
 	{
 		//-------INPUT-----------------------------------
 		if (group->redir_in)
-			dup_fd(group->redir_in, 0);
+			redir_in(group);
 		else if (group->pipe_in)
 			dup_fd(group->pipe_in, 0);
 		//-------OUTPUT-----------------------------------
 		if (group->redir_out)
-			dup_fd(group->redir_out, 1);
+			redir_out(group);
 		else if (group->pipe_out)
 			dup_fd(group->pipe_fd[WRITE], 1);
 		//-------CLOSING-----------------------------------
@@ -140,13 +144,17 @@ void	exec_executables(t_group *group)
 	else
 	{
 		waitpid(group->pid, &status, 0);
-		// close(group->pipe_fd[WRITE]);
+		//ONLY HANDLE PIPES FROM CURR AND PREV
+		close(group->pipe_fd[WRITE]);
+		if (group->pipe_in)
+			close(group->pipe_in);
+
+
 		if (group->pipe_out && !group->redir_out)
 			replace_pipe_in_next_group(group, group->pipe_fd[READ]);
 		else if (group->pipe_out && group->redir_out)
 			replace_pipe_in_next_group(group, 0);
 	}
-	printf("after waitpid id: %d\n", group->pid);
 }
 
 int	builtins(t_group *group)
@@ -177,13 +185,11 @@ void	executer(t_group	*group)
 		{
 			if (!redir_in(group))
 				break;
-		}			
-		if (group->redir_out)
-			redir_out(group);
+		}
 		//pipe if no redirections and pipe out is present
 		if (group->pipe_out && !group->redir_out && !group->redir_in)
 			make_pipe(group); //maybe change pipe_in
-		printf("cycle befor exec:  %d path %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
+		printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
 		if(group->path)
 			exec_executables(group);
 		// else
