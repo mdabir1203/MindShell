@@ -108,8 +108,7 @@ void	closing_fds(t_group *group)
 		close(group->redir_in);
 	if (group->pipe_in)
 		close(group->pipe_in);
-	close(group->pipe_fd[WRITE]);
-	close(group->pipe_fd[READ]);
+	// close(group->pipe_fd[WRITE]);
 }
 
 void	exec_executables(t_group *group)
@@ -123,19 +122,18 @@ void	exec_executables(t_group *group)
 		if (group->redir_in)
 			redir_in(group);
 		else if (group->pipe_in)
-			dup_fd(group->pipe_in, 0);
+			dup_fd(group->pipe_in, 0); //READ end from prev pipe
 		//-------OUTPUT-----------------------------------
 		if (group->redir_out)
 			redir_out(group);
 		else if (group->pipe_out)
 			dup_fd(group->pipe_fd[WRITE], 1);
 		//-------CLOSING-----------------------------------
-		closing_fds(group);
+		 closing_fds(group);
 		//-------EXECVE-----------------------------------
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
-			close(group->pipe_fd[WRITE]);
-			close(group->pipe_fd[READ]);
+			closing_fds(group);
 			perror("exec didnt work\n");
 			//clean up all structs..??
 			exit(2);
@@ -145,11 +143,9 @@ void	exec_executables(t_group *group)
 	{
 		waitpid(group->pid, &status, 0);
 		//ONLY HANDLE PIPES FROM CURR AND PREV
-		close(group->pipe_fd[WRITE]);
+		close(group->pipe_fd[WRITE]); //for sure
 		if (group->pipe_in)
 			close(group->pipe_in);
-
-
 		if (group->pipe_out && !group->redir_out)
 			replace_pipe_in_next_group(group, group->pipe_fd[READ]);
 		else if (group->pipe_out && group->redir_out)
@@ -181,14 +177,12 @@ void	executer(t_group	*group)
 			//printf("inside2\n");
 			break;
 		}
-		if (group->redir_in)
-		{
-			if (!redir_in(group))
-				break;
-		}
 		//pipe if no redirections and pipe out is present
-		if (group->pipe_out && !group->redir_out && !group->redir_in)
-			make_pipe(group); //maybe change pipe_in
+		if (!group->redir_out && group->pipe_out)
+		{
+			printf("pipe is made, i = %d \n", i);
+			make_pipe(group);
+		}
 		printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
 		if(group->path)
 			exec_executables(group);

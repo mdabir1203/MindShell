@@ -184,4 +184,5 @@ int	expand_variables(char	**array, char ***env, t_info *info)
 			// }
 		}
 	}
+	return (0); //DONT KNOW
 }
