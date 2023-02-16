@@ -96,20 +96,28 @@ int	next_have_pipe_out(t_group *group)
 	return (0);
 }
 
+void	closing_fds(t_group *group)
+{
+	if (group->redir_out)
+			close(group->redir_out);
+	if(group->redir_in)
+		close(group->redir_in);
+	if (group->pipe_in)
+		close(group->pipe_in);
+	close(group->pipe_fd[WRITE]);
+	close(group->pipe_fd[READ]);
+}
+
 void	exec_executables(t_group *group)
 {
 	int status;
 
-	fork_process(group);
+	fork_process(group); //    2 PROCESSES
 	if (group->pid == 0)
 	{
 		//-------INPUT-----------------------------------
 		if (group->redir_in)
-		{
-			if (group->pipe_in)
-				close (group->pipe_in);
 			dup_fd(group->redir_in, 0);
-		}
 		else if (group->pipe_in)
 			dup_fd(group->pipe_in, 0);
 		//-------OUTPUT-----------------------------------
@@ -117,6 +125,9 @@ void	exec_executables(t_group *group)
 			dup_fd(group->redir_out, 1);
 		else if (group->pipe_out)
 			dup_fd(group->pipe_fd[WRITE], 1);
+		//-------CLOSING-----------------------------------
+		closing_fds(group);
+		//-------EXECVE-----------------------------------
 		if (execve(group->path, group->arguments, NULL) == -1)
 		{
 			close(group->pipe_fd[WRITE]);
@@ -129,15 +140,7 @@ void	exec_executables(t_group *group)
 	else
 	{
 		waitpid(group->pid, &status, 0);
-		// if (group->pipe_out && !next_have_pipe_out(group))
-		// 	close(group->pipe_fd[WRITE]);
-		// if (group->pipe_in)
-		//  	close(group->pipe_fd[READ]);
-		if (group->pipe_out)
-			close(group->pipe_fd[WRITE]);
-		// if (group->pipe_in && !group->redir_in)
-		// 	close(group->pipe_in);
-		//manual setting of pipe_in for next group
+		// close(group->pipe_fd[WRITE]);
 		if (group->pipe_out && !group->redir_out)
 			replace_pipe_in_next_group(group, group->pipe_fd[READ]);
 		else if (group->pipe_out && group->redir_out)
