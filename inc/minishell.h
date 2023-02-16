@@ -72,6 +72,9 @@
 # define PIPE_ERROR_1 "-bash: syntax error near unexpected token `|'\n"
 # define STR_WRITE_ERROR "Command not found\n"
 # define REDIRECT_ERROR_1 "No such file or directory\n"
+# define INVALID_IDENTIFIER "Not a valid identifier\n"
+# define QUOTATION_MARKS "Wrong amount of quotation marks\n"
+# define EQUAL_SIGN "No '=' sign in export argument\n"
 
 //**				pipes							**//
 
@@ -158,7 +161,6 @@ typedef struct s_group
 	int		pipe_in;
 	int		pipe_out;
 	int		pipe_fd[2];
-	int		pipe_exec[2];
 	pid_t	pid;
 	t_info	*info;
 }	t_group;
