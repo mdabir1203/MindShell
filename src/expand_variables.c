@@ -41,23 +41,40 @@ char	*value_of_variable_from_env(char ***env, char *var, int len)
 	return (NULL);
 }
 
+/**
+ * @brief only replace the first variable in the string, because we run this in a loop
+ * in the func expand_variables
+ * first while loop: copy from old str to new str until you hit an $
+ * second while loop: go through the value and copy that into the old str
+ * 		now i is in the new str at the first sign after the repaced variable
+ * 		f.e. "Hallo $USER und so" -> "Hallo maxrehberg und so" 
+ * 			i is between the g and the u on the emptyspace
+ * the rest of the Schützenfest is the len of the old str minus
+ * 		the len of the variable plus the len of the value
+ * 			because we replaced them, minus i (there we are right now)
+ * last while loop: go till the end of the new string and
+ * 		copy the rest to it. 
+ * new_str[i] = old_str[i - num_value + num_var + 1]; There is a plus 1 at the end
+ * 		because we want to jump over the $ sign thats not included in num_var
+ * set a \0 at the end
+ */
 void	replace_first_var_in_str(char *new_str, char *old_str, char *value, int num_var, int num_value)
 {
 	int i;
 	int j;
-	int old_strlen = ft_strlen(old_str);
+	int old_strlen;
+	int rest;
 
 	i = -1;
 	j = -1;
-	while (old_str[++i] != '$') // plus copy
+	old_strlen = ft_strlen(old_str);
+	while (old_str[++i] != '$')
 		new_str[i] = old_str[i];
 	while (++j < num_value)
-	{
 		new_str[i++] = value[j];
-	}
-	int rest = old_strlen - (i - num_value + num_var);
-	int k = -1;
-	while (++k < rest) //vorher nullen, z.B. "Hallo $USER, wie" -> "Hallo maxrehberg, wie" 
+	rest = old_strlen - num_var + num_value - i;
+	j = -1;
+	while (++j < rest) //vorher nullen, z.B. "Hallo $USER, wie" -> "Hallo maxrehberg, wie" 
 	{
 		new_str[i] = old_str[i - num_value + num_var + 1];
 		i++;
