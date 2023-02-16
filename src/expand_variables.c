@@ -106,6 +106,7 @@ int	expand_variables(char	**array, char ***env, t_info *info)
 	int i;
 	int j;
 	int s_quote;
+	int d_quote;
 	char *buf;
 	char *old_str;
 	char *var;
@@ -116,12 +117,14 @@ int	expand_variables(char	**array, char ***env, t_info *info)
 
 	i = -1;
 	s_quote = 0;
+	d_quote = 0;
 	while (array[++i])
 	{
 		j = -1;
-		old_str = array[i];
+		
 		while (array[i][++j])
 		{
+			old_str = array[i];
 			buf = &array[i][j];
 			if (!s_quote && *buf == '$')
 			{
@@ -140,8 +143,10 @@ int	expand_variables(char	**array, char ***env, t_info *info)
 				free (var);
 				free (old_str);
 			}
-			if (*buf == '\'')
+			if (*buf == '\'' && !d_quote)
 				s_quote = !s_quote;
+			if (*buf == '\"' && !s_quote)
+				d_quote = !d_quote;
 
 
 
