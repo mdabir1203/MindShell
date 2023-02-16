@@ -121,7 +121,7 @@ int	expand_variables(char	**array, char ***env, t_info *info)
 				array[i] = malloc(sizeof(char) * (strlen - (num_var + 1) + num_value + 1));
 				replace_first_var_in_str(array[i], old_str, value, num_var, num_value);
 				free (var);
-				free (buf);
+				free (old_str);
 			}
 			if (*buf == '\'')
 				s_quote = !s_quote;
