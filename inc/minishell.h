@@ -71,6 +71,9 @@
 # define PIPE_ERROR_1 "-bash: syntax error near unexpected token `|'\n"
 # define STR_WRITE_ERROR "Command not found\n"
 # define REDIRECT_ERROR_1 "No such file or directory\n"
+# define INVALID_IDENTIFIER "Not a valid identifier\n"
+# define QUOTATION_MARKS "Wrong amount of quotation marks\n"
+# define EQUAL_SIGN "No '=' sign in export argument\n"
 
 //**				pipes							**//
 

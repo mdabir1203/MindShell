@@ -43,11 +43,11 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	while (++i < info->num_groups)
 		info->groups[i].arguments = ft_array_args(info->prompt, info);	// double pointer for array of arguments
 	i = -1;
-	while (info->input_lexer[++i]) // Null at end of group
+	while (info->input_lexer[++i]) //if we also want to handle " | echo hallo" then pl->act_group < info->num_groups
 	{
 		if (!strncmp(info->input_lexer[0], "exit", 5)) // check for leaks and segfault
 			ft_exit(info);
-		if (!ft_strncmp(info->input_lexer[i], "|", 2)) // we can use categorize here
+		if (!ft_strncmp(info->input_lexer[i], "|", 2) && ft_strncmp(info->input_lexer[0], "|", 2)) // we can use categorize here
 			pl->act_group++;				// this construct cannot handle a pipe as first argument in group 0
 
 		pl->cat = categorize(info->input_lexer[i]);

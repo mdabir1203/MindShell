@@ -36,7 +36,8 @@ int	redir_in(t_group *group)
 		if (group->redir_in < 0)
 		{
 			perror("open_infile() cannot open file");
-			exit(1);
+			return (0);
+			//exit(1);
 		}
 		return (1);
 	}
@@ -166,11 +167,14 @@ void	executer(t_group	*group)
 	{
 		if (!input_error_check(group->info, group))
 		{
-			printf("inside2\n");
-			// break;
+			//printf("inside2\n");
+			break;
 		}
 		if (group->redir_in)
-			redir_in(group);
+		{
+			if (!redir_in(group))
+				break;
+		}			
 		if (group->redir_out)
 			redir_out(group);
 		//pipe if no redirections and pipe out is present

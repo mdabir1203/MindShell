@@ -6,7 +6,7 @@
  */
 int	input_error_check(t_info *info, t_group *groups)
 {
-	if (!strncmp(info->input_lexer[0], "|", 2))
+	if (!strncmp(info->input_lexer[0], "|", 2) || (!strncmp(info->input_lexer[0], " ", 2) && !strncmp(info->input_lexer[1], "|", 2)))
 	{
 		input_message(PIPE_ERROR_1, 0);
 		return (0);
@@ -19,8 +19,8 @@ int	input_error_check(t_info *info, t_group *groups)
 	if (groups[0].redir_in == REDIR_INPUT)
 	{
 			printf("inside1\n");
-			input_message(REDIRECT_ERROR_1, 0);
-			return (0);
+			//input_message(REDIRECT_ERROR_1, 0);
+			//return (0);
 	}
 	if (!strncmp(info->input_lexer[0], "Echo", 5))
 	{
@@ -46,19 +46,23 @@ int	error(int err, t_info *info)
 	}
 	if (err == ERR_CMD_NOT_FOUND)
 	{
-		printf("Minishell: command not found\n");
+		input_message(STR_WRITE_ERROR, 0);
+		//printf("Minishell: command not found\n");
 	}
 	if (err == ERR_WRONG_AMOUNT_QUOTATION_MARKS)
 	{
-		printf("Wrong amount of quotation marks\n");
+		input_message(QUOTATION_MARKS, 0);
+		//printf("Wrong amount of quotation marks\n");
 	}
 	if (err == ERR_NO_EQUAL_IN_EXPORT_ARG)
 	{
-		printf("No '=' sign in export argument\n");
+		input_message(EQUAL_SIGN, 0);
+		//printf("No '=' sign in export argument\n");
 	}
 	if (err == ERR_EQUAL_IN_UNSET_ARG)
 	{
-		printf("Not a valid identifier\n");
+		input_message(INVALID_IDENTIFIER, 0);
+		//printf("Not a valid identifier\n");
 	}
 	clean_up(err, info);
 	return (1);

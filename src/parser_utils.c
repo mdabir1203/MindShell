@@ -129,12 +129,12 @@ void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 			//printf("cat %d\n", pl->cat);
 			pl->is_red = found_save_redirect(pl, info, info->input_lexer[i]);
 			if (pl->cat == SEPARATOR || pl->is_red)
-				continue;							// allowed?
+				continue;
 			else if (pl->cat == PIPE)
 			{
 				info->groups[pl->act_group].arguments[arg_j + 1] = NULL; //
 				//arg_j = 0;
-				break;							// allowed?
+				break;
 			}
 			else
 			{
@@ -152,45 +152,6 @@ void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 		pl->cat = temp;
 	}
 }
-
-/*void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
-{
-	int	arg_j;
-	int temp;
-
-	arg_j = -1;
-	//temp = pl->cat;
-	//printf("i %d\n", i);
-	if (pl->is_exe == 1)
-	{
-		// printf("is_exe %d\n", pl->is_exe);
-		while (info->input_lexer[++i])
-		{
-			pl->cat = categorize(info->input_lexer[i]); // pl->cat steht wenn wir zurück gehen immernoch auf der PIPE oder so wichtig?
-			//printf("cat %d\n", pl->cat);
-			pl->is_red = found_save_redirect(pl, info, info->input_lexer[i]);
-			if (pl->cat == SEPARATOR || pl->is_red)
-				continue;							// allowed?
-			else if (pl->cat == PIPE)
-			{
-				info->groups[pl->act_group].arguments[arg_j + 1] = NULL;
-				arg_j = -1;
-				break;							// allowed?
-			}
-			else
-			{
-				++arg_j;
-				printf("arg_j %d\n", arg_j);
-				info->groups[pl->act_group].arguments[arg_j] = info->input_lexer[i];	// creates seg fault for > 1 group
-				printf("arg string %s\n", info->groups->arguments[arg_j]);				// creates seg fault for > 1 group
-				printf("adress arg %p\n", info->groups[pl->act_group].arguments[arg_j]);	// creates seg fault for > 1 group	
-				printf("word\n");
-			}	
-			printf("i2 %d\n", i);
-		}
-		//pl->cat = temp;
-	}
-}*/
 
 void	pipe_detector(t_parse_lexer *pl, t_info *info)
 {
@@ -225,6 +186,8 @@ int	count_groups(t_info *info)
 	run = -1;
 	while (info->input_lexer[++run])
 	{
+		if (!strncmp(info->input_lexer[0], "|", 2) || (!strncmp(info->input_lexer[0], " ", 2) && !strncmp(info->input_lexer[1], "|", 2))) // delete second part, if we don't wanna implement that case
+			return (1);
 		if (!ft_strncmp(info->input_lexer[run], "|", 2))
 			num_groups++;
 	}
