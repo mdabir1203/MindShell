@@ -143,7 +143,8 @@ void	exec_executables(t_group *group)
 	{
 		waitpid(group->pid, &status, 0);
 		//ONLY HANDLE PIPES FROM CURR AND PREV
-		close(group->pipe_fd[WRITE]); //for sure
+		if (group->pipe_out)
+			close(group->pipe_fd[WRITE]); //for sure
 		if (group->pipe_in)
 			close(group->pipe_in);
 		if (group->pipe_out && !group->redir_out)
