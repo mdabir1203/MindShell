@@ -202,19 +202,21 @@ int	correct_amount_of_quot_marks(char *str)
 	while (*str)
 	{
 		if (*str == '\"' && !single_quote)
-		{
-			if (double_quote == 0)
-				double_quote = 1;
-			else
-				double_quote = 0;
-		}
+			double_quote = !double_quote;
+		// {
+		// 	if (double_quote == 0)
+		// 		double_quote = 1;
+		// 	else
+		// 		double_quote = 0;
+		// }
 		else if (*str == '\'' && !double_quote)
-		{
-			if (single_quote == 0)
-				single_quote = 1;
-			else
-				single_quote = 0;
-		}
+			single_quote = !single_quote;
+		// {
+		// 	if (single_quote == 0)
+		// 		single_quote = 1;
+		// 	else
+		// 		single_quote = 0;
+		// }
 		str++;
 	}
 	if (double_quote == 0 && single_quote == 0)
