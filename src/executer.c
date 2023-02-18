@@ -121,9 +121,9 @@ int	builtins(t_group *group)
 	{
 		//printf("executing echo\n");
 		ft_echo(group->arguments);
-		exit(0);
+		
 	}
-	exit(0);
+	_Exit(3);
 }
 
 void	exec_executables(t_group *group)
