@@ -108,12 +108,15 @@ void	closing_fds(t_group *group)
 		close(group->redir_in);
 	if (group->pipe_in)
 		close(group->pipe_in);
-	// close(group->pipe_fd[WRITE]);
+	if (group->pipe_out)
+	{
+		close(group->pipe_fd[READ]);
+		close(group->pipe_fd[WRITE]);
+	}
 }
 
 void	exec_executables(t_group *group)
 {
-	int status;
 
 	fork_process(group); //    2 PROCESSES
 	if (group->pid == 0)
@@ -141,7 +144,6 @@ void	exec_executables(t_group *group)
 	}
 	else
 	{
-		waitpid(group->pid, &status, 0);
 		//ONLY HANDLE PIPES FROM CURR AND PREV
 		if (group->pipe_out)
 			close(group->pipe_fd[WRITE]); //for sure
@@ -193,7 +195,6 @@ void	executer(t_group	*group)
 		if (i < group->info->num_groups - 1) //increment group pointer
 			group++;
 	}
-	// close(0);
-	// close(1);
-	// close(2);
+	while (wait(NULL) > 0)
+		;
 }
