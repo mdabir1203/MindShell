@@ -1,7 +1,7 @@
 
 #include "../inc/minishell.h"
 
-void	ft_echo(char	**args, int pipe_out)
+void	ft_echo(char	**args)
 {
 	int arg_j;
 
@@ -12,7 +12,7 @@ void	ft_echo(char	**args, int pipe_out)
 		ft_putchar_fd(' ', 1);
 		//printf("arg_j %d", arg_j);
 	}
-	if (args[arg_j] || !(pipe_out == 1))
+	if (args[arg_j])
 		ft_putchar_fd('\n', 1);
 }
 

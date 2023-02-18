@@ -224,7 +224,7 @@ int	expand_variables(char	**array, char ***env, t_info *info);
 
 //**** ft_echo.c ****//
 
-void	ft_echo(char	**args, int pipe_out);
+void	ft_echo(char	**args);
 
 //**** ft_exit.c ****//
 

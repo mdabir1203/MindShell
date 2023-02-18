@@ -115,6 +115,17 @@ void	closing_fds(t_group *group)
 	}
 }
 
+int	builtins(t_group *group)
+{
+	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
+	{
+		//printf("executing echo\n");
+		ft_echo(group->arguments);
+		exit(0);
+	}
+	exit(0);
+}
+
 void	exec_executables(t_group *group)
 {
 
@@ -134,7 +145,9 @@ void	exec_executables(t_group *group)
 		//-------CLOSING-----------------------------------
 		 closing_fds(group);
 		//-------EXECVE-----------------------------------
-		if (execve(group->path, group->arguments, NULL) == -1)
+		if(group->builtin)
+			builtins(group);
+		else if (execve(group->path, group->arguments, NULL) == -1)
 		{
 			closing_fds(group);
 			perror("exec didnt work\n");
@@ -156,16 +169,6 @@ void	exec_executables(t_group *group)
 	}
 }
 
-int	builtins(t_group *group)
-{
-	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
-	{
-		//printf("executing echo\n");
-		ft_echo(group->arguments, group->pipe_out);
-		return (1);
-	}
-	return (0); // is that ok Nick?
-}
 
 void	executer(t_group	*group)
 {
@@ -187,11 +190,8 @@ void	executer(t_group	*group)
 			make_pipe(group);
 		}
 		printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
-		if(group->path)
+		if(group->path || group->builtin)
 			exec_executables(group);
-		// else
-		// 	builtins(group);
-
 		if (i < group->info->num_groups - 1) //increment group pointer
 			group++;
 	}
