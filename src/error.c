@@ -4,13 +4,33 @@
 /**
  * Correct spelling of commands is just for testing. Needs to be handled proper, later. 
  */
-int	input_error_check(t_info *info, t_group *groups)
+int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 {
 	if (!strncmp(info->input_lexer[0], "|", 2) || (!strncmp(info->input_lexer[0], " ", 2) && !strncmp(info->input_lexer[1], "|", 2)))
 	{
 		input_message(PIPE_ERROR_1, 0);
 		return (0);
 	}
+	if (pl->cat == PIPE)
+	{
+		printf("i1 %d\n", i);
+		if(!strncmp(info->input_lexer[++i], "|", 2))
+		{
+			input_message(PIPE_ERROR_2, 0);
+			return (0);
+		}
+		printf("i2 %d\n", i);
+		if (!strncmp(info->input_lexer[i], " ", 2) && !strncmp(info->input_lexer[++i], "|", 2))
+		{
+			input_message(PIPE_ERROR_1, 0);
+			return (0);
+		}		
+	}
+	return (1);
+}
+
+int	executer_error_check(t_info *info, t_group *groups)
+{
 	if (!strncmp(info->input_lexer[0], "Exit", 5))
 	{
 		input_message(STR_WRITE_ERROR, 0);

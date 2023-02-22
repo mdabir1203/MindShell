@@ -70,6 +70,7 @@
 # define STR_EXIT_SUCCESSFULL "Exit successfull!\n"
 # define MALLOC_FAIL "While memory allocation\n"
 # define PIPE_ERROR_1 "-bash: syntax error near unexpected token `|'\n"
+# define PIPE_ERROR_2 "This input is not allowed!\n"
 # define STR_WRITE_ERROR "Command not found\n"
 # define REDIRECT_ERROR_1 "No such file or directory\n"
 # define INVALID_IDENTIFIER "Not a valid identifier\n"
@@ -197,7 +198,8 @@ char	*is_an_executable(char *cmd, t_info *t_info);
 
 //**** input_check.c ****//
 
-int	input_error_check(t_info *info, t_group *groups);
+int	parser_error_check(t_info *info, t_parse_lexer *pl, int i);
+int	executer_error_check(t_info *info, t_group *groups);
 
 //**** clean_up.c ****//
 
@@ -224,7 +226,7 @@ int	expand_variables(char	**array, char ***env, t_info *info);
 
 //**** ft_echo.c ****//
 
-void	ft_echo(char	**args);
+void	ft_echo(char	**args, int pipe_out);
 
 //**** ft_exit.c ****//
 

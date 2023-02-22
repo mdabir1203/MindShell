@@ -120,7 +120,7 @@ int	builtins(t_group *group)
 	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
 	{
 		//printf("executing echo\n");
-		ft_echo(group->arguments);
+		ft_echo(group->arguments, group->pipe_out);
 		
 	}
 	_Exit(3);
@@ -178,7 +178,7 @@ void	executer(t_group	*group)
 	print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		if (!input_error_check(group->info, group))
+		if (!executer_error_check(group->info, group))
 		{
 			//printf("inside2\n");
 			break;
