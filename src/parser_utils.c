@@ -97,7 +97,7 @@ int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer
 			info->groups[pl->act_group].arguments[0] = act_input_lexer_str; // and needs to be the first arg
 		}
 		else
-			error(ERR_CMD_NOT_FOUND, info); // minishell: echox: command not found
+			error(ERR_CMD_NOT_FOUND, info); // minishell: echox or Echo: command not found
 		return (pl->is_exe);
 	}
 	// printf("%p\n", act_input_lexer_str);	// prints out storage adress

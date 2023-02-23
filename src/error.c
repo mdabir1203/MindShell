@@ -6,14 +6,32 @@
  */
 int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 {
-	if (!strncmp(info->input_lexer[0], "|", 2) || (!strncmp(info->input_lexer[0], " ", 2) && !strncmp(info->input_lexer[1], "|", 2)))
+	if (!strncmp(info->input_lexer[0], "|", 2))
 	{
 		input_message(PIPE_ERROR_1, 0);
 		return (0);
 	}
+	printf("i1 %d\n", i);
+	if (!strncmp(info->input_lexer[0], " ", 2))
+	{
+		printf("i1.1 %d\n", i);
+		i = -1;
+		while (!strncmp(info->input_lexer[++i], " ", 2))
+		{
+			printf("i2 %d\n", i);
+			//continue;
+		}
+		printf("i3 %d\n", i);
+		if (!strncmp(info->input_lexer[i], "|", 2))
+			{
+				input_message(PIPE_ERROR_1, 0);
+				return (0);
+			}
+		return (1);
+	}
 	if (pl->cat == PIPE)
 	{
-		printf("i1 %d\n", i);
+		printf("i4 %d\n", i);
 		if(!strncmp(info->input_lexer[++i], "|", 2))
 		{
 			input_message(PIPE_ERROR_2, 0);
@@ -31,21 +49,12 @@ int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 
 int	executer_error_check(t_info *info, t_group *groups)
 {
-	if (!strncmp(info->input_lexer[0], "Exit", 5))
-	{
-		input_message(STR_WRITE_ERROR, 0);
-		return (0);
-	}
+	(void) info;
 	if (groups[0].redir_in == REDIR_INPUT)
 	{
 			printf("inside1\n");
 			//input_message(REDIRECT_ERROR_1, 0);
 			//return (0);
-	}
-	if (!strncmp(info->input_lexer[0], "Echo", 5))
-	{
-        input_message(STR_WRITE_ERROR, 0);
-        return (0);
 	}
 	return (1);
 }
