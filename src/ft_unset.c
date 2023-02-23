@@ -106,6 +106,5 @@ int	ft_unset(char **args, t_info *info)
 		free(env);
 		args++;
 	}
-	test_env_vars(info);
 	return (0);
 }
