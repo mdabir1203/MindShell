@@ -93,16 +93,18 @@ void populate_cont(char *str, char *arg)
 /**
  * @brief looks for a '=' sign in every argument
  * start at i = 0 because first argument is export
- * @returns 0 if everything is ok, 1 if at least one arg has no '=',
+ * @returns 0 if everything is ok, 1 if at least one arg has no '=' or invalid identifier
  * besides the first one (that is "export")
  */
 int	error_check_export(char **args)
 {
-	int equal_flag; 
+	int equal_flag;
+	int wrong_identifier;
 	int i;
 	int j;
 
 	i = 0;
+	wrong_identifier = 0;
 	while (args[++i])
 	{
 		equal_flag = 0;
@@ -111,6 +113,11 @@ int	error_check_export(char **args)
 		{
 			if (args[i][j] == '=')
 				equal_flag = 1;
+			if (!equal_flag && !(ft_isalnum(args[i][j]) ||  args[i][j] == '_'))
+			{
+				input_message(INVALID_IDENTIFIER, 0);
+				return (1);
+			}
 		}
 		if (equal_flag == 0)
 			return (1);
@@ -150,7 +157,7 @@ int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 	if (num_new_args == 0)	
 		return (0);
 	if (error_check_export(args))
-		return (error(ERR_NO_EQUAL_IN_EXPORT_ARG, NULL));
+		return (1);//error(ERR_NO_EQUAL_IN_EXPORT_ARG, NULL));
 	i = 0;
 	env_buf = info->env;
 	info->env = ft_calloc((num_env_args(info->env) + num_new_args + 1), sizeof(char *));
