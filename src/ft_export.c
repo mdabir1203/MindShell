@@ -49,6 +49,7 @@ int	num_var_chars(char *str)
 		i++;
 	return (i);
 }
+
 int	num_cont_chars(char *str)
 {
 	int i;
@@ -126,16 +127,66 @@ int	error_check_export(char **args)
 }
 
 /**
+ * @brief expects something like ab=cd as arg
+ * @return the position in the env array of arg (array starts with 0),
+ *  if no return -1
+ */
+int	var_pos_in_env_export(char *arg, char	***env)
+{
+	int		i;
+
+	i = -1;
+	while (env[++i])
+	{
+		// printf("\n\nenv %s\n", env[i][0]);
+		// printf("arg %s\n", arg);
+		// printf("len %d\n\n", ft_strlen(arg));
+		if (!ft_strncmp(env[i][0], arg, num_var_chars(arg)) &&
+			env[i][0][num_var_chars(arg)] == '\0')
+			return (i);
+	}
+	return (-1);
+}
+
+/**
+ * @brief 
+ * buf old content
+ * malloc memory for the content into env ptr at the right spot
+ * copy content
+ * free the old content
+ */
+replace_cont_of_var(char *arg, char ***env)
+{
+	char	*buf;
+	int		var_pos_in_env;
+
+	var_pos_in_env = var_pos_in_env_export(arg, env);
+	buf = env[var_pos_in_env][1];
+	env[var_pos_in_env][1] = ft_calloc(num_cont_chars(arg) + 1, sizeof(char));
+	populate_cont(env[var_pos_in_env][1], arg);
+	free (buf);
+}
+
+/**
  * @brief give it a 2D char array -> arguments 
  * in the form of:{"export", "some_variable_name=some_content", "2ndvar=second_content", NULL}
  * It takes the info->env and makes it bigger (the first array)
  * 
  * how many arguments do we have?
- * calloc space for the array of ptrs to the environment variables plus the new ones + zeros at the end
+ * // how many arguments did we already find in the env - don't do this
+ * calloc space for the array of ptrs to the environment variables 
+ * // - num that we already found - don't do this
+ * plus the new ones + zeros at the end
  * copy old ptrs to the new space, free the old array
  * step one argument forward, because the first one is "export"
  * search the end of the environment variables
  * while loop through the new args
+ * //	if act arg found in env -> return int position
+ * //		buf old content
+ * //		malloc memory for the content into env ptr at the right spot
+ * //		copy content
+ * //		free the old content
+ * //		continue the loop
  * 		malloc memory for an array of 3; [2] is (NULL)
  * 		with its ptr at the end of env
  * 		malloc memory for the variable name of 
@@ -150,6 +201,7 @@ int	error_check_export(char **args)
 int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 {
 	int	num_new_args;
+	int	num_found_args;
 	char	***env_buf;
 	int	i;
 
@@ -171,6 +223,15 @@ int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 			i++;
 	while (*args) // I expect it to have an = sign
 	{
+		if (var_pos_in_env_export(*args, info->env) != -1)
+		{
+			replace_cont_of_var(*args, info->env);
+			printf("arg on pos in env:%d\n", var_pos_in_env_export(*args, info->env));
+			args++;
+			i++;
+			continue;
+		}
+			
 		env_buf[i] = malloc(sizeof(char *) * 3);
 		env_buf[i][2] = NULL;
 		// save malloc!!
