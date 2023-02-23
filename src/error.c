@@ -12,17 +12,10 @@ int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 		return (0);
 	}
 	printf("i1 %d\n", i);
-	if (!strncmp(info->input_lexer[0], " ", 2))
+	if (!strncmp(info->input_lexer[0], " ", 1))
 	{
-		printf("i1.1 %d\n", i);
-		i = -1;
-		while (!strncmp(info->input_lexer[++i], " ", 2))
-		{
-			printf("i2 %d\n", i);
-			//continue;
-		}
 		printf("i3 %d\n", i);
-		if (!strncmp(info->input_lexer[i], "|", 2))
+		if (!strncmp(info->input_lexer[++i], "|", 2))
 			{
 				input_message(PIPE_ERROR_1, 0);
 				return (0);
@@ -38,7 +31,7 @@ int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 			return (0);
 		}
 		printf("i2 %d\n", i);
-		if (!strncmp(info->input_lexer[i], " ", 2) && !strncmp(info->input_lexer[++i], "|", 2))
+		if (!strncmp(info->input_lexer[i], " ", 1) && !strncmp(info->input_lexer[++i], "|", 2))
 		{
 			input_message(PIPE_ERROR_1, 0);
 			return (0);
