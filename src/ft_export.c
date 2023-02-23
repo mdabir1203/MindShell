@@ -181,12 +181,6 @@ replace_cont_of_var(char *arg, char ***env)
  * step one argument forward, because the first one is "export"
  * search the end of the environment variables
  * while loop through the new args
- * //	if act arg found in env -> return int position
- * //		buf old content
- * //		malloc memory for the content into env ptr at the right spot
- * //		copy content
- * //		free the old content
- * //		continue the loop
  * 		malloc memory for an array of 3; [2] is (NULL)
  * 		with its ptr at the end of env
  * 		malloc memory for the variable name of 
@@ -201,7 +195,6 @@ replace_cont_of_var(char *arg, char ***env)
 int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 {
 	int	num_new_args;
-	int	num_found_args;
 	char	***env_buf;
 	int	i;
 
@@ -226,9 +219,7 @@ int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 		if (var_pos_in_env_export(*args, info->env) != -1)
 		{
 			replace_cont_of_var(*args, info->env);
-			printf("arg on pos in env:%d\n", var_pos_in_env_export(*args, info->env));
 			args++;
-			i++;
 			continue;
 		}
 			
