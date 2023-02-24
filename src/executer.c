@@ -15,11 +15,12 @@ void	fork_process(t_group *group)
 	}
 }
 
-void	dup_fd(int	fd_new, int fd_old)
+void	dup_fd(int	fd_new, int fd_old, t_info *info)
 {
 	if (dup2(fd_new, fd_old) < 0)
 	{
 		printf("dup_func() error new %d old %d\n", fd_new, fd_old);
+		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 		exit(1);
 	}
 }
@@ -35,11 +36,11 @@ int	redir_in(t_group *group)
 			group->redir_in = open(group->redir_infile, O_RDONLY);
 		if (group->redir_in < 0)
 		{
-			perror("open_infile() cannot open file");
 			clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info); //is this nessecary?
+			perror("open_infile() cannot open file");
 			exit(2);
 		}
-		dup_fd(group->redir_in, 0);
+		dup_fd(group->redir_in, 0, group->info);
 		close(group->redir_in);
 	}
 	return (1);
@@ -58,10 +59,10 @@ void	redir_out(t_group *group) //make remove return of int
 			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->redir_out < 0)
 		{
-			perror("could not open outfile");
+			clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 			exit(0);
 		}
-		dup_fd(group->redir_out, 1);
+		dup_fd(group->redir_out, 1, group->info);
 		close(group->redir_out);
 	}
 }
@@ -71,6 +72,7 @@ void	make_pipe(t_group *group)
 	//------------------pipe------------------
 	if(pipe(group->pipe_fd) == -1)
 	{
+		clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 		perror("pipe error");
 		exit(1);
 	}
@@ -158,12 +160,12 @@ void	exec_executables(t_group *group)
 		if (group->redir_in)
 			redir_in(group); //HERE i open files
 		else if (group->pipe_in)
-			dup_fd(group->pipe_in, 0); //READ end from prev pipe
+			dup_fd(group->pipe_in, 0, group->info); //READ end from prev pipe
 		//-------OUTPUT-----------------------------------
 		if (group->redir_out) //HERE i open files
 			redir_out(group);
 		else if (group->pipe_out)
-			dup_fd(group->pipe_fd[WRITE], 1);
+			dup_fd(group->pipe_fd[WRITE], 1, group->info);
 		//-------CLOSING-----------------------------------
 		 closing_fds(group);
 		//-------EXECVE-----------------------------------
@@ -172,9 +174,7 @@ void	exec_executables(t_group *group)
 		else if (execve(group->path, group->arguments, NULL) == -1)
 		{
 			closing_fds(group);
-			perror("exec didnt work\n");
-			//clean up all structs..??
-			exit(2);
+			perror("exec didnt work\n"); //no need to free
 		}
 	}
 	else
