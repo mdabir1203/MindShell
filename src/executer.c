@@ -36,38 +36,34 @@ int	redir_in(t_group *group)
 		if (group->redir_in < 0)
 		{
 			perror("open_infile() cannot open file");
-			return (0);
-			//exit(1);
+			clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info); //is this nessecary?
+			exit(2);
 		}
 		dup_fd(group->redir_in, 0);
 		close(group->redir_in);
-		return (1);
 	}
-	return (0);
+	return (1);
 }
 
 /*Makes a pipe and overwrites STDOU with write end, so execve outputs to pipe instead of STDOUT*/
-int	redir_out(t_group *group) //make remove return of int
+void	redir_out(t_group *group) //make remove return of int
 {
 	if ( group->redir_out == REDIR_OUTPUT || group->redir_out == REDIR_OUTPUT_APPEND)
 	{
 		if (group->redir_out == REDIR_OUTPUT)
 		{
 				group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-
 		}
 		else
 			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->redir_out < 0)
 		{
 			perror("could not open outfile");
-			exit(1);
+			exit(0);
 		}
 		dup_fd(group->redir_out, 1);
 		close(group->redir_out);
-		return (1);
 	}
-	return (0);
 }
 
 void	make_pipe(t_group *group)
@@ -129,22 +125,23 @@ int	builtins(t_group *group)
 void	exec_executables(t_group *group)
 {
 
-	fork_process(group); //    2 PROCESSES
+	fork_process(group); //2 PROCESSES
 	if (group->pid == 0)
 	{
 		//-------INPUT-----------------------------------
 		if (group->redir_in)
-			redir_in(group);
+			redir_in(group); //HERE i open files
 		else if (group->pipe_in)
 			dup_fd(group->pipe_in, 0); //READ end from prev pipe
 		//-------OUTPUT-----------------------------------
-		if (group->redir_out)
+		if (group->redir_out) //HERE i open files
 			redir_out(group);
 		else if (group->pipe_out)
 			dup_fd(group->pipe_fd[WRITE], 1);
 		//-------CLOSING-----------------------------------
 		 closing_fds(group);
 		//-------EXECVE-----------------------------------
+		printf("executing \n");
 		if(group->builtin)
 			builtins(group);
 		else if (execve(group->path, group->arguments, NULL) == -1)
