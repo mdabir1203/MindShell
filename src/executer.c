@@ -111,20 +111,46 @@ void	closing_fds(t_group *group)
 	}
 }
 
-int	builtins(t_group *group)
+void ft_env(t_info *info)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (info->env[++i])
+	{
+		j = -1;
+		while (info->env[i][++j])
+		{
+			printf("%s", info->env[i][j]);
+			if (j == 0)
+				printf("="); //print = after first char
+		}
+		printf("\n");
+	}
+}
+
+void	builtins(t_group *group)
 {
 	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
-	{
-		//printf("executing echo\n");
 		ft_echo(group->arguments, group->pipe_out);
-		
-	}
+	else if (group->builtin == CMD_EXIT)
+		ft_exit(group->info);
+	// else if (group->builtin == CMD_PWD)
+	// 	ft_pwd();
+	else if (group->builtin == CMD_EXPORT)
+		ft_export(group->arguments, group->info);
+	else if (group->builtin == CMD_UNSET)
+		ft_unset(group->arguments, group->info);
+	else if (group->builtin == CMD_ENV)
+		ft_env(group->info);
+	// else if (group->builtin == CMD_CD)
+		//needs to be filled in
 	_Exit(3);
 }
 
 void	exec_executables(t_group *group)
 {
-
 	fork_process(group); //2 PROCESSES
 	if (group->pid == 0)
 	{
@@ -141,7 +167,6 @@ void	exec_executables(t_group *group)
 		//-------CLOSING-----------------------------------
 		 closing_fds(group);
 		//-------EXECVE-----------------------------------
-		printf("executing \n");
 		if(group->builtin)
 			builtins(group);
 		else if (execve(group->path, group->arguments, NULL) == -1)
@@ -173,6 +198,7 @@ void	executer(t_group	*group)
 	
 	i = -1;
 	print_groups(group, group->info);
+	//ft_env(group->info); //for testing
 	while (++i < group->info->num_groups)
 	{
 		if (!executer_error_check(group->info, group))
