@@ -4,6 +4,7 @@
 void	clean_up_group_structs(t_info *info)
 {
 	free(info->groups);
+	info->groups = NULL;
 }
 
 /**
@@ -12,6 +13,7 @@ void	clean_up_group_structs(t_info *info)
 void	clean_up_info_struct(t_info *info)
 {
 	free(info);
+	info = NULL;
 }
 
 void	clean_up_paths(t_info *info)
@@ -26,11 +28,13 @@ void	clean_up_paths(t_info *info)
 		free(paths_[i]);
 	}
 	free(paths_);
+	paths_ = NULL;
 }
 
 void	clean_up_prompt(t_info *info)
 {
 	free(info->prompt);
+	info->prompt = NULL;
 }
 
 void clean_up_env(t_info *info)
@@ -51,6 +55,7 @@ void clean_up_env(t_info *info)
 		free(env_[i]);
 	}
 	free(env_);
+	env_ = NULL;
 }
 
 void clean_up_lexer(t_info *info)
@@ -65,6 +70,7 @@ void clean_up_lexer(t_info *info)
 		free(lexer[i]);
 	}
 	free(lexer);
+	lexer = NULL;
 }
 
 void clean_up_arguments(t_info *info)
@@ -76,6 +82,7 @@ void clean_up_arguments(t_info *info)
 	{
 		free(info->groups[i].arguments);
 	}
+	info->groups[i].arguments = NULL;
 }
 
 void	clean_up_path_to_executable(t_info *info)
@@ -88,6 +95,7 @@ void	clean_up_path_to_executable(t_info *info)
 		if (info->groups[i].path)
 			free(info->groups[i].path);
 	}
+	info->groups[i].path = NULL;
 }
 
 void	clean_up(int clean_up_code, t_info *info)
