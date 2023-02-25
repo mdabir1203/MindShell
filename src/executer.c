@@ -132,12 +132,12 @@ void	fork_and_execve(t_group *group)
 		//-------INPUT-----------------------------------
 		if (group->redir_in)
 			redir_in(group); //open infile
+		else if (group->pipe_in) //if pipe_in + no redir_in
+			dup_fd(group->pipe_in, 0, group->info);
 		if (group->redir_out)//open outfile
 			redir_out(group);
-		if (group->pipe_in && !group->redir_in) //if pipe_in + no redir_in
-			dup_fd(group->pipe_in, 0, group->info);
 		//-------OUTPUT-----------------------------------
-		else if (group->pipe_out && !group->redir_out) //if pipe_out + no redir_out
+		else if (group->pipe_out) //if pipe_out + no redir_out
 			dup_fd(group->pipe_fd[WRITE], 1, group->info);
 		//-------CLOSING-----------------------------------
 		 closing_fds(group);
