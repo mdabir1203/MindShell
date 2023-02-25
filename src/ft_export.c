@@ -100,12 +100,10 @@ void populate_cont(char *str, char *arg)
 int	error_check_export(char **args)
 {
 	int equal_flag;
-	int wrong_identifier;
 	int i;
 	int j;
 
 	i = 0;
-	wrong_identifier = 0;
 	while (args[++i])
 	{
 		equal_flag = 0;
@@ -155,7 +153,7 @@ int	var_pos_in_env_export(char *arg, char	***env)
  * copy content
  * free the old content
  */
-replace_cont_of_var(char *arg, char ***env)
+void	replace_cont_of_var(char *arg, char ***env)
 {
 	char	*buf;
 	int		var_pos_in_env;
