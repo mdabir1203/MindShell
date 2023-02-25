@@ -6,6 +6,7 @@ SRCS =	src/main.c \
 	src/clean_up.c \
 	src/ft_echo.c \
 	src/ft_exit.c \
+	src/ft_env.c \
 	src/init.c \
 	src/error.c \
 	src/ft_split_lexer.c \
@@ -20,7 +21,6 @@ SRCS =	src/main.c \
 	src/ft_export.c \
 	src/ft_unset.c \
 	src/expand_variables.c \
-	
 	
 
 OBJS =	$(SRCS:.c=.o)

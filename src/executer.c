@@ -113,25 +113,6 @@ void	closing_fds(t_group *group)
 	}
 }
 
-void ft_env(t_info *info)
-{
-	int i;
-	int j;
-
-	i = -1;
-	while (info->env[++i])
-	{
-		j = -1;
-		while (info->env[i][++j])
-		{
-			printf("%s", info->env[i][j]);
-			if (j == 0)
-				printf("="); //print = after first char
-		}
-		printf("\n");
-	}
-}
-
 void	builtins(t_group *group)
 {
 	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
@@ -190,7 +171,8 @@ void	exec_executables(t_group *group)
 			replace_pipe_in_next_group(group, 0);
 	}
 }
-
+// SHELL=/bin/bash
+// COLORTERM=truecolor
 
 void	executer(t_group	*group)
 {

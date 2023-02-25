@@ -232,6 +232,9 @@ void	ft_echo(char	**args, int pipe_out);
 
 void	ft_exit(t_info *info);
 
+//**** ft_env.c ****//
+void	ft_env(t_info *info);
+
 //**** ft_export.c ****//
 
 int	num_env_args(char ***args);
