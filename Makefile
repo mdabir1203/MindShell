@@ -51,6 +51,9 @@ $(LIBFT):
 e:	all
 	./$(NAME)
 
+start: re
+	./$(NAME)
+
 fds:	re
 	valgrind --track-fds=yes ./$(NAME)
 l:	all

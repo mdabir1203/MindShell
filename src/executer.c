@@ -20,7 +20,7 @@ void	dup_fd(int	fd_new, int fd_old, t_info *info)
 	if (dup2(fd_new, fd_old) < 0)
 	{
 		printf("dup_func() error new %d old %d\n", fd_new, fd_old);
-		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+		//clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 		exit(1);
 	}
 }
@@ -36,9 +36,9 @@ int	redir_in(t_group *group)
 			group->redir_in = open(group->redir_infile, O_RDONLY);
 		if (group->redir_in < 0)
 		{
-			clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info); //is this nessecary?
+			//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info); //is this nessecary
 			perror("open_infile() cannot open file");
-			exit(2);
+			exit(999);
 		}
 		dup_fd(group->redir_in, 0, group->info);
 		close(group->redir_in);
@@ -59,7 +59,7 @@ void	redir_out(t_group *group) //make remove return of int
 			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->redir_out < 0)
 		{
-			clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
+			//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 			exit(0);
 		}
 		dup_fd(group->redir_out, 1, group->info);
@@ -72,7 +72,7 @@ void	make_pipe(t_group *group)
 	//------------------pipe------------------
 	if(pipe(group->pipe_fd) == -1)
 	{
-		clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
+		//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 		perror("pipe error");
 		exit(1);
 	}
@@ -171,35 +171,43 @@ void	exec_executables(t_group *group)
 			replace_pipe_in_next_group(group, 0);
 	}
 }
-// SHELL=/bin/bash
-// COLORTERM=truecolor
 
 void	executer(t_group	*group)
 {
 	int i;
+	int status;
 	
 	i = -1;
-	print_groups(group, group->info);
+	//print_groups(group, group->info);
 	//ft_env(group->info); //for testing
+	chdir("~/42");
 	while (++i < group->info->num_groups)
 	{
+		//move opening files to here??
 		if (!executer_error_check(group->info, group))
-		{
-			//printf("inside2\n");
 			break;
-		}
-		//pipe if no redirections and pipe out is present
 		if (!group->redir_out && group->pipe_out)
-		{
-			printf("pipe is made, i = %d \n", i);
 			make_pipe(group);
-		}
-		printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
+		// if (group->builtin == CMD_EXPORT || group->builtin == CMD_UNSET || group->builtin == CMD_ENV)
+
+			//do builtins and recursion so that it can handle pipes???
 		if(group->path || group->builtin)
 			exec_executables(group);
 		if (i < group->info->num_groups - 1) //increment group pointer
 			group++;
+		int status_;
+		int counter;
+		counter = 0;
+		waitpid(-1, &status_, 0);
+		counter = WEXITSTATUS(status_);
+		printf("counter: %d\n", counter);
+		if (counter != 0)
+		{
+			//clean up all filedescriptors!
+			return;
+		}
 	}
 	while (wait(NULL) > 0)
 		;
 }
+//printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);

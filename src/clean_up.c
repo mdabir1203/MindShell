@@ -29,6 +29,7 @@ void	clean_up_paths(t_info *info)
 	}
 	free(paths_);
 	paths_ = NULL;
+	info->paths = NULL;
 }
 
 void	clean_up_prompt(t_info *info)
@@ -56,6 +57,7 @@ void clean_up_env(t_info *info)
 	}
 	free(env_);
 	env_ = NULL;
+	info->env = NULL;
 }
 
 void clean_up_lexer(t_info *info)
@@ -71,6 +73,7 @@ void clean_up_lexer(t_info *info)
 	}
 	free(lexer);
 	lexer = NULL;
+	info->input_lexer = NULL;
 }
 
 void clean_up_arguments(t_info *info)
@@ -81,8 +84,8 @@ void clean_up_arguments(t_info *info)
 	while (++i < info->num_groups)
 	{
 		free(info->groups[i].arguments);
+		info->groups[i].arguments = NULL;
 	}
-	info->groups[i].arguments = NULL;
 }
 
 void	clean_up_path_to_executable(t_info *info)
@@ -93,9 +96,11 @@ void	clean_up_path_to_executable(t_info *info)
 	while (i++ < info->num_groups)
 	{
 		if (info->groups[i].path)
+		{
 			free(info->groups[i].path);
+			info->groups[i].path = NULL;
+		}
 	}
-	info->groups[i].path = NULL;
 }
 
 void	clean_up(int clean_up_code, t_info *info)
