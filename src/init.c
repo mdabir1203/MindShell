@@ -70,6 +70,6 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 		groups[i].pipe_out = 0;
 		groups[i].info = info;
 	}
-	printf("ptr %d\n",  groups[0].redir_out);
+	//printf("ptr %d\n",  groups[0].redir_out);
 	return (groups);
 }

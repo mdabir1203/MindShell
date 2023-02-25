@@ -231,6 +231,6 @@ int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 		args++;
 		i++;
 	}
-	ft_env(info);
+	//ft_env(info); //testing
 	return (0);
 }

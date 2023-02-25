@@ -20,7 +20,7 @@ void	dup_fd(int	fd_new, int fd_old, t_info *info)
 	if (dup2(fd_new, fd_old) < 0)
 	{
 		printf("dup_func() error new %d old %d\n", fd_new, fd_old);
-		//clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 		exit(1);
 	}
 }
@@ -113,52 +113,43 @@ void	closing_fds(t_group *group)
 	}
 }
 
-void	builtins(t_group *group)
+void	builtins_with_output(t_group *group)
 {
 	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
 		ft_echo(group->arguments, group->pipe_out);
-	else if (group->builtin == CMD_EXIT)
-		ft_exit(group->info);
 	// else if (group->builtin == CMD_PWD)
 	// 	ft_pwd();
-	else if (group->builtin == CMD_EXPORT)
-		ft_export(group->arguments, group->info);
-	else if (group->builtin == CMD_UNSET)
-		ft_unset(group->arguments, group->info);
 	else if (group->builtin == CMD_ENV)
 		ft_env(group->info);
-	// else if (group->builtin == CMD_CD)
-		//needs to be filled in
-	_Exit(3);
+	exit(0); //changed from _Exit(3);
 }
 
-void	exec_executables(t_group *group)
+void	fork_and_execve(t_group *group)
 {
-	fork_process(group); //2 PROCESSES
-	if (group->pid == 0)
+	fork_process(group);
+	if (group->pid == 0) //CHILD
 	{
 		//-------INPUT-----------------------------------
 		if (group->redir_in)
-			redir_in(group); //HERE i open files
-		else if (group->pipe_in)
-			dup_fd(group->pipe_in, 0, group->info); //READ end from prev pipe
-		//-------OUTPUT-----------------------------------
-		if (group->redir_out) //HERE i open files
+			redir_in(group); //open infile
+		if (group->redir_out)//open outfile
 			redir_out(group);
-		else if (group->pipe_out)
+		if (group->pipe_in && !group->redir_in) //if pipe_in + no redir_in
+			dup_fd(group->pipe_in, 0, group->info);
+		//-------OUTPUT-----------------------------------
+		else if (group->pipe_out && !group->redir_out) //if pipe_out + no redir_out
 			dup_fd(group->pipe_fd[WRITE], 1, group->info);
 		//-------CLOSING-----------------------------------
 		 closing_fds(group);
 		//-------EXECVE-----------------------------------
-		if(group->builtin)
-			builtins(group);
-		else if (execve(group->path, group->arguments, NULL) == -1)
-		{
-			closing_fds(group);
-			perror("exec didnt work\n"); //no need to free
-		}
+		if(group->builtin == CMD_ECHO || group->builtin == CMD_ENV || group->builtin == CMD_PWD)
+			builtins_with_output(group);
+		if (group->path)
+			if (execve(group->path, group->arguments, NULL) == -1)
+				perror("exec didnt work\n"); //no need to free anything here
+		exit(0); //exiting export cd etc..
 	}
-	else
+	else //PARENT
 	{
 		//ONLY HANDLE PIPES FROM CURR AND PREV
 		if (group->pipe_out)
@@ -172,38 +163,73 @@ void	exec_executables(t_group *group)
 	}
 }
 
+void	builtin_no_piping(t_group *group)
+{
+	if (group->builtin == CMD_EXPORT)
+		ft_export(group->arguments, group->info);
+	else if (group->builtin == CMD_UNSET)
+		ft_unset(group->arguments, group->info);
+	else if (group->builtin == CMD_EXIT)
+		ft_exit(group->info);
+	// else if (group->builtin == CMD_CD)
+	// 	ft_cd(group->arguments, group->info);
+	return;
+}
+
+int	check_access_infile_outfile(t_group *group)
+{
+	if (group->redir_infile)
+	{
+		if (access(group->redir_infile, R_OK) == -1)
+		{
+			printf("redir %s cant open file\n", group->arguments[0]);
+			return (0);
+		}
+	}
+	if (group->redir_outfile)
+	{
+		if (access(group->redir_outfile, W_OK) == -1)
+		{
+			printf("redir %s cant open file\n", group->arguments[0]);
+			return (0);
+		}
+	}
+	return (1);
+}
+
 void	executer(t_group	*group)
 {
 	int i;
-	int status;
+	int status_;
+	int counter;
 	
 	i = -1;
-	//print_groups(group, group->info);
+	print_groups(group, group->info);
 	//ft_env(group->info); //for testing
-	chdir("~/42");
 	while (++i < group->info->num_groups)
 	{
-		//move opening files to here??
-		if (!executer_error_check(group->info, group))
+		// if (!executer_error_check(group->info, group))
+		// 	break;
+		// group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		// return ;
+		if (!check_access_infile_outfile(group))
 			break;
-		if (!group->redir_out && group->pipe_out)
+		if (group->pipe_out) //Must be made even though pipe out
 			make_pipe(group);
-		// if (group->builtin == CMD_EXPORT || group->builtin == CMD_UNSET || group->builtin == CMD_ENV)
-
-			//do builtins and recursion so that it can handle pipes???
-		if(group->path || group->builtin)
-			exec_executables(group);
-		if (i < group->info->num_groups - 1) //increment group pointer
+		if (!group->pipe_out && group->info->num_groups == 1)
+			if(group->builtin == CMD_EXPORT || group->builtin == CMD_UNSET || group->builtin == CMD_EXIT || group->builtin == CMD_CD)
+				builtin_no_piping(group);
+		if(group->path || group->builtin || group->redir_out)
+			fork_and_execve(group);
+		if (i < group->info->num_groups - 1)
 			group++;
-		int status_;
-		int counter;
 		counter = 0;
 		waitpid(-1, &status_, 0);
 		counter = WEXITSTATUS(status_);
-		printf("counter: %d\n", counter);
+		//printf("counter: %d\n", counter);
 		if (counter != 0)
 		{
-			//clean up all filedescriptors!
+			//clean up all filedescriptors??
 			return;
 		}
 	}

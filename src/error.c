@@ -42,7 +42,6 @@ int	executer_error_check(t_info *info, t_group *groups)
 	(void) info;
 	if (groups[0].redir_in == REDIR_INPUT)
 	{
-			printf("inside1\n");
 			//input_message(REDIRECT_ERROR_1, 0);
 			//return (0);
 	}
