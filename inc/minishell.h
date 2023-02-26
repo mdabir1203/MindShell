@@ -108,6 +108,7 @@
  * like this while(group[i]) -> has to be done like this
  * while(++i < info->num_groups) don't know why.
  */
+
 typedef struct s_info
 {
 	char			*prompt;
@@ -281,5 +282,6 @@ void	test_env_vars(t_info *info);
 void	p2d(char **ptr);
 void	print_groups(t_group *groups, t_info *info);
 
+extern int	g_exit_status;
 
 #endif

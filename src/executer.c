@@ -235,6 +235,7 @@ void	executer(t_group	*group)
 	counter = WEXITSTATUS(status_);
 		if (counter != 0)
 		{
+			g_exit_status = counter;
 			//clean up all filedescriptors??
 			return ;
 		}
