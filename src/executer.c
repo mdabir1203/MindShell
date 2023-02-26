@@ -169,6 +169,7 @@ void	fork_and_execve(t_group *group)
 
 void	builtin_no_piping(t_group *group)
 {
+	printf("args: %s and %s\n", group->arguments[0], group->arguments[1]);
 	if (group->builtin == CMD_EXPORT)
 		ft_export(group->arguments, group->info);
 	else if (group->builtin == CMD_UNSET)
