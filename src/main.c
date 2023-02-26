@@ -8,23 +8,13 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
 	{
-		//printf("OUCH, did you hit Ctrl-C?\n");
-		//ft_putstr_fd("\b\b\n", 1);
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else
-		printf("Press ctrl-C to display a new prompt or ctrl-D to exit the shell!\n"); // DOES NOT WORK!!!
-	/*if (sig == 0)
-	{
-		printf("OUCH, did you hit Ctrl-C?\n");
-		exit(0);
-	}*/
 	(void) context;
 	(void) *info;
-	//exit(0);
 }
 
 int	ft_signal(struct sigaction	sa)
