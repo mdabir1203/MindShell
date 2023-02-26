@@ -62,6 +62,7 @@ void	redir_out(t_group *group) //make remove return of int
 			O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->redir_out < 0)
 		{
+			perror("cannot open file\n");
 			//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 			exit(0);
 		}
@@ -184,14 +185,6 @@ int	check_access_infile_outfile(t_group *group)
 	if (group->redir_infile)
 	{
 		if (access(group->redir_infile, R_OK) == -1)
-		{
-			printf("cannot open file\n");
-			return (0);
-		}
-	}
-	if (group->redir_outfile)
-	{
-		if (access(group->redir_outfile, W_OK) == -1)
 		{
 			printf("cannot open file\n");
 			return (0);
