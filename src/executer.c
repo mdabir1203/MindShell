@@ -15,7 +15,7 @@ void	fork_process(t_group *group)
 	}
 }
 
-void	dup_fd(int	fd_new, int fd_old, t_info *info)
+void	dup_fd(int fd_new, int fd_old, t_info *info)
 {
 	if (dup2(fd_new, fd_old) < 0)
 	{
@@ -49,14 +49,17 @@ int	redir_in(t_group *group)
 /*Makes a pipe and overwrites STDOU with write end, so execve outputs to pipe instead of STDOUT*/
 void	redir_out(t_group *group) //make remove return of int
 {
-	if ( group->redir_out == REDIR_OUTPUT || group->redir_out == REDIR_OUTPUT_APPEND)
+	if (group->redir_out == REDIR_OUTPUT || \
+	group->redir_out == REDIR_OUTPUT_APPEND)
 	{
 		if (group->redir_out == REDIR_OUTPUT)
 		{
-				group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				group->redir_out = open(group->redir_outfile, \
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		else
-			group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			group->redir_out = open(group->redir_outfile, \
+			O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->redir_out < 0)
 		{
 			//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
@@ -70,7 +73,7 @@ void	redir_out(t_group *group) //make remove return of int
 void	make_pipe(t_group *group)
 {
 	//------------------pipe------------------
-	if(pipe(group->pipe_fd) == -1)
+	if (pipe(group->pipe_fd) == -1)
 	{
 		//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 		perror("pipe error");
@@ -80,7 +83,7 @@ void	make_pipe(t_group *group)
 
 void	replace_pipe_in_next_group(t_group *group, int new_pipe_in)
 {
-	t_group *temp;
+	t_group	*temp;
 
 	temp = group;
 	temp++;
@@ -89,7 +92,7 @@ void	replace_pipe_in_next_group(t_group *group, int new_pipe_in)
 
 int	next_have_pipe_out(t_group *group)
 {
-	t_group *temp;
+	t_group	*temp;
 
 	temp = group;
 	temp++;
@@ -101,8 +104,8 @@ int	next_have_pipe_out(t_group *group)
 void	closing_fds(t_group *group)
 {
 	if (group->redir_out)
-			close(group->redir_out);
-	if(group->redir_in)
+		close(group->redir_out);
+	if (group->redir_in)
 		close(group->redir_in);
 	if (group->pipe_in)
 		close(group->pipe_in);
@@ -115,7 +118,7 @@ void	closing_fds(t_group *group)
 
 void	builtins_with_output(t_group *group)
 {
-	if (group->builtin == CMD_ECHO)//strncmp(group->arguments[0], "echo", 4) == 0)
+	if (group->builtin == CMD_ECHO)
 		ft_echo(group->arguments, group->pipe_out);
 	// else if (group->builtin == CMD_PWD)
 	// 	ft_pwd();
@@ -142,7 +145,8 @@ void	fork_and_execve(t_group *group)
 		//-------CLOSING-----------------------------------
 		 closing_fds(group);
 		//-------EXECVE-----------------------------------
-		if(group->builtin == CMD_ECHO || group->builtin == CMD_ENV || group->builtin == CMD_PWD)
+		if (group->builtin == CMD_ECHO || group->builtin == CMD_ENV \
+		|| group->builtin == CMD_PWD)
 			builtins_with_output(group);
 		if (group->path)
 			if (execve(group->path, group->arguments, NULL) == -1)
@@ -151,9 +155,8 @@ void	fork_and_execve(t_group *group)
 	}
 	else //PARENT
 	{
-		//ONLY HANDLE PIPES FROM CURR AND PREV
 		if (group->pipe_out)
-			close(group->pipe_fd[WRITE]); //for sure
+			close(group->pipe_fd[WRITE]);
 		if (group->pipe_in)
 			close(group->pipe_in);
 		if (group->pipe_out && !group->redir_out)
@@ -173,7 +176,7 @@ void	builtin_no_piping(t_group *group)
 		ft_exit(group->info);
 	// else if (group->builtin == CMD_CD)
 	// 	ft_cd(group->arguments, group->info);
-	return;
+	return ;
 }
 
 int	check_access_infile_outfile(t_group *group)
@@ -199,10 +202,10 @@ int	check_access_infile_outfile(t_group *group)
 
 void	executer(t_group	*group)
 {
-	int i;
-	int status_;
-	int counter;
-	
+	int	i;
+	int	status_;
+	int	counter;
+
 	i = -1;
 	print_groups(group, group->info);
 	//ft_env(group->info); //for testing
@@ -213,13 +216,14 @@ void	executer(t_group	*group)
 		// group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		// return ;
 		if (!check_access_infile_outfile(group))
-			break;
+			break ;
 		if (group->pipe_out) //Must be made even though pipe out
 			make_pipe(group);
 		if (!group->pipe_out && group->info->num_groups == 1)
-			if(group->builtin == CMD_EXPORT || group->builtin == CMD_UNSET || group->builtin == CMD_EXIT || group->builtin == CMD_CD)
+			if (group->builtin == CMD_EXPORT || group->builtin == CMD_UNSET \
+			|| group->builtin == CMD_EXIT || group->builtin == CMD_CD)
 				builtin_no_piping(group);
-		if(group->path || group->builtin || group->redir_out)
+		if (group->path || group->builtin || group->redir_out)
 			fork_and_execve(group);
 		if (i < group->info->num_groups - 1)
 			group++;
@@ -230,7 +234,7 @@ void	executer(t_group	*group)
 		if (counter != 0)
 		{
 			//clean up all filedescriptors??
-			return;
+			return ;
 		}
 	}
 	while (wait(NULL) > 0)

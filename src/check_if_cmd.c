@@ -1,6 +1,7 @@
 #include "../inc/minishell.h"
 
-char	*check_and_return_path(char *slash_added, char *slash_not_added, char *cmd)
+char	*check_and_return_path(char *slash_added, \
+char *slash_not_added, char *cmd)
 {
 	if (!access(slash_added, X_OK))
 	{
@@ -19,8 +20,8 @@ char	*check_and_return_path(char *slash_added, char *slash_not_added, char *cmd)
 
 char	*add_slash(char *cmd, char *path)
 {
-	char *slash_added;
-	char *temp;
+	char	*slash_added;
+	char	*temp;
 
 	temp = ft_strjoin(path, "/");
 	slash_added = ft_strjoin(temp, cmd);
@@ -37,9 +38,9 @@ char	*add_slash(char *cmd, char *path)
  */
 char	*is_an_executable(char *cmd, t_info *t_info)
 {
-	int i;
-	char *slash_added;
-	char *slash_not_added;
+	int		i;
+	char	*slash_added;
+	char	*slash_not_added;
 	char	*path_to_executable;
 
 	i = -1;
@@ -47,7 +48,8 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 	{
 		slash_added = add_slash(cmd, t_info->paths[i]);
 		slash_not_added = ft_strjoin(slash_added, cmd);
-		path_to_executable = check_and_return_path(slash_added, slash_not_added, cmd);
+		path_to_executable = check_and_return_path(slash_added, \
+		slash_not_added, cmd);
 		if (path_to_executable)
 		{
 			t_info->nb_root_cmd++;
