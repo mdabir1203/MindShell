@@ -227,17 +227,16 @@ void	executer(t_group	*group)
 			fork_and_execve(group);
 		if (i < group->info->num_groups - 1)
 			group++;
-		counter = 0;
-		waitpid(-1, &status_, 0);
-		counter = WEXITSTATUS(status_);
-		//printf("counter: %d\n", counter);
+	}
+	while (wait(NULL) > 0)
+		;
+	counter = 0;
+	waitpid(-1, &status_, 0);
+	counter = WEXITSTATUS(status_);
 		if (counter != 0)
 		{
 			//clean up all filedescriptors??
 			return ;
 		}
-	}
-	while (wait(NULL) > 0)
-		;
 }
 //printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
