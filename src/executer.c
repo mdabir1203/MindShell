@@ -207,8 +207,11 @@ void	executer(t_group	*group)
 	{
 		// if (!executer_error_check(group->info, group))
 		// 	break;
-		// group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		// return ;
+		if (!group->builtin && !group->path)
+		{
+			printf("command not found\n");
+			break ;
+		}
 		if (!check_access_infile_outfile(group))
 			break ;
 		if (group->pipe_out) //Must be made even though pipe out
