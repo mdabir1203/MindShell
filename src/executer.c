@@ -185,7 +185,7 @@ int	check_access_infile_outfile(t_group *group)
 	{
 		if (access(group->redir_infile, R_OK) == -1)
 		{
-			printf("cant open file\n", group->arguments[0]);
+			printf("cannot open file\n");
 			return (0);
 		}
 	}
@@ -193,7 +193,7 @@ int	check_access_infile_outfile(t_group *group)
 	{
 		if (access(group->redir_outfile, W_OK) == -1)
 		{
-			printf("cant open file\n", group->arguments[0]);
+			printf("cannot open file\n");
 			return (0);
 		}
 	}
