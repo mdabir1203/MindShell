@@ -21,6 +21,7 @@ SRCS =	src/main.c \
 	src/ft_export.c \
 	src/ft_unset.c \
 	src/expand_variables.c \
+	src/ft_cd.c \
 	
 
 OBJS =	$(SRCS:.c=.o)

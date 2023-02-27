@@ -223,7 +223,12 @@ void	executer(t_group	*group);
 
 //**** expand_variables.c.c ****//
 
-int	expand_variables(char	**array, char ***env, t_info *info);
+char	*value_of_variable_from_env(char ***env, char *var, int len);
+int		expand_variables(char	**array, char ***env, t_info *info);
+
+//**** ft_cd.c ****//
+
+void	ft_cd(char **args, t_info *info);
 
 //**** ft_echo.c ****//
 
