@@ -32,7 +32,6 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	i = -1;
 
 	add_history(info->prompt);
-
 	info->input_lexer = ft_split_lexer(info->prompt, info);
 	if (!info->input_lexer)
 		return (0);
