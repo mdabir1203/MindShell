@@ -32,15 +32,18 @@ char *get_absolute_path(char *path, t_info *info) // test path with " kdsjf/  "
 		if (!new_wd)
 			return (NULL);
 	}
-	// else if (*path == '~')
-	// {
-
-	// }
+	else if (*path == '~' && path[1] == '/')
+	{
+		new_wd = value_of_variable_from_env(info->env, "HOME", 4);
+		// buf = ft_strjoin(new_wd, "/");
+		new_wd = ft_strjoin(new_wd, ft_strchr(path, '/'));
+		// free (buf);
+	}
 	else if (*path == '/')
 	{
 		new_wd = ft_strdup(path);
-		if (slash_at_end(new_wd))
-			new_wd[ft_strlen(new_wd) - 1] = '\0';
+		// if (slash_at_end(new_wd))
+		// 	new_wd[ft_strlen(new_wd) - 1] = '\0';
 	}
 	else
 	{
@@ -49,10 +52,38 @@ char *get_absolute_path(char *path, t_info *info) // test path with " kdsjf/  "
 		free (new_wd);
 		new_wd = ft_strjoin(buf, path);
 		free(buf);
-		if (slash_at_end(new_wd))
-			new_wd[ft_strlen(new_wd) - 1] = '\0';
+		// if (slash_at_end(new_wd))
+		// 	new_wd[ft_strlen(new_wd) - 1] = '\0';
 	}
 	return (new_wd);
+}
+
+/**
+ * calls ft_export, so first create 2d array
+ * and array[1] should be "var=value"
+*/
+char	*set_env_value(char *var, char *value, t_info *info)
+{
+	char	*args;
+	char	*buf;
+
+	args = malloc(sizeof(char*) * 3);
+	if (!args)
+		return (NULL);
+	args[2] = NULL;
+	args[0] = ft_strjoin("export", "");
+	if (!args[0])
+		return (NULL);
+	buf = ft_strjoin(var, "=");
+	if (!buf)
+		return (NULL);
+	args[1] = ft_strjoin(buf, value);
+	free (buf);
+	ft_export(args, info);
+	free (args[0]);
+	free (args[1]);
+	free (args);
+	
 }
 
 /**
@@ -71,10 +102,21 @@ char *get_absolute_path(char *path, t_info *info) // test path with " kdsjf/  "
 void	ft_cd(char **args, t_info *info)
 {
 	char	*absolute_path;
+	char	*buf;
 
-	// absolute_path = get_absolute_path(args[1], info);
-	chdir(args[1]);
-	printf("%s\n", getcwd(NULL, 0));// absolute_path);
+	buf = NULL;
+	absolute_path = get_absolute_path(args[1], info);
+	// chdir(args[1]);
+	printf("%s\n", absolute_path);
+	if (access(absolute_path, F_OK))
+	{
+		printf("path does not exist");
+		//error
+	}
+	buf = getcwd(NULL, 0);
+
+	ft_export()
+	free (buf);
 	// char	*path;
 	// char	*home;
 	// int		i;
@@ -94,7 +136,7 @@ void	ft_cd(char **args, t_info *info)
 	// 		return ;
 	// 	path = ft_strchr(home, '=');
 	// 	path++;
-	// }
+	// 
 	// else
 	// 	path = info->args[1];
 	// if (chdir(path) == -1)
