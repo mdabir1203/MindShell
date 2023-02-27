@@ -62,6 +62,7 @@ void	redir_out(t_group *group) //make remove return of int
 			O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (group->redir_out < 0)
 		{
+			perror("cannot open file\n");
 			//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 			exit(0);
 		}
@@ -168,6 +169,7 @@ void	fork_and_execve(t_group *group)
 
 void	builtin_no_piping(t_group *group)
 {
+	printf("args: %s and %s\n", group->arguments[0], group->arguments[1]);
 	if (group->builtin == CMD_EXPORT)
 		ft_export(group->arguments, group->info);
 	else if (group->builtin == CMD_UNSET)
@@ -189,14 +191,6 @@ int	check_access_infile_outfile(t_group *group)
 			return (0);
 		}
 	}
-	if (group->redir_outfile)
-	{
-		if (access(group->redir_outfile, W_OK) == -1)
-		{
-			printf("cannot open file\n");
-			return (0);
-		}
-	}
 	return (1);
 }
 
@@ -213,8 +207,11 @@ void	executer(t_group	*group)
 	{
 		// if (!executer_error_check(group->info, group))
 		// 	break;
-		// group->redir_out = open(group->redir_outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		// return ;
+		if (!group->builtin && !group->path)
+		{
+			printf("command not found\n");
+			break ;
+		}
 		if (!check_access_infile_outfile(group))
 			break ;
 		if (group->pipe_out) //Must be made even though pipe out
@@ -227,17 +224,17 @@ void	executer(t_group	*group)
 			fork_and_execve(group);
 		if (i < group->info->num_groups - 1)
 			group++;
-		counter = 0;
-		waitpid(-1, &status_, 0);
-		counter = WEXITSTATUS(status_);
-		//printf("counter: %d\n", counter);
-		if (counter != 0)
-		{
-			//clean up all filedescriptors??
-			return ;
-		}
 	}
 	while (wait(NULL) > 0)
 		;
+	counter = 0;
+	waitpid(-1, &status_, 0);
+	counter = WEXITSTATUS(status_);
+		if (counter != 0)
+		{
+			g_exit_status = counter;
+			//clean up all filedescriptors??
+			return ;
+		}
 }
 //printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);

@@ -40,6 +40,8 @@ int	ft_signal(struct sigaction	sa)
               establishing a signal handler.
 **envp environment for env.
  **/
+int g_exit_status = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa;
@@ -56,6 +58,9 @@ int	main(int argc, char **argv, char **envp)
 	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
 	while (1)
 	{
+		if (g_exit_status > 0)
+			printf("exit status from last prompt = %d", g_exit_status);
+		g_exit_status = 0;
 		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 		{
 			write(1, "\n", 1);

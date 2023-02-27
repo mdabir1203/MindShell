@@ -83,8 +83,16 @@ int	ft_unset(char **args, t_info *info)
 	int		var_pos;
 	int		num_vars;
 	char	***env;
+	int i;
 
 	//error_check "not a valid identifier" and return 1
+	
+	if (!ft_strncmp (args[1], "PATH", 4))
+	{
+		i = -1;
+		while (info->paths[++i])
+			info->paths[i] = NULL;
+	}
 	if (error_check_unset(args))
 		return (error(ERR_EQUAL_IN_UNSET_ARG, NULL));
 	args++;
