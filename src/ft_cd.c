@@ -1,14 +1,14 @@
 #include "../inc/minishell.h"
 
-int	slash_at_end(char *str)
-{
-	int	len;
+// int	slash_at_end(char *str)
+// {
+// 	int	len;
 
-	len = ft_strlen(str);
-	if (str[len - 1] == '/')
-		return (1);
-	return (0);
-}
+// 	len = ft_strlen(str);
+// 	if (str[len - 1] == '/')
+// 		return (1);
+// 	return (0);
+// }
 
 /**
  * @brief gets a path
@@ -61,17 +61,19 @@ char *get_absolute_path(char *path, t_info *info) // test path with " kdsjf/  "
 /**
  * calls ft_export, so first create 2d array
  * and array[1] should be "var=value"
+ * @returns NULL if malloc fails, else ptr to env
+ *
 */
 char	*set_env_value(char *var, char *value, t_info *info)
 {
-	char	*args;
+	char	**args;
 	char	*buf;
 
 	args = malloc(sizeof(char*) * 3);
 	if (!args)
 		return (NULL);
 	args[2] = NULL;
-	args[0] = ft_strjoin("export", "");
+	args[0] = ft_strdup("export");
 	if (!args[0])
 		return (NULL);
 	buf = ft_strjoin(var, "=");
@@ -83,7 +85,7 @@ char	*set_env_value(char *var, char *value, t_info *info)
 	free (args[0]);
 	free (args[1]);
 	free (args);
-	
+	return (info->env);
 }
 
 /**
@@ -98,6 +100,8 @@ char	*set_env_value(char *var, char *value, t_info *info)
  * change to new path with
  * put the new path to PWD in env
  * 
+ * acess() returns 0 if the path exists. If not returns -1
+ * 
  */
 void	ft_cd(char **args, t_info *info)
 {
@@ -106,42 +110,21 @@ void	ft_cd(char **args, t_info *info)
 
 	buf = NULL;
 	absolute_path = get_absolute_path(args[1], info);
-	// chdir(args[1]);
-	printf("%s\n", absolute_path);
-	if (access(absolute_path, F_OK))
+	if (access(absolute_path, F_OK) != 0)
 	{
-		printf("path does not exist");
-		//error
+		error(ERR_CD_NO_DIRECTORY, info);
+		free (absolute_path);
+		return;
 	}
 	buf = getcwd(NULL, 0);
-
-	ft_export()
+	set_env_value("OLDPWD", buf, info);
 	free (buf);
-	// char	*path;
-	// char	*home;
-	// int		i;
-
-	// i = 0;
-	// home = NULL;
-	// path = NULL;
-	// if (info->args[1] == NULL)
-	// {
-	// 	while (info->env[i])
-	// 	{
-	// 		if (ft_strncmp(info->env[i], "HOME", 4) == 0)
-	// 			home = info->env[i];
-	// 		i++;
-	// 	}
-	// 	if (home == NULL)
-	// 		return ;
-	// 	path = ft_strchr(home, '=');
-	// 	path++;
-	// 
-	// else
-	// 	path = info->args[1];
-	// if (chdir(path) == -1)
-	// {
-	// 	printf("cd: %s: No such file or directory\n", path);
-	// 	return ;
-	// }
+	chdir(absolute_path);
+	buf = getcwd(NULL, 0);
+	set_env_value("PWD", buf, info);
+	//test
+	printf("%s\n", buf);
+	//test
+	free (buf);
+	free (absolute_path);
 }

@@ -55,6 +55,7 @@
 # define ERR_NO_EQUAL_IN_EXPORT_ARG 47
 # define ERR_EQUAL_IN_UNSET_ARG 48
 # define ERR_MALLOC_EXPAND_VARIABLES 49
+# define ERR_CD_NO_DIRECTORY 50
 
 //**                OTHER FLAGS                          **//
 
