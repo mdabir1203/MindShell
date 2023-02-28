@@ -82,6 +82,11 @@ int	error(int err, t_info *info)
 		input_message(INVALID_IDENTIFIER, 0);
 		//printf("Not a valid identifier\n");
 	}
+	if (err == ERR_CD_NO_DIRECTORY)
+	{
+		input_message(REDIRECT_ERROR_1, 0);
+		//printf("Not a valid identifier\n");
+	}
 	clean_up(err, info);
 	return (1);
 	//return(0);

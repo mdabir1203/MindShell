@@ -3,7 +3,7 @@
 # in the current Setup of the 42 Wolfsburg infrastructure the library necessary to correctly compile and execute a minishell-project
 # is installed in a way that it malfunctions. i don't know the exact cause of this but the issue i found is that while compiling the
 # needed Header-Files of the library, those fall back on other header file of the sambe library, but cannot find them with relative
-# Paths and therefore mark them missing and obstruct function.
+# s and therefore mark them missing and obstruct function.
 # My current work around is to change the header files to include each other by the absolute path of our computers in order to avoid
 # this. But to do so i need to reinstall the library itself, which required Homebrew-Access, which we students don't have.
 # My current work around for this is to reinstall Homebrew on the local storage of the computer and change the include files in the

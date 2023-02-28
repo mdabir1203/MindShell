@@ -55,6 +55,7 @@
 # define ERR_NO_EQUAL_IN_EXPORT_ARG 47
 # define ERR_EQUAL_IN_UNSET_ARG 48
 # define ERR_MALLOC_EXPAND_VARIABLES 49
+# define ERR_CD_NO_DIRECTORY 50
 
 //**                OTHER FLAGS                          **//
 
@@ -223,7 +224,12 @@ void	executer(t_group	*group);
 
 //**** expand_variables.c.c ****//
 
-int	expand_variables(char	**array, char ***env, t_info *info);
+char	*value_of_variable_from_env(char ***env, char *var, int len);
+int		expand_variables(char	**array, char ***env, t_info *info);
+
+//**** ft_cd.c ****//
+
+void	ft_cd(char **args, t_info *info);
 
 //**** ft_echo.c ****//
 
