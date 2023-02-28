@@ -190,7 +190,7 @@ void	replace_cont_of_var(char *arg, char ***env)
  * 		
  * @return 0
  */
-int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
+int	ft_export(char **args, t_info *info)
 {
 	int	num_new_args;
 	char	***env_buf;
@@ -200,12 +200,12 @@ int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 	if (num_new_args == 0)	
 		return (0);
 	if (error_check_export(args))
-		return (1);//error(ERR_NO_EQUAL_IN_EXPORT_ARG, NULL));
+		return (0);
 	i = 0;
 	env_buf = info->env;
 	info->env = ft_calloc((num_env_args(info->env) + num_new_args + 1), sizeof(char *));
 	if (!info->env)
-		return (0); // save really please !!!
+		return (2); // save really please !!!
 	populate_new_env(info->env, env_buf);
 	free (env_buf);
 	env_buf = info->env;
@@ -220,17 +220,20 @@ int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 			args++;
 			continue;
 		}
-			
 		env_buf[i] = malloc(sizeof(char *) * 3);
+		if (!env_buf[i])
+			return (2);
 		env_buf[i][2] = NULL;
-		// save malloc!!
 		env_buf[i][0] = ft_calloc((num_var_chars(*args) + 1), sizeof(char));
+		if (!env_buf[i][0])
+			return (2);
 		env_buf[i][1] = ft_calloc((num_cont_chars(*args) + 1), sizeof(char));
+		if (!env_buf[i][1])
+			return (2);
 		populate_var(env_buf[i][0], *args);
 		populate_cont(env_buf[i][1], *args);
 		args++;
 		i++;
 	}
-	//ft_env(info); //testing
 	return (0);
 }
