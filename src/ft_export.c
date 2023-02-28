@@ -190,7 +190,7 @@ void	replace_cont_of_var(char *arg, char ***env)
  * 		
  * @return 0
  */
-int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
+int	ft_export(char **args, t_info *info)
 {
 	int	num_new_args;
 	char	***env_buf;
@@ -200,7 +200,7 @@ int	ft_export(char **args, t_info *info) // export sjkdfh without = sign??
 	if (num_new_args == 0)	
 		return (0);
 	if (error_check_export(args))
-		return (1);//error(ERR_NO_EQUAL_IN_EXPORT_ARG, NULL));
+		return (0);//when export ksjdf -> newline return 0
 	i = 0;
 	env_buf = info->env;
 	info->env = ft_calloc((num_env_args(info->env) + num_new_args + 1), sizeof(char *));
