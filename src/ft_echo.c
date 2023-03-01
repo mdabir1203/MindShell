@@ -7,7 +7,7 @@ void	ft_echo(char	**args, int pipe_out)
 	int arg_j;
 
 	arg_j = 0;
-	printf("pipe out %d\n", pipe_out);
+	//printf("pipe out %d\n", pipe_out);
 	if (!strncmp(args[1], "-n", 2))
 	{
 		++arg_j;
