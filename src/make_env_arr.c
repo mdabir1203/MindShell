@@ -10,10 +10,12 @@ void	make_env(char **envp, t_info *info)
 	i = 0;
 	while (envp[i])
 		i++;
-	info->env = malloc(sizeof(char *) * i + 1);
+	info->env =ft_calloc(i + 1, sizeof(char *));
 	if (!(info->env))
+	{
+		write(2, "Error: malloc failed", 20);
 		exit (0);
-	info->env[i] = NULL;
+	}
 	while (--i >= 0)
 	{
 		info->env[i] = ft_one_split(envp[i], '=');

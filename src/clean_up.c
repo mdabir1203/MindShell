@@ -54,6 +54,7 @@ void clean_up_env(t_info *info)
 			free(env_[i][j]);
 		}
 		free(env_[i]);
+		env_[i] = NULL;
 	}
 	free(env_);
 	env_ = NULL;

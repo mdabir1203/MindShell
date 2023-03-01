@@ -197,8 +197,6 @@ int	check_access_infile_outfile(t_group *group)
 void	executer(t_group	*group)
 {
 	int	i;
-	int	status_;
-	int	counter;
 
 	i = -1;
 	print_groups(group, group->info);
@@ -227,14 +225,16 @@ void	executer(t_group	*group)
 	}
 	while (wait(NULL) > 0)
 		;
-	counter = 0;
-	waitpid(-1, &status_, 0);
-	counter = WEXITSTATUS(status_);
-		if (counter != 0)
-		{
-			g_exit_status = counter;
-			//clean up all filedescriptors??
-			return ;
-		}
+	// int	status_;
+	// int	counter;
+	// counter = 0;
+	// waitpid(-1, &status_, 0);
+	// counter = WEXITSTATUS(status_);
+	// 	if (counter != 0)
+	// 	{
+	// 		g_exit_status = counter;
+	// 		//clean up all filedescriptors??
+	// 		return ;
+	// 	}
 }
 //printf("i = %d arg[0] %s pipe in = %d\n", i, group->arguments[0], group->pipe_in);
