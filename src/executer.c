@@ -176,8 +176,8 @@ void	builtin_no_piping(t_group *group)
 		ft_unset(group->arguments, group->info);
 	else if (group->builtin == CMD_EXIT)
 		ft_exit(group->info);
-	// else if (group->builtin == CMD_CD)
-	// 	ft_cd(group->arguments, group->info);
+	else if (group->builtin == CMD_CD)
+		ft_cd(group->arguments, group->info);
 	return ;
 }
 
