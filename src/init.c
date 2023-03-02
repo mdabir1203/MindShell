@@ -1,23 +1,14 @@
 #include "../inc/minishell.h"
 
-/**
- * @brief return 0 if everything worked out
- */
-int make_prompt(t_info *info)
-{
-	info->prompt = NULL;
-	return (0);
-}
-
-
 t_info	*init(char **envp)
 {
 	t_info *info;
 	info = malloc(sizeof(t_info));
 	make_env(envp, info);
-	make_prompt(info);
+	info->prompt = NULL;
 	info->input_lexer = NULL;
 	info->num_groups = 0;
+	info->groups = NULL;
 	return (info);
 }
 

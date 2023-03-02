@@ -68,6 +68,8 @@ void clean_up_lexer(t_info *info)
 
 	i = -1;
 	lexer = info->input_lexer;
+	if (!lexer)
+		return;
 	while (lexer[++i])
 	{
 		free(lexer[i]);
@@ -94,7 +96,9 @@ void	clean_up_path_to_executable(t_info *info)
 	int	i;
 
 	i = -1;
-	while (i++ < info->num_groups)
+	if (!info->groups)
+		return;
+	while (i++ < info->num_groups) //i++ ??
 	{
 		if (info->groups[i].path)
 		{
