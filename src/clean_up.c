@@ -84,6 +84,8 @@ void clean_up_arguments(t_info *info)
 	int		i;
 
 	i = -1;
+	if (!info->groups)
+		return;
 	while (++i < info->num_groups)
 	{
 		free(info->groups[i].arguments);
@@ -98,7 +100,7 @@ void	clean_up_path_to_executable(t_info *info)
 	i = -1;
 	if (!info->groups)
 		return;
-	while (i++ < info->num_groups) //i++ ??
+	while (++i < info->num_groups)
 	{
 		if (info->groups[i].path)
 		{
