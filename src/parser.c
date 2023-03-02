@@ -77,7 +77,7 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	//print_groups(info->groups, info); // möglich <> ??
 	// ft_unset(info->groups[0].arguments, info);
 	
-	ft_echo(info->groups[0].arguments, info->groups[0].pipe_out);
+	// ft_echo(info->groups[0].arguments, info->groups[0].pipe_out);
 	// return (0);
 	// test_env_vars(info);
 	return (1);

@@ -20,9 +20,9 @@ int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 			}
 		return (1);
 	}
-	if (pl->cat == PIPE)
+	if (pl->cat == PIPE && info->input_lexer[++i])
 	{
-		if(!strncmp(info->input_lexer[++i], "|", 2))
+		if(!strncmp(info->input_lexer[i], "|", 2))
 		{
 			input_message(PIPE_ERROR_2, 0);
 			return (0);
