@@ -57,7 +57,8 @@ int	error(int err, t_info *info)
 	printf("ERROR\n");
 	input_message(ERROR, 0);
 	if (err == ERR_MALLOC_SPLIT || err == ERR_MALLOC_INIT_GROUPS \
-		|| err == ERR_CMD_NOT_FOUND || err == ERR_MALLOC_SPLIT_ONE) //need to free something here?
+		|| err == ERR_CMD_NOT_FOUND || err == ERR_MALLOC_SPLIT_ONE
+		|| err == ERR_MALLOC_EXPAND_VARIABLES) //need to free something here?
 	{
 		input_message(MALLOC_FAIL, 0);			//let's do this or
 		//printf("While memory allocation\n");	// this ?
