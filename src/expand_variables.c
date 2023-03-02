@@ -191,42 +191,7 @@ int	expand_variables(char	**array, char ***env, t_info *info)
 				s_quote = !s_quote;
 			if (*buf == '\"' && !s_quote)
 				d_quote = !d_quote;
-
-
-
-			// buf = &array[i][j];
-			// old_str = array[i];
-			// if (!s_quote && *buf == '$')
-			// {
-			// 	num_var = variable_name_count(buf);
-            //     // printf("num_var: %d\n", num_var);
-            //     var = ft_substr( buf, 1, num_var); // malloc and copy var name
-            //     //save malloc from substr
-            //     // printf("_%s_\n", var);
-            //     value = value_of_variable_from_env(env, var, num_var);
-			// 	if (!value)
-			// 	{
-			// 		num_value = 0;
-			// 	}
-			// 	else
-            //     	num_value = ft_strlen(value);
-            //     // lexer: "$vari ist gut" -> "hallo ist gut" -> needs more memory
-            //     int strlen = ft_strlen(array[i]); //------------------------------------ // what if empty string?
-            //     array[i] = malloc(sizeof(char) * (strlen - (num_var + 1) + num_value + 1));
-            //     // always starts with a $ ?? "hallo $vari du da" ??
-            //     replace_first_var_in_str(array[i], old_str, value, num_var, num_value);
-			// 	// printf("old: %s\n", old_str);
-			// 	// printf("new: %s\n", array[i]); //newline irgendwo her
-
-            //     // copy old text   whats with "hallo $vari und so $vari lala"
-
-			// }
-
-			// if (*buf == '\'')
-			// {
-			// 	s_quote = !s_quote;
-			// }
 		}
 	}
-	return (0); //DONT KNOW
+	return (1);
 }
