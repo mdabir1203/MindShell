@@ -8,7 +8,12 @@ void	ft_echo(char	**args, int pipe_out)
 
 	arg_j = 0;
 	//printf("pipe out %d\n", pipe_out);
-	if (!ft_strncmp(args[1], "-n", 2))
+	if (!args[1])
+	{
+		if (!(pipe_out == 1) || args[1])	// doesn't give an empty line for "echo" without args anymore
+			ft_putchar_fd('\n', 1);
+	}
+	else if (!ft_strncmp(args[1], "-n", 2))
 	{
 		++arg_j;
 		while (args[++arg_j])	// starting from 1 as 0 is the command itself
@@ -28,4 +33,4 @@ void	ft_echo(char	**args, int pipe_out)
 		if (!(pipe_out == 1) || args[arg_j])	// doesn't give an empty line for "echo" without args anymore
 			ft_putchar_fd('\n', 1);
 	}
-}
+ }
