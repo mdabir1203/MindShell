@@ -59,7 +59,8 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 		pl-> is_red = found_save_redirect(pl, info, info->input_lexer[i]);
 	
 		pl->is_exe = found_save_executable(pl, info, info->input_lexer[i], i);
-		
+		// if (pl->is_exe == -1)
+		// 	return (0);
 		found_save_arguments(pl, info, i);
 
 		pipe_detector(pl, info);
@@ -72,7 +73,7 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 		//printf("break failed\n");
 		//printf("cat1 %d\n", pl->cat);
 	}
-	//p2d(info->input_lexer);
+	// p2d(info->paths);
 	
 	//print_groups(info->groups, info); // möglich <> ??
 	// ft_unset(info->groups[0].arguments, info);
