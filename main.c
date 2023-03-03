@@ -1,5 +1,5 @@
 
-#include "../inc/minishell.h"
+#include "./inc/minishell.h"
 
 /**	SIGQUIT should do nothing
  * 
@@ -47,7 +47,6 @@ int	main(int argc, char **argv, char **envp)
 	struct sigaction	sa;
 	t_info	*info;
 
-	ft_memset(&sa, 0, sizeof(sa));
 	if (argc > 1 || argv[1])
 		return (1);
 	ft_signal(sa);
