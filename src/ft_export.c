@@ -190,12 +190,24 @@ void	replace_cont_of_var(char *arg, char ***env)
  * 		
  * @return 0
  */
+
+void export_with_no_args(t_info *info)
+{
+	int i;
+
+	i = -1;
+	while (info->env[++i])
+		printf("declare -x %s=\"%s\"\n", info->env[i][0], info->env[i][1]);
+}
+
 int	ft_export(char **args, t_info *info)
 {
 	int	num_new_args;
 	char	***env_buf;
 	int	i;
 
+	if (!args[1])
+		export_with_no_args(info);
 	num_new_args = num_args(args);
 	if (num_new_args == 0)	
 		return (0);

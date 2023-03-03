@@ -54,6 +54,7 @@ void clean_up_env(t_info *info)
 			free(env_[i][j]);
 		}
 		free(env_[i]);
+		env_[i] = NULL;
 	}
 	free(env_);
 	env_ = NULL;
@@ -67,6 +68,8 @@ void clean_up_lexer(t_info *info)
 
 	i = -1;
 	lexer = info->input_lexer;
+	if (!lexer)
+		return;
 	while (lexer[++i])
 	{
 		free(lexer[i]);
@@ -81,6 +84,8 @@ void clean_up_arguments(t_info *info)
 	int		i;
 
 	i = -1;
+	if (!info->groups)
+		return;
 	while (++i < info->num_groups)
 	{
 		free(info->groups[i].arguments);
@@ -93,7 +98,9 @@ void	clean_up_path_to_executable(t_info *info)
 	int	i;
 
 	i = -1;
-	while (i++ < info->num_groups)
+	if (!info->groups)
+		return;
+	while (++i < info->num_groups)
 	{
 		if (info->groups[i].path)
 		{

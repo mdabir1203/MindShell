@@ -91,6 +91,7 @@ int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer
 			info->groups[pl->act_group].builtin = is_builtin(act_input_lexer_str);
 			info->groups[pl->act_group].arguments[0] = act_input_lexer_str;
 			free(path_to_executable);
+			path_to_executable = NULL;
 		}
 		else if (path_to_executable)
 		{
@@ -230,13 +231,14 @@ void	delete_quotationmarks(char	**array)
 			}
 
 			if (!d_quote && buf == '\'')
-			{
+				s_quote = !s_quote;
+			// {
 				
-				if (s_quote == 0)
-					s_quote = 1;
-				else
-					s_quote = 0;
-			}
+			// 	if (s_quote == 0)
+			// 		s_quote = 1;
+			// 	else
+			// 		s_quote = 0;
+			// }
 			else if (!s_quote && buf == '\"')
 			{
 				shift_str_left(&array[i][j]);

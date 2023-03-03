@@ -64,7 +64,7 @@ char *get_absolute_path(char *path, t_info *info) // test path with " kdsjf/  "
  * @returns NULL if malloc fails, else ptr to env
  *
 */
-char	*set_env_value(char *var, char *value, t_info *info)
+char	***set_env_value(char *var, char *value, t_info *info)
 {
 	char	**args;
 	char	*buf;

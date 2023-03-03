@@ -60,6 +60,9 @@ fds:	re
 l:	all
 	leaks --atExit -- ./$(NAME)
 
+vg: re
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+
 clean:
 			make clean -C libft
 			rm -f $(OBJS)

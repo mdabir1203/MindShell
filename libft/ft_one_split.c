@@ -5,8 +5,6 @@ static void	ft_fill_array(char const *s, char c, char **newstrings)
 	unsigned int	i;
 	unsigned int	j;
 
-	if (!s || !newstrings)
-		exit(0);
 	i = -1;
 	while (s[++i] != c);
 	newstrings[0] = ft_calloc(i + 1, sizeof(char));

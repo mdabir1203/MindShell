@@ -10,5 +10,7 @@ void	ft_exit(t_info *info)
     }
     input_message(STR_EXIT_SUCCESSFULL, 0);
     //printf("Exit successfull!\n");
+		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+		clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
     exit (0);           // where do we want to free our prompt???
 }
