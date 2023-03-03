@@ -57,6 +57,9 @@ l: all
 vg: re
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
+start: re
+	./$(NAME)
+
 clean:
 	@make -C $(LIBFTDIR) clean
 	@rm -f $(OBJ_DIR)/*.o

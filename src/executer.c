@@ -11,6 +11,7 @@ void	fork_process(t_group *group)
 	if (group->pid == -1)
 	{
 		perror("fork error");
+		g_exit_status = 1;
 		exit(1);
 	}
 }
@@ -21,6 +22,7 @@ void	dup_fd(int fd_new, int fd_old, t_info *info)
 	{
 		printf("dup_func() error new %d old %d\n", fd_new, fd_old);
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+		g_exit_status = 1;
 		exit(1);
 	}
 }
@@ -38,7 +40,8 @@ int	redir_in(t_group *group)
 		{
 			//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info); //is this nessecary
 			perror("open_infile() cannot open file");
-			exit(999);
+			g_exit_status = 1;
+			exit(1);
 		}
 		dup_fd(group->redir_in, 0, group->info);
 		close(group->redir_in);
@@ -63,6 +66,7 @@ void	redir_out(t_group *group) //make remove return of int
 		if (group->redir_out < 0)
 		{
 			perror("cannot open file\n");
+			g_exit_status = 1;
 			//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 			exit(0);
 		}
@@ -78,6 +82,7 @@ void	make_pipe(t_group *group)
 	{
 		//clean_up(CLEAN_UP_FOR_NEW_PROMPT, group->info);
 		perror("pipe error");
+		g_exit_status = 1;
 		exit(1);
 	}
 }
@@ -151,7 +156,10 @@ void	fork_and_execve(t_group *group)
 			builtins_with_output(group);
 		if (group->path)
 			if (execve(group->path, group->arguments, NULL) == -1)
+			{
+				g_exit_status = 1;
 				perror("exec didnt work\n"); //no need to free anything here
+			}
 		exit(0); //exiting export cd etc..
 	}
 	else //PARENT
@@ -187,6 +195,7 @@ int	check_access_infile_outfile(t_group *group)
 	{
 		if (access(group->redir_infile, R_OK) == -1)
 		{
+			g_exit_status = 1;
 			printf("cannot open file\n");
 			return (0);
 		}
@@ -207,8 +216,9 @@ void	executer(t_group	*group)
 		// 	break;
 		if (!group->builtin && !group->path)
 		{
-			printf("command not found\n");
-			break ;
+			g_exit_status = 127;
+			group++;
+			continue ;
 		}
 		if (!check_access_infile_outfile(group))
 			break ;
@@ -222,6 +232,7 @@ void	executer(t_group	*group)
 			fork_and_execve(group);
 		if (i < group->info->num_groups - 1)
 			group++;
+		// g_exit_status = 0;
 	}
 	while (wait(NULL) > 0)
 		;

@@ -36,6 +36,7 @@ int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 	}
 	if (pl->is_exe == -1)
 	{
+		g_exit_status = 127;
 		input_message(STR_WRITE_ERROR, 0);
 		return (0);
 	}
