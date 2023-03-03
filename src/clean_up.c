@@ -122,14 +122,18 @@ void	clean_up_path_to_executable(t_info *info)
 
 void	clean_up(int clean_up_code, t_info *info)
 {
-	if (clean_up_code == CTRL_D_PRESSED) 
-		exit(0); //should we use rrl_clear_history here to free history? maybe we can check with valgrind? please correct me if i dont understand (nick)
+	if (clean_up_code == CTRL_D_PRESSED)
+	{
+		clean_up(CLEAN_UP_FOR_NEW_PROMPT);
+		clean_up(CLEAN_UP_REST_BEFORE_EXIT);
+		exit(0);
+	} 
 	if (clean_up_code == ERR_MALLOC_INIT_GROUPS)
 	{
 		clean_up_group_structs(info);
 	}
 	
-	if (clean_up_code == CLEAN_UP_REST_BEFORE_EXIT)
+	if (clean_up_code == CLEAN_UP_REST_BEFORE_EXIT) //should we use rrl_clear_history here to free history? maybe we can check with valgrind? please correct me if i dont understand (nick)
 	{
 		clean_up_env(info);
 		clean_up_paths(info);

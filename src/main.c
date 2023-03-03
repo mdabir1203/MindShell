@@ -51,7 +51,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv[1])
 		return (1);
 	ft_signal(sa);
-	info = init(envp);
+	if (!(info = init(envp)))
+		return (1);
 	if(info->prompt)
 		printf("prompt"); //to silence the warning
 	printf("Welcome to the minishell!\n");
@@ -77,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 		// ft_unset(info->groups[0].arguments); // for testing
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 	}
+	printf("drin\n");
 	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
 	return (0);
 }

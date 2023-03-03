@@ -4,6 +4,8 @@ t_info	*init(char **envp)
 {
 	t_info *info;
 	info = malloc(sizeof(t_info));
+	if (!info)
+		return (NULL);
 	make_env(envp, info);
 	info->prompt = NULL;
 	info->input_lexer = NULL;
