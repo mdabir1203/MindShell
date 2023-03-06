@@ -51,6 +51,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 re:	fclean all
 
+e: all
+	./$(NAME)
+
 l: all
 	leaks --atExit -- ./$(NAME)
 
