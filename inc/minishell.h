@@ -116,7 +116,7 @@ typedef struct s_info
 	char			**input_lexer;
 	char			***env;
 	char			**paths;
-	char			*root_cmd;
+	// char			*root_cmd;
 	int				nb_root_cmd;
 	int				num_groups;
 	struct s_group	*groups;
@@ -226,6 +226,9 @@ void	executer(t_group	*group);
 
 char	*value_of_variable_from_env(char ***env, char *var, int len);
 int		expand_variables(char	**array, char ***env, t_info *info);
+
+//**** ft_pwd.c ***//
+void	ft_pwd(t_group *group);
 
 //**** ft_cd.c ****//
 

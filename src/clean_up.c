@@ -101,6 +101,7 @@ void clean_up_arguments(t_info *info)
 		free(info->groups[i].arguments);
 		info->groups[i].arguments = NULL;
 	}
+	free(info->groups->arguments);
 }
 
 void	clean_up_path_to_executable(t_info *info)
