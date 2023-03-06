@@ -60,13 +60,12 @@ int	main(int argc, char **argv, char **envp)
 	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
 	while (1)
 	{
-		if (g_exit_status > 0)
 			printf("exit status from last prompt = %d", g_exit_status);
 		g_exit_status = 0;
 		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 		{
 			write(1, "\n", 1);
-			clean_up(CTRL_D_PRESSED, NULL); // ATTENTION, hand over info somehow !!!
+			clean_up(CTRL_D_PRESSED, info); // ATTENTION, hand over info somehow !!!
 		}
 		if (!parser(info))
 		{
@@ -78,7 +77,6 @@ int	main(int argc, char **argv, char **envp)
 		// ft_unset(info->groups[0].arguments); // for testing
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 	}
-	printf("drin\n");
-	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
+	//clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
 	return (0);
 }

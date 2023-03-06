@@ -53,14 +53,16 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 
 		pl->cat = categorize(info->input_lexer[i]);
 		//printf("cat0 %d\n", pl->cat);
-		if (!parser_error_check(info, pl, i))
-			return (0);
+		//if (!parser_error_check(info, pl, i))
+		//	return (0);
 
 		pl-> is_red = found_save_redirect(pl, info, info->input_lexer[i]);
 	
 		pl->is_exe = found_save_executable(pl, info, info->input_lexer[i], i);
 		// if (pl->is_exe == -1)
 		// 	return (0);
+		if (!parser_error_check(info, pl, i))
+			return (0);
 		found_save_arguments(pl, info, i);
 
 		pipe_detector(pl, info);
