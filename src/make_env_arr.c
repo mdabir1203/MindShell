@@ -18,7 +18,7 @@ void	make_env(char **envp, t_info *info)
 	}
 	while (--i >= 0)
 	{
-		info->env[i] = ft_one_split(envp[i], '=');
+		info->env[i] = ft_one_split(envp[i], '='); //save malloc !!!!
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			info->paths = ft_split(envp[i] + 5, ':');
 	}
