@@ -1,6 +1,12 @@
 
 #include "./inc/minishell.h"
 
+/**
+ * TCSNOW -> change attribs in mid session
+ *           w/out waiting for next read/write
+ * &= ~ -> bitwise negation
+ * ECHOCTL -> control chars are unset
+**/
 void	remove_ctrl_c_feedback(void)
 {
 	struct termios	term;
@@ -9,17 +15,6 @@ void	remove_ctrl_c_feedback(void)
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
-
-void set_term_attrib(void)
-{
-	struct termios term2;
-
-	tcgetattr(STDIN_FILENO, &term2);
-	term2.c_lflag &= ~(ICANON | ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSANOW, &term2);
-}
-
-
 
 /**	SIGQUIT should do nothing
  * 
@@ -74,7 +69,6 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc > 1 || argv[1])
 		return (1);
-	set_term_attrib();
 	ft_signal(sa);
 	info = init(envp);
 	if(info->prompt)

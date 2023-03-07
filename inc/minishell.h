@@ -110,9 +110,6 @@
  * like this while(group[i]) -> has to be done like this
  * while(++i < info->num_groups) don't know why.
  */
-
-typedef void (*free_func_t)(void *);
-
 typedef struct s_info
 {
 	char			*prompt;
