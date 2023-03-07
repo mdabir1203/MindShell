@@ -42,6 +42,7 @@ int	ft_signal(struct sigaction	sa)
 **envp environment for env.
  **/
 int g_exit_status = 0;
+int errno = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
