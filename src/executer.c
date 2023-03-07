@@ -77,7 +77,7 @@ int heredoc_sub(t_group *group, char *str[3], int fd[2]) //temp str[0] , buf str
  * 
  * @return int 
  */
-int	heredoc(t_group *group)
+int	heredoc(t_group *group) // check fd's closed // save mallocs ? 
 {
 	int fd[2];
 	char	*str[3];
@@ -90,11 +90,13 @@ int	heredoc(t_group *group)
 	{
 		perror("syntax error near unexpected token");
 		g_exit_status = 1;
+		free (str[0]);
+		free (str[1]);
 		exit(1);
 	}
 	if (pipe(fd) == -1)
 	{
-		perror("pipe fail"); // save pipes
+		perror("pipe fail"); // do we need to save pipes?
 		return (-1);
 	}
 	fd[0] = heredoc_sub(group, str, fd);
