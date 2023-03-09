@@ -49,6 +49,7 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 		if (!access(cmd, X_OK))
 		{
 			path_to_executable = ft_strdup(cmd);
+			return (path_to_executable);
 		}
 		return (NULL);
 	}
