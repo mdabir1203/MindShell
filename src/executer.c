@@ -288,7 +288,7 @@ void	executer(t_group	*group)
 	int	i;
 
 	i = -1;
-	print_groups(group, group->info);
+	// print_groups(group, group->info);
 	//ft_env(group->info); //for testing
 	while (++i < group->info->num_groups) //sadfdsa | cat infile | cat
 	{
