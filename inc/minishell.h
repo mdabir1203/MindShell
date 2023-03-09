@@ -206,6 +206,7 @@ int	executer_error_check(t_info *info, t_group *groups);
 //**** clean_up.c ****//
 
 void	clean_up_group_structs(t_info *info);
+void	clean_up_paths(t_info *info);
 void	clean_up_prompt();
 void	clean_up_lexer(t_info *info);
 void	clean_up(int clean_up_code, t_info *info);

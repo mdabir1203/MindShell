@@ -44,6 +44,8 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 	char	*path_to_executable;
 
 	i = -1;
+	if (!t_info->paths)
+		return (NULL);
 	while (t_info->paths[++i])
 	{
 		slash_added = add_slash(cmd, t_info->paths[i]);
