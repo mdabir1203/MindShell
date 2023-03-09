@@ -1,6 +1,25 @@
 
 #include "../inc/minishell.h"
 
+/** It removes the visual feedback
+ *  after signal gets handled
+ * -> ICANON flag when removed input
+ *  is processed immediately as each
+ *  char is typed.
+ * &= ~: bitwise negation -> to disable attributes
+ * ECHOCTL: Control chars are not displayed
+ * TCSANOW: change term attrib in midsession
+ *          wout waiting for next read/write 
+ **/
+void	remove_ctrl_c_feed(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 /**	SIGQUIT should do nothing
  * 
  **/
@@ -15,6 +34,7 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	remove_ctrl_c_feed();
 	(void) context;
 	(void) *info;
 }
@@ -63,7 +83,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 			printf("exit status from last prompt = %d", g_exit_status);
-		g_exit_status = 0;
 		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 		{
 			write(1, "\n", 1);
@@ -79,6 +98,6 @@ int	main(int argc, char **argv, char **envp)
 		// ft_unset(info->groups[0].arguments); // for testing
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 	}
-	//clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
+	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
 	return (0);
 }
