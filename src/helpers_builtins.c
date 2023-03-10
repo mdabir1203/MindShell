@@ -22,5 +22,7 @@ void	builtin_no_piping(t_group *group)
 		ft_exit(group->info);
 	else if (group->builtin == CMD_CD)
 		ft_cd(group->arguments, group->info);
+	else if (group->builtin == CMD_CLEAR)
+		ft_clear();
 	return ;
 }

@@ -52,7 +52,7 @@ void	piping_builtin_and_exec(t_group *group)
 		make_pipe(group);
 	if (!group->pipe_out && group->info->num_groups == 1)
 		if (group->builtin == CMD_EXPORT || group->builtin == CMD_UNSET \
-		|| group->builtin == CMD_EXIT || group->builtin == CMD_CD)
+		|| group->builtin == CMD_EXIT || group->builtin == CMD_CD || group->builtin == CMD_CLEAR)
 			builtin_no_piping(group);
 	if (group->path || group->builtin || group->redir_out)
 		fork_and_execve(group);

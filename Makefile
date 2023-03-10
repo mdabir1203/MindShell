@@ -33,6 +33,7 @@ SRCS =	src/main.c \
 		src/expand_variables.c \
 		src/ft_cd.c \
 		src/ft_pwd.c \
+		src/ft_clear.c \
 		src/redirect_and_pipe_helpers.c \
 		src/heredoc.c \
 		src/helpers_builtins.c \
