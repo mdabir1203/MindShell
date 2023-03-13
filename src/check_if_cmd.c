@@ -67,6 +67,8 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 	path_to_executable = NULL;
 	path_to_executable = check_if_access_in_parser(cmd, \
 	t_info, path_to_executable);
+	if (path_to_executable)
+		return (path_to_executable);
 	while (t_info->paths[++i])
 	{
 		slash_added = add_slash(cmd, t_info->paths[i]);
