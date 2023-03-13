@@ -12,7 +12,7 @@ int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 		input_message(PIPE_ERROR_1, 0);
 		return (0);
 	}
-	if (!strncmp(info->input_lexer[0], " ", 1))			// global variable 2 for exit status
+	if (info->input_lexer[1] != NULL && !strncmp(info->input_lexer[0], " ", 1)) //Max added first statement			// global variable 2 for exit status
 	{
 		if (!strncmp(info->input_lexer[++i], "|", 2))
 			{
