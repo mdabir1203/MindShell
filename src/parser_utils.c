@@ -192,6 +192,8 @@ int	count_groups(t_info *info)
 	run = -1;
 	while (info->input_lexer[++run])
 	{
+		if (info->input_lexer[1] == NULL) // added by Max 
+			return (1);
 		if (!strncmp(info->input_lexer[0], "|", 2) || (!strncmp(info->input_lexer[0], " ", 2) && !strncmp(info->input_lexer[1], "|", 2))) // delete second part, if we don't wanna implement that case
 			return (1);
 		if (!ft_strncmp(info->input_lexer[run], "|", 2))
