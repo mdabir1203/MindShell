@@ -37,17 +37,18 @@ char	*add_slash(char *cmd, char *path)
  * to the executable. You have to free the space!!
  */
 
-char	*check_if_access_in_parser(char *cmd, t_info *t_info, char	*path_to_executable)
+int	check_if_access_in_parser(char *cmd, t_info *t_info, char	**path_to_executable)
 {
 	if (!t_info->paths)
 	{
 		if (!access(cmd, X_OK))
 		{
-			path_to_executable = ft_strdup(cmd);
-			return (path_to_executable);
+			*path_to_executable = ft_strdup(cmd);
+			return (1);
 		}
+		return (0);
 	}
-	return (NULL);
+	return (2);
 }
 
 void	free_slash(char *slash_added, char *slash_not_added)
@@ -65,8 +66,10 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 
 	i = -1;
 	path_to_executable = NULL;
-	path_to_executable = check_if_access_in_parser(cmd, \
-	t_info, path_to_executable);
+	if (check_if_access_in_parser(cmd, t_info, &path_to_executable) == 1)
+		return (path_to_executable);
+	if (check_if_access_in_parser(cmd, t_info, &path_to_executable) == 0)
+		return (NULL);
 	if (path_to_executable)
 		return (path_to_executable);
 	while (t_info->paths[++i])
