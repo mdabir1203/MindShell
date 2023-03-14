@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	ft_export(info->groups[0].arguments, info); // for testing
 		// else
 		// {
-		// 	ft_unset(info->groups[0].arguments, info); // for testing
+		// ft_unset(info->groups[0].arguments, info); // for testing
 		// }
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 	}

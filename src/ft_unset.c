@@ -60,11 +60,12 @@ int	error_check_unset(char **args)
 	return (0);
 }
 
-void	free_env(char 	**env_var)
+int	free_env_return_num_vars(char **env_var, char	***env)
 {
 	free(env_var[0]);
 	free(env_var[1]);
 	free(env_var);
+	return (num_env_args(env));
 }
 
 /**
@@ -102,8 +103,7 @@ int	ft_unset(char **args, t_info *info)
 		}
 		if (!ft_strncmp(*args, "PATH", 5))
 			clean_up_paths(info);
-		free
-		num_vars = num_env_args(env);
+		num_vars = free_env_return_num_vars(env[var_pos], env);
 		info->env = ft_calloc((num_vars - 1 + 1), sizeof(char *));
 		populate_env(info->env, env, var_pos);
 		free(env);
