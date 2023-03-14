@@ -10,9 +10,6 @@ int	var_pos_in_env(char *arg, char	***env)
 	i = -1;
 	while (env[++i])
 	{
-		// printf("\n\nenv %s\n", env[i][0]);
-		// printf("arg %s\n", arg);
-		// printf("len %d\n\n", ft_strlen(arg));
 		if (!ft_strncmp(env[i][0], arg, ft_strlen(arg) + 1))
 			return (i);
 	}
@@ -26,8 +23,8 @@ int	var_pos_in_env(char *arg, char	***env)
  */
 void	populate_env(char ***new_env, char ***old_env, int leave_out)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -47,8 +44,8 @@ void	populate_env(char ***new_env, char ***old_env, int leave_out)
  */
 int	error_check_unset(char **args)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (args[++i])
@@ -61,6 +58,13 @@ int	error_check_unset(char **args)
 		}
 	}
 	return (0);
+}
+
+void	free_env(char 	**env_var)
+{
+	free(env_var[0]);
+	free(env_var[1]);
+	free(env_var);
 }
 
 /**
@@ -83,16 +87,7 @@ int	ft_unset(char **args, t_info *info)
 	int		var_pos;
 	int		num_vars;
 	char	***env;
-	// int i;
 
-	//error_check "not a valid identifier" and return 1
-	
-	// if (!ft_strncmp(args[1], "PATH", 5))
-	// {
-	// 	i = -1;
-	// 	while (info->paths[++i])
-	// 		info->paths[i] = NULL;
-	// }
 	if (error_check_unset(args))
 		return (error(ERR_EQUAL_IN_UNSET_ARG, NULL));
 	args++;
@@ -103,13 +98,11 @@ int	ft_unset(char **args, t_info *info)
 		if (var_pos == -1)
 		{
 			args++;
-			continue;
+			continue ;
 		}
 		if (!ft_strncmp(*args, "PATH", 5))
 			clean_up_paths(info);
-		free(env[var_pos][0]);
-		free(env[var_pos][1]);
-		free(env[var_pos]);
+		free
 		num_vars = num_env_args(env);
 		info->env = ft_calloc((num_vars - 1 + 1), sizeof(char *));
 		populate_env(info->env, env, var_pos);
