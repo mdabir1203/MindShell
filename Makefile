@@ -29,6 +29,8 @@ SRCS =	src/main.c \
 		src/parser_utils.c \
 		src/executer.c \
 		src/ft_export.c \
+		src/ft_export_sub.c \
+		src/ft_export_sub_sub.c \
 		src/ft_unset.c \
 		src/expand_variables.c \
 		src/ft_cd.c \
