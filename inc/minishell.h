@@ -249,6 +249,21 @@ void	ft_env(t_info *info);
 //**** ft_clear.c ****//
 void	ft_clear(void);
 
+//**** ft_export_sub_sub.c ****//
+
+void	populate_var(char *str, char *arg);
+void	populate_cont(char *str, char *arg);
+void	export_with_no_args(t_info *info);
+int		var_pos_in_env_export(char *arg, char ***env);
+void	replace_cont_of_var(char *arg, char ***env);
+
+//**** ft_export_sub.c ****//
+
+int		num_args(char **args);
+int		num_env_args(char ***args);
+void	populate_new_env_with_old_args(char ***new_env, char ***old_env);
+int		num_var_chars(char *str);
+int		num_cont_chars(char *str);
 
 //**** ft_export.c ****//
 
