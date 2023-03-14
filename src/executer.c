@@ -40,6 +40,7 @@ void	fork_and_execve(t_group *group)
 				perror("exec didnt work\n");
 			}
 		}
+		clean_up(CTRL_D_PRESSED, group->info);
 		exit(0);
 	}
 	else
