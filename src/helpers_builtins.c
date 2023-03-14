@@ -8,7 +8,6 @@ void	builtins_with_output(t_group *group)
 		ft_env(group->info);
 	else if (group->builtin == CMD_PWD)
 		ft_pwd(group);
-	exit(0);
 }
 
 void	builtin_no_piping(t_group *group)
