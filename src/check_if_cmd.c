@@ -3,14 +3,18 @@
 char	*check_and_return_path(char *slash_added, \
 char *slash_not_added, char *cmd)
 {
-	if (!access(slash_added, X_OK))
-	{
-		return (ft_strdup(slash_added));
-	}
 	if (!access(slash_not_added, X_OK))
 	{
 		return (ft_strdup(slash_not_added));
 	}
+	if (!access(slash_added, X_OK))
+	{
+		return (ft_strdup(slash_added));
+	}
+	// if (!access(slash_not_added, X_OK))
+	// {
+	// 	return (ft_strdup(slash_not_added));
+	// }
 	if (!access(cmd, X_OK))
 	{
 		return (ft_strdup(cmd));
@@ -75,7 +79,7 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 	while (t_info->paths[++i])
 	{
 		slash_added = add_slash(cmd, t_info->paths[i]);
-		slash_not_added = ft_strjoin(slash_added, cmd);
+		slash_not_added = ft_strjoin(t_info->paths[i], cmd);
 		path_to_executable = check_and_return_path(slash_added, \
 		slash_not_added, cmd);   //leak!!! stdup inside
 		if (path_to_executable)

@@ -116,6 +116,9 @@ int	env_buf_end(char ***env_buf)
  * step one argument forward, because the first one is "export"
  * search the end of the environment variables
  * while loop through the new args
+ * 	if there is already a variable with that name in env
+ * 	then replace the content of that var
+ * 	everything after here is in export_while()
  * 		malloc memory for an array of 3; [2] is (NULL)
  * 		with its ptr at the end of env
  * 		malloc memory for the variable name of 
@@ -124,8 +127,8 @@ int	env_buf_end(char ***env_buf)
  * 		copy variable name into malloced memory 
  * 		-> populate_var()
  * 		same for content
- * 		
- * @return 0
+ * @return 0 for sucess, but also 0 from ft_export_sub 
+ * from error check (not good), 2 for malloc error
  */
 int	ft_export(char **args, t_info *info)
 {
@@ -144,7 +147,7 @@ int	ft_export(char **args, t_info *info)
 	{
 		if (var_pos_in_env_export(*args, info->env) != -1)
 		{
-			replace_cont_of_var(*args, info->env);
+			replace_cont_of_var(*args, info->env, info);
 			args++;
 			continue ;
 		}
