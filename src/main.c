@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		executer(info->groups);
 		// if( !ft_strncmp(info->groups[0].arguments[0], "export", 6))
-		// 	ft_export(info->groups[0].arguments, info); // for testing
+		// ft_export(info->groups[0].arguments, info); // for testing
 		// else
 		// {
 		// 	ft_unset(info->groups[0].arguments, info); // for testing

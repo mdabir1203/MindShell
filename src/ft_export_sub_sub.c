@@ -61,8 +61,9 @@ int	var_pos_in_env_export(char *arg, char ***env)
  * malloc memory for the content into env ptr at the right spot
  * copy content
  * free the old content
+ * and set the new info->paths if necessary
  */
-void	replace_cont_of_var(char *arg, char ***env)
+void	replace_cont_of_var(char *arg, char ***env, t_info *info)
 {
 	char	*buf;
 	int		var_pos_in_env;
@@ -72,4 +73,7 @@ void	replace_cont_of_var(char *arg, char ***env)
 	env[var_pos_in_env][1] = ft_calloc(num_cont_chars(arg) + 1, sizeof(char));
 	populate_cont(env[var_pos_in_env][1], arg);
 	free (buf);
+	clean_up_paths(info);
+	if (!ft_strncmp(arg, "PATH=", 5))
+		info->paths = ft_split((arg + 5), ':');
 }

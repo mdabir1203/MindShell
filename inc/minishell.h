@@ -255,7 +255,7 @@ void	populate_var(char *str, char *arg);
 void	populate_cont(char *str, char *arg);
 void	export_with_no_args(t_info *info);
 int		var_pos_in_env_export(char *arg, char ***env);
-void	replace_cont_of_var(char *arg, char ***env);
+void	replace_cont_of_var(char *arg, char ***env, t_info *info);
 
 //**** ft_export_sub.c ****//
 
