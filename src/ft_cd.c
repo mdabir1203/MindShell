@@ -1,14 +1,14 @@
 #include "../inc/minishell.h"
 
-// int	slash_at_end(char *str)
-// {
-// 	int	len;
-
-// 	len = ft_strlen(str);
-// 	if (str[len - 1] == '/')
-// 		return (1);
-// 	return (0);
-// }
+char	*get_absolute_path_sub(char *path, char	**new_wd, char	*buf)
+{
+	*new_wd = getcwd(NULL, 0);
+	buf = ft_strjoin(*new_wd, "/");
+	free (*new_wd);
+	*new_wd = ft_strjoin(buf, path);
+	free(buf);
+	return (*new_wd);
+}
 
 /**
  * @brief gets a path
@@ -19,42 +19,32 @@
  * if couldn't malloc returns NULL
  * return a path without / at the end
  */
-char *get_absolute_path(char *path, t_info *info) // test path with " kdsjf/  "
+char	*get_absolute_path(char *path, t_info *info)
 {
 	char	*new_wd;
 	char	*buf;
 
-	buf = NULL;	
+	buf = NULL;
 	if (!path)
 	{
 		new_wd = value_of_variable_from_env(info->env, "HOME", 4);
+		buf = new_wd;
 		new_wd = ft_strdup(new_wd);
+		free (buf);
 		if (!new_wd)
 			return (NULL);
 	}
 	else if (*path == '~' && path[1] == '/')
 	{
 		new_wd = value_of_variable_from_env(info->env, "HOME", 4);
-		// buf = ft_strjoin(new_wd, "/");
+		buf = new_wd;
 		new_wd = ft_strjoin(new_wd, ft_strchr(path, '/'));
-		// free (buf);
+		free (buf);
 	}
 	else if (*path == '/')
-	{
 		new_wd = ft_strdup(path);
-		// if (slash_at_end(new_wd))
-		// 	new_wd[ft_strlen(new_wd) - 1] = '\0';
-	}
 	else
-	{
-		new_wd = getcwd(NULL, 0);
-		buf = ft_strjoin(new_wd, "/");
-		free (new_wd);
-		new_wd = ft_strjoin(buf, path);
-		free(buf);
-		// if (slash_at_end(new_wd))
-		// 	new_wd[ft_strlen(new_wd) - 1] = '\0';
-	}
+		new_wd = get_absolute_path_sub(path, &new_wd, buf);
 	return (new_wd);
 }
 
@@ -69,7 +59,7 @@ char	***set_env_value(char *var, char *value, t_info *info)
 	char	**args;
 	char	*buf;
 
-	args = malloc(sizeof(char*) * 3);
+	args = malloc(sizeof(char *) * 3);
 	if (!args)
 		return (NULL);
 	args[2] = NULL;
@@ -122,9 +112,6 @@ void	ft_cd(char **args, t_info *info)
 	chdir(absolute_path);
 	buf = getcwd(NULL, 0);
 	set_env_value("PWD", buf, info);
-	//test
-	printf("%s\n", buf);
-	//test
 	free (buf);
 	free (absolute_path);
 }
