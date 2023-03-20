@@ -14,6 +14,7 @@ OBJ_DIR = obj
 
 SRCS =	src/main.c \
 		src/clean_up.c \
+		src/clean_up_utils.c \
 		src/ft_echo.c \
 		src/ft_exit.c \
 		src/ft_env.c \

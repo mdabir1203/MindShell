@@ -203,11 +203,16 @@ char	*is_an_executable(char *cmd, t_info *t_info);
 int		parser_error_check(t_info *info, t_parse_lexer *pl, int i);
 int		executer_error_check(t_info *info, t_group *groups);
 
-//**** clean_up.c ****//
+//**** clean_up_utils.c ****//
 
 void	clean_up_group_structs(t_info *info);
+void	clean_up_info_struct(t_info *info);
 void	clean_up_paths(t_info *info);
 void	clean_up_prompt(t_info *info);
+void	clean_up_env(t_info *info);
+
+//**** clean_up.c ****//
+
 void	clean_up_lexer(t_info *info);
 void	clean_up(int clean_up_code, t_info *info);
 
