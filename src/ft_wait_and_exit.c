@@ -5,6 +5,7 @@ void	wait_and_exit_status(t_group *tmp)
 	int	exit_status;
 	int	i;
 
+	exit_status = 0;
 	i = -1;
 	while (++i < tmp->info->num_groups)
 	{
