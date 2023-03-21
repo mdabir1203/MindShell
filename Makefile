@@ -20,6 +20,8 @@ SRCS =	src/main.c \
 		src/ft_env.c \
 		src/init.c \
 		src/error.c \
+		src/ft_split_lexer_utils_2.c \
+		src/ft_split_lexer_utils.c \
 		src/ft_split_lexer.c \
 		src/tests.c \
 		src/make_env_arr.c \
@@ -71,7 +73,7 @@ l: all
 
 vg: re
 # valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=.ignore_readline.supp ./$(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=.ignore_readline ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=.ignore_readline -s ./$(NAME)
 
 start: re
 	./$(NAME)

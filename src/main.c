@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		//printf("exit status from last prompt = %d", g_exit_status);
-		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
+		if (!(info->prompt = readline("minishelly> "))) // test ersetzen durch "benutzer@machine Ordner % "
 		{
 			write(1, "\n", 1);
 			clean_up(CTRL_D_PRESSED, info); // ATTENTION, hand over info somehow !!!
