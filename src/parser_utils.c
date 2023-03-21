@@ -13,16 +13,51 @@ int	is_redirect(int num)
 	return (0);
 }
 
+// *ret = 1; in the if before the two ifs
+int	found_save_redirect_sub(int *before_cat, t_info *info, \
+	char *act_input_lexer_str, t_parse_lexer *pl)
+{
+	if (is_redirect(*before_cat))
+	{
+		if (pl->cat == WORD || pl->cat == FLAG || \
+			(pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
+		{
+			if (*before_cat == REDIR_INPUT_APPEND ||  *before_cat == REDIR_INPUT)
+				info->groups[pl->act_group].redir_infile = act_input_lexer_str;
+			if (*before_cat == REDIR_OUTPUT_APPEND || *before_cat == REDIR_OUTPUT)
+				info->groups[pl->act_group].redir_outfile = act_input_lexer_str;
+			*before_cat = 0;
+			return (1);
+		}
+	}
+	return (0);
+}
+
+	// if (is_redirect(before_cat))
+	// {
+	// 	if (pl->cat == WORD || pl->cat == FLAG || \
+	// 		(pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
+	// 	{
+	// 		ret = 1;
+	// 		if (before_cat == REDIR_INPUT_APPEND || before_cat == REDIR_INPUT)
+	// 			info->groups[pl->act_group].redir_infile = act_input_lexer_str;
+	// 		if (before_cat == REDIR_OUTPUT_APPEND || before_cat == REDIR_OUTPUT)
+	// 			info->groups[pl->act_group].redir_outfile = act_input_lexer_str;
+	// 		before_cat = 0;
+	// 	}
+	// }
 /**
  * @brief only call ONCE in the loop? it changes status it is called
- * it returns 1 if it identifies the given str as an redirect i.e. (">", " ", "filename")
+ * it returns 1 if it identifies the given str as an redirect 
+ * i.e. (">", " ", "filename")
  * else returns 0
  * it saves the redirect in the struct groups
  */
-int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i) // in init set everything to NULL or 0
+int	found_save_redirect(t_parse_lexer *pl, t_info *info, \
+	char *act_input_lexer_str, int i)
 {
-	int ret;
-	static int before_cat = 0;
+	int			ret;
+	static int	before_cat = 0;
 
 	ret = 0;
 	if (pl->act_group == 0 && i == 0)
@@ -41,18 +76,8 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, char *act_input_lexer_s
 	}
 	if (pl->cat == SEPARATOR && is_redirect(before_cat))
 		ret = 1;
-	if (is_redirect(before_cat))
-	{
-		if (pl->cat == WORD || pl->cat == FLAG || (pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
-		{
-			ret = 1;
-			if (before_cat == REDIR_INPUT_APPEND || before_cat == REDIR_INPUT)
-				info->groups[pl->act_group].redir_infile = act_input_lexer_str;
-			if (before_cat == REDIR_OUTPUT_APPEND || before_cat == REDIR_OUTPUT)
-				info->groups[pl->act_group].redir_outfile = act_input_lexer_str;
-			before_cat = 0;
-		}
-	}
+	if (found_save_redirect_sub(&before_cat, info, act_input_lexer_str, pl) == 1)
+		ret = 1;
 	return (ret);
 }
 
