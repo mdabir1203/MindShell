@@ -13,7 +13,7 @@ void	ft_env(t_info *info)
 		argc++;
 	if (argc > 1) {
 		printf("env: %s No such file or directory\n", info->groups->arguments[1]);
-		return;
+		exit(1);
 	}
 	while (info->env[++i])
 	{

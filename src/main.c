@@ -1,4 +1,3 @@
-
 #include "../inc/minishell.h"
 
 /** It removes the visual feedback
