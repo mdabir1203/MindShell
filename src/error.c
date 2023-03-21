@@ -51,17 +51,6 @@ int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 	return (1);
 }
 
-int	executer_error_check(t_info *info, t_group *groups)
-{
-	(void) info;
-	if (groups[0].redir_in == REDIR_INPUT)
-	{
-			//input_message(REDIRECT_ERROR_1, 0);
-			//return (0);
-	}
-	return (1);
-}
-
 /**
  * @brief 
  * @return error() returns 1 if everything goes well BEWARE!!!
