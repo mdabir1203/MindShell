@@ -36,7 +36,7 @@ void	fork_and_execve(t_group *group)
 		{
 			if (execve(group->path, group->arguments, NULL) == -1)
 			{
-				g_exit_status = 1;
+				g_exit_status = 1; //not needeed whole bracket?
 				perror("exec didnt work\n");
 			}
 		}
@@ -68,11 +68,11 @@ void	executer(t_group	*group)
 	//print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		g_exit_status = 0;
+		g_exit_status = 0; //should not be like this
 		if (!group->builtin && !group->path)
 		{
 			input_message(STR_WRITE_ERROR, 0);
-			g_exit_status = 127;
+			group->exit_status = 127;
 			if (group->pipe_out)
 				replace_pipe_in_next_group(group, 0);
 			if (i < group->info->num_groups - 1)

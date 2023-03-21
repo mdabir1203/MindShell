@@ -7,7 +7,7 @@ int	check_access_infile_outfile(t_group *group)
 		if (access(group->redir_infile, R_OK) == -1 && \
 		group->redir_in != REDIR_INPUT_APPEND)
 		{
-			g_exit_status = 1;
+			group->exit_status = 1;
 			printf("cannot open file\n");
 			return (0);
 		}
@@ -19,9 +19,8 @@ void	dup_fd(int fd_new, int fd_old, t_info *info)
 {
 	if (dup2(fd_new, fd_old) < 0)
 	{
-		printf("dup_func() error new %d old %d\n", fd_new, fd_old);
+		perror("dup_func() error new fd");
 		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
-		g_exit_status = 1;
 		exit(1);
 	}
 }

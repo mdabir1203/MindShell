@@ -7,8 +7,7 @@ void	ft_pwd(t_group *group)
 	if (group->arguments[1])
 	{
 		perror("pwd : too many arguments");
-		g_exit_status = 1;
-		return ;
+		exit(EXIT_FAILURE);
 	}
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)

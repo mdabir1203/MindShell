@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
 	while (1)
 	{
-		//printf("exit status from last prompt = %d", g_exit_status);
+		//printf("exit status from last prompt = %d\n", g_exit_status);
 		if (!(info->prompt = readline("test> "))) // test ersetzen durch "benutzer@machine Ordner % "
 		{
 			write(1, "\n", 1);

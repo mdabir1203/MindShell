@@ -154,6 +154,7 @@ typedef struct s_info
  */
 typedef struct s_group
 {
+	int		exit_status;
 	char	**arguments;
 	char	*path;
 	int		builtin;
