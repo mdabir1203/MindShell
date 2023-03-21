@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/21 18:05:33 by mabbas            #+#    #+#             */
+/*   Updated: 2023/03/21 18:10:12 by mabbas           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 t_info	*init(char **envp)
 {
-	t_info *info;
+	t_info	*info;
+
 	info = malloc(sizeof(t_info));
 	if (!info)
 		return (NULL);
@@ -19,14 +32,14 @@ t_info	*init(char **envp)
  * the right lexer strings -> so we don't need extra memory for the 
  * strings itself
  */
-char **ft_array_args(char *str, t_info *info)
+char	**ft_array_args(char *str, t_info *info)
 {
-	int	word_count;
-	char **array;
+	int		word_count;
+	char	**array;
 
 	word_count = 0;
-	if(str == NULL || *str == 0)
-		return NULL;
+	if (str == NULL || *str == 0)
+		return (NULL);
 	word_count = count_parts(str);
 	array = (char **)malloc((sizeof(char *) * (word_count + 1)));
 	if (!array)
@@ -35,23 +48,20 @@ char **ft_array_args(char *str, t_info *info)
 	return (array);
 }
 
-t_group *init_groups(t_info *info) // init everything inside to NULL
+t_group	*init_groups(t_info *info)
 {
-	t_group *groups;
-	int i;
+	t_group	*groups;
+	int		i;
 
 	i = -1;
-	if (!(groups = ft_calloc(info->num_groups + 1, sizeof(*groups))))
+	groups = ft_calloc(info->num_groups + 1, sizeof(*groups));
+	if (!(groups))
 	{
 		error(ERR_MALLOC_INIT_GROUPS, info);
 		return (NULL);
 	}
-	//save malloc
-	//groups[info->num_groups] = NULL;
 	while (++i < info->num_groups)
 	{
-		//groups[i] = malloc(sizeof(t_group)); // write clean_up
-		//save malloc
 		groups[i].arguments = NULL;
 		groups[i].path = NULL;
 		groups[i].builtin = 0;
@@ -63,6 +73,5 @@ t_group *init_groups(t_info *info) // init everything inside to NULL
 		groups[i].pipe_out = 0;
 		groups[i].info = info;
 	}
-	//printf("ptr %d\n",  groups[0].redir_out);
 	return (groups);
 }
