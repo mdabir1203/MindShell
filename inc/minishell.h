@@ -346,7 +346,8 @@ void	dup_fd(int fd_new, int fd_old, t_info *info);
 void	closing_fds(t_group *group);
 void	handle_redir_and_dup(t_group *group);
 
-
+//**** ft_wait_and_exit.c ****//
+void	wait_and_exit_status(t_group *tmp);
 
 //**** tests.c ****//
 

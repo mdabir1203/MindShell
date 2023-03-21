@@ -41,7 +41,8 @@ SRCS =	src/main.c \
 		src/redirect_and_pipe_helpers.c \
 		src/heredoc.c \
 		src/helpers_builtins.c \
-		src/helpers_fds.c
+		src/helpers_fds.c \
+		src/ft_wait_and_exit.c
 
 
 ## Substitutes all the SRC_DIR to SRCS --> A short alternative to $(SRCS)/%.c = $(OBJS)/%.o

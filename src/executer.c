@@ -60,8 +60,10 @@ void	piping_builtin_and_exec(t_group *group)
 
 void	executer(t_group	*group)
 {
-	int	i;
+	int		i;
+	t_group	*tmp;
 
+	tmp = group;
 	i = -1;
 	//print_groups(group, group->info);
 	while (++i < group->info->num_groups)
@@ -83,6 +85,5 @@ void	executer(t_group	*group)
 		if (i < group->info->num_groups - 1)
 			group++;
 	}
-	while (wait(NULL) > 0)
-		;
+	wait_and_exit_status(tmp);
 }
