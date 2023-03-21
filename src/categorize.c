@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   categorize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mabbas <mabbas@students.42wolfsburg.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/21 18:20:31 by mabbas            #+#    #+#             */
+/*   Updated: 2023/03/21 19:06:30 by mabbas           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	only_separator_in_string(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -13,7 +25,7 @@ int	only_separator_in_string(char *str)
 	return (1);
 }
 
-int categorize(char *str)
+int	categorize_pipe(char *str)
 {
 	if (!ft_strncmp(str, "<<", 3))
 		return (REDIR_INPUT_APPEND);
@@ -25,6 +37,11 @@ int categorize(char *str)
 		return (REDIR_OUTPUT_APPEND);
 	if (!ft_strncmp(str, "|", 2))
 		return (PIPE);
+	return (WORD);
+}
+
+int	categorize_builtin(char *str)
+{
 	if (!ft_strncmp(str, "echo", 5))
 		return (CMD_ECHO);
 	if (!ft_strncmp(str, "exit", 5))
@@ -41,9 +58,30 @@ int categorize(char *str)
 		return (CMD_ENV);
 	if (!ft_strncmp(str, "clear", 5))
 		return (CMD_CLEAR);
+	return (WORD);
+}
+
+int	categorize_flag(char *str)
+{
 	if (!ft_strncmp(str, "-", 1))
 		return (FLAG);
 	if (only_separator_in_string(str))
 		return (SEPARATOR);
+	return (WORD);
+}
+
+int	categorize(char *str)
+{
+	int	category;
+
+	category = categorize_pipe(str);
+	if (category != WORD)
+		return (category);
+	category = categorize_builtin(str);
+	if (category != WORD)
+		return (category);
+	category = categorize_flag(str);
+	if (category != WORD)
+		return (category);
 	return (WORD);
 }
