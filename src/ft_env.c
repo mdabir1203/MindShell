@@ -33,7 +33,7 @@ void	ft_env(t_info *info)
 	{
 		printf("env: %s No such file or directory\n", \
 			info->groups->arguments[1]);
-		return ;
+		exit (1);
 	}
 	ft_env_sub(info);
 }
