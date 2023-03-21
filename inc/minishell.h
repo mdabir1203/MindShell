@@ -237,13 +237,13 @@ char	*value_of_variable_from_env(char ***env, char *var, int len);
 char	*replace_first_var_in_str(char *str, char *value, \
 	int num_var, int num_value);
 
-
 //**** expand_variables.c ****//
 
 char	*value_of_variable_from_env(char ***env, char *var, int len);
 int		expand_variables(char	**array, t_info *info);
 
 //**** ft_pwd.c ***//
+
 void	ft_pwd(t_group *group);
 
 //**** ft_cd.c ****//
@@ -285,6 +285,22 @@ int		num_cont_chars(char *str);
 int		num_env_args(char ***args);
 int		ft_export(char **args, t_info *info);
 
+//**** ft_split_lexer_utils_2.c ****//
+
+char	*after_sep(char *str, int *buf);
+char	*after_pipe(char *str, int *buf);
+char	*after_quote(char *str, int *buf);
+char	*after_word(char *str, int *buf);
+int		count_parts(char *str);
+
+//**** ft_split_lexer_utils.c ****//
+
+int		sep(char c);
+int		red(char c);
+int		quote(char c);
+int		pipesign(char c);
+char	*after_red(char *str, int *buf);
+
 //**** ft_split_lexer.c ****//
 
 int		sep(char c);
@@ -296,6 +312,7 @@ char	**ft_split_lexer(char *str, t_info *info);
 int		ft_unset(char **args, t_info *info);
 
 //**** init.c ****//
+
 t_info	*init(char **envp);
 char	**ft_array_args(char *str, t_info *info);
 t_group	*init_groups(t_info *info);
