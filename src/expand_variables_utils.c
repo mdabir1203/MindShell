@@ -99,7 +99,7 @@ char	*replace_first_var_in_str(char *str, char *value, \
 	i[0] = -1;
 	i[1] = -1;
 	old_str = str;
-	str = malloc(sizeof(char) * (ft_strlen(str) - num_var + num_value));
+	str = malloc(sizeof(char) * (ft_strlen(str) - num_var + num_value + 1));
 	if (!str)
 		return (NULL);
 	old_strlen = ft_strlen(old_str);
