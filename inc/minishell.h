@@ -228,10 +228,20 @@ int		error(int err, t_info *info);
 
 void	executer(t_group	*group);
 
-//**** expand_variables.c.c ****//
+//**** expand_variables_utils.c ****//
+
+int		var_delimiter(char c);
+int		variable_name_count(char *str);
+char	*exit_status(void);
+char	*value_of_variable_from_env(char ***env, char *var, int len);
+char	*replace_first_var_in_str(char *str, char *value, \
+	int num_var, int num_value);
+
+
+//**** expand_variables.c ****//
 
 char	*value_of_variable_from_env(char ***env, char *var, int len);
-int		expand_variables(char	**array, char ***env, t_info *info);
+int		expand_variables(char	**array, t_info *info);
 
 //**** ft_pwd.c ***//
 void	ft_pwd(t_group *group);

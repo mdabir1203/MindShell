@@ -33,6 +33,7 @@ SRCS =	src/main.c \
 		src/ft_export_sub.c \
 		src/ft_export_sub_sub.c \
 		src/ft_unset.c \
+		src/expand_variables_utils.c \
 		src/expand_variables.c \
 		src/ft_cd.c \
 		src/ft_pwd.c \

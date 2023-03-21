@@ -36,7 +36,7 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	if (!info->input_lexer)
 		return (0);
 	// expand_variables(info->input_lexer, info->env, info);
-	if (!expand_variables(info->input_lexer, info->env, info))
+	if (!expand_variables(info->input_lexer, info))
 		return (0);
 	delete_quotationmarks(info->input_lexer);
 	info->num_groups = count_groups(info);
