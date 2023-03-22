@@ -87,7 +87,8 @@ int	main(int argc, char **argv, char **envp)
 			write(1, "\n", 1);
 			clean_up(CTRL_D_PRESSED, info); // ATTENTION, hand over info somehow !!!
 		}
-		if (!parser(info) || ft_strncmp(info->prompt, "minishell\0", 10) == 0)
+		if (!parser(info) || !ft_strncmp(info->prompt, "minishell\0", 10) | \
+		!ft_strncmp(info->prompt, ".\0", 2) | !ft_strncmp(info->prompt, "..\0", 3))
 		{
 			clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);  // extract clean_up_path_before_executable
 			continue;
