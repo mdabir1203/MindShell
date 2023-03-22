@@ -15,17 +15,19 @@ int	is_redirect(int num)
 
 // *ret = 1; in the if before the two ifs
 int	found_save_redirect_sub(int *before_cat, t_info *info, \
-	char *act_input_lexer_str, t_parse_lexer *pl)
+	char *act_lexer, t_parse_lexer *pl)
 {
 	if (is_redirect(*before_cat))
 	{
 		if (pl->cat == WORD || pl->cat == FLAG || \
 			(pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
 		{
-			if (*before_cat == REDIR_INPUT_APPEND ||  *before_cat == REDIR_INPUT)
-				info->groups[pl->act_group].redir_infile = act_input_lexer_str;
-			if (*before_cat == REDIR_OUTPUT_APPEND || *before_cat == REDIR_OUTPUT)
-				info->groups[pl->act_group].redir_outfile = act_input_lexer_str;
+			if (*before_cat == REDIR_INPUT_APPEND || \
+				*before_cat == REDIR_INPUT)
+				info->groups[pl->act_group].redir_infile = act_lexer;
+			if (*before_cat == REDIR_OUTPUT_APPEND || \
+				*before_cat == REDIR_OUTPUT)
+				info->groups[pl->act_group].redir_outfile = act_lexer;
 			*before_cat = 0;
 			return (1);
 		}
@@ -33,19 +35,23 @@ int	found_save_redirect_sub(int *before_cat, t_info *info, \
 	return (0);
 }
 
-	// if (is_redirect(before_cat))
-	// {
-	// 	if (pl->cat == WORD || pl->cat == FLAG || \
-	// 		(pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
-	// 	{
-	// 		ret = 1;
-	// 		if (before_cat == REDIR_INPUT_APPEND || before_cat == REDIR_INPUT)
-	// 			info->groups[pl->act_group].redir_infile = act_input_lexer_str;
-	// 		if (before_cat == REDIR_OUTPUT_APPEND || before_cat == REDIR_OUTPUT)
-	// 			info->groups[pl->act_group].redir_outfile = act_input_lexer_str;
-	// 		before_cat = 0;
-	// 	}
-	// }
+// if (is_redirect(before_cat))
+// {
+// 	if (pl->cat == WORD || pl->cat == FLAG || \
+// 		(pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
+// 	{
+// 		ret = 1;
+// 		if (before_cat == REDIR_INPUT_APPEND || \
+//			before_cat == REDIR_INPUT)
+			// info->groups[pl->act_group].redir_infile = \
+			// 	act_input_lexer_str;
+// 		if (before_cat == REDIR_OUTPUT_APPEND || \
+//			before_cat == REDIR_OUTPUT)
+// 			info->groups[pl->act_group].redir_outfile = \
+//				act_input_lexer_str;
+// 		before_cat = 0;
+// 	}
+// }
 /**
  * @brief only call ONCE in the loop? it changes status it is called
  * it returns 1 if it identifies the given str as an redirect 
@@ -76,7 +82,8 @@ int	found_save_redirect(t_parse_lexer *pl, t_info *info, \
 	}
 	if (pl->cat == SEPARATOR && is_redirect(before_cat))
 		ret = 1;
-	if (found_save_redirect_sub(&before_cat, info, act_input_lexer_str, pl) == 1)
+	if (found_save_redirect_sub(&before_cat, info, \
+		act_input_lexer_str, pl) == 1)
 		ret = 1;
 	return (ret);
 }
@@ -227,7 +234,6 @@ int	count_groups(t_info *info)
 	return (num_groups);
 }
 
-
 void	shift_str_left(char *str)
 {
 	int i;
@@ -239,11 +245,10 @@ void	shift_str_left(char *str)
 
 void	delete_quotationmarks(char	**array)
 {
-	int i;
-	int j;
-	int d_quote;
-	int s_quote;
-	char buf;
+	int	i;
+	int	j;
+	int	d_quote;
+	int	s_quote;
 
 	i = -1;
 	d_quote = 0;
@@ -253,34 +258,20 @@ void	delete_quotationmarks(char	**array)
 		j = -1;
 		while (array[i][++j])
 		{
-			buf = array[i][j];
-			if (!d_quote && buf == '\'')
+			if (!d_quote && array[i][j] == '\'')
 			{
-				shift_str_left(&array[i][j]); // the same with \", the rest li: 265 - 281 put in a function -> lexer uses that too
-				j--;
-
-			}
-
-			if (!d_quote && buf == '\'')
+				shift_str_left(&array[i][j--]);
 				s_quote = !s_quote;
-			// {
-				
-			// 	if (s_quote == 0)
-			// 		s_quote = 1;
-			// 	else
-			// 		s_quote = 0;
-			// }
-			else if (!s_quote && buf == '\"')
-			{
-				shift_str_left(&array[i][j]);
-				j--;
-				d_quote = !d_quote;  // better
-				// if (d_quote == 0)
-				// 	d_quote = 1;
-				// else
-				// 	d_quote = 0;
 			}
-
+			else if (!s_quote && array[i][j] == '\"')
+			{
+				shift_str_left(&array[i][j--]);
+				d_quote = !d_quote;
+			}
 		}
 	}
 }
+
+// vor else if()
+// if (!d_quote && buf == '\'')
+// 	s_quote = !s_quote;
