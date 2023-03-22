@@ -73,7 +73,9 @@ void	replace_cont_of_var(char *arg, char ***env, t_info *info)
 	env[var_pos_in_env][1] = ft_calloc(num_cont_chars(arg) + 1, sizeof(char));
 	populate_cont(env[var_pos_in_env][1], arg);
 	free (buf);
-	clean_up_paths(info);
 	if (!ft_strncmp(arg, "PATH=", 5))
+	{
+		clean_up_paths(info);
 		info->paths = ft_split((arg + 5), ':');
+	}
 }
