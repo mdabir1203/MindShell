@@ -1,3 +1,0 @@
-/goinfre/mabbas/42Projects/Mindshell/cmake-build-debug/CMakeFiles/Mindshell.dir
-/goinfre/mabbas/42Projects/Mindshell/cmake-build-debug/CMakeFiles/edit_cache.dir
-/goinfre/mabbas/42Projects/Mindshell/cmake-build-debug/CMakeFiles/rebuild_cache.dir
