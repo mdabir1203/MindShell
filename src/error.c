@@ -27,15 +27,15 @@ int	parser_error_check_sub(t_info *info, int i)
  */
 int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 {
-	if (!strncmp(info->input_lexer[0], "|", 2))
+	if (!ft_strncmp(info->input_lexer[0], "|", 2))
 	{
 		g_exit_status = 2;
 		input_message(PIPE_ERROR_1, 0);
 		return (0);
 	}
-	if (info->input_lexer[1] != NULL && !strncmp(info->input_lexer[0], " ", 1))
+	if (info->input_lexer[1] != NULL && !ft_strncmp(info->input_lexer[0], " ", 1))
 	{
-		if (!strncmp(info->input_lexer[++i], "|", 2))
+		if (!ft_strncmp(info->input_lexer[++i], "|", 2))
 		{
 			g_exit_status = 2;
 			input_message(PIPE_ERROR_1, 0);
