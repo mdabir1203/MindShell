@@ -35,23 +35,6 @@ int	found_save_redirect_sub(int *before_cat, t_info *info, \
 	return (0);
 }
 
-// if (is_redirect(before_cat))
-// {
-// 	if (pl->cat == WORD || pl->cat == FLAG || \
-// 		(pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
-// 	{
-// 		ret = 1;
-// 		if (before_cat == REDIR_INPUT_APPEND || \
-//			before_cat == REDIR_INPUT)
-			// info->groups[pl->act_group].redir_infile = \
-			// 	act_input_lexer_str;
-// 		if (before_cat == REDIR_OUTPUT_APPEND || \
-//			before_cat == REDIR_OUTPUT)
-// 			info->groups[pl->act_group].redir_outfile = \
-//				act_input_lexer_str;
-// 		before_cat = 0;
-// 	}
-// }
 /**
  * @brief only call ONCE in the loop? it changes status it is called
  * it returns 1 if it identifies the given str as an redirect 
