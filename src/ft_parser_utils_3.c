@@ -34,7 +34,7 @@ void	delete_quotationmarks_one_string(char *str)
 {
 	int	d_quote;
 	int	s_quote;
-	int j;
+	int	j;
 
 	d_quote = 0;
 	s_quote = 0;

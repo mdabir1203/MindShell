@@ -8,7 +8,7 @@ void	wait_and_exit_status(t_group *tmp)
 	i = -1;
 	while (++i < tmp->info->num_groups)
 	{
-		if ((tmp->path ||tmp->builtin == CMD_ECHO || tmp->builtin == CMD_ENV \
+		if ((tmp->path || tmp->builtin == CMD_ECHO || tmp->builtin == CMD_ENV \
 		|| tmp->builtin == CMD_PWD) && tmp->exit_status == 0)
 		{
 			waitpid(tmp->pid, &exit_status, 0);
