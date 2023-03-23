@@ -11,9 +11,9 @@ int	count_groups(t_info *info)
 	{
 		if (info->input_lexer[1] == NULL)
 			return (1);
-		if (!strncmp(info->input_lexer[0], "|", 2) || \
-			(!strncmp(info->input_lexer[0], " ", 2) && \
-			!strncmp(info->input_lexer[1], "|", 2)))
+		if (!ft_strncmp(info->input_lexer[0], "|", 2) || \
+			(!ft_strncmp(info->input_lexer[0], " ", 2) && \
+			!ft_strncmp(info->input_lexer[1], "|", 2)))
 			return (1);
 		if (!ft_strncmp(info->input_lexer[run], "|", 2))
 			num_groups++;
