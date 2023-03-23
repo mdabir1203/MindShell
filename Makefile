@@ -13,39 +13,39 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 SRCS =	src/main.c \
-		src/clean_up.c \
-		src/clean_up_utils.c \
+		src/ft_clean_up.c \
+		src/ft_clean_up_utils.c \
 		src/ft_echo.c \
 		src/ft_exit.c \
 		src/ft_env.c \
-		src/init.c \
-		src/error.c \
+		src/ft_init.c \
+		src/ft_error.c \
 		src/ft_split_lexer_utils_2.c \
 		src/ft_split_lexer_utils.c \
 		src/ft_split_lexer.c \
 		src/tests.c \
-		src/make_env_arr.c \
-		src/check_if_cmd.c \
+		src/ft_make_env_arr.c \
+		src/ft_check_if_cmd.c \
 		src/ft_message.c \
-		src/categorize.c \
-		src/parser.c \
-		src/parser_utils_3.c \
-		src/parser_utils_2.c \
-		src/parser_utils.c \
-		src/executer.c \
+		src/ft_categorize.c \
+		src/ft_parser.c \
+		src/ft_parser_utils_3.c \
+		src/ft_parser_utils_2.c \
+		src/ft_parser_utils.c \
+		src/ft_executer.c \
 		src/ft_export.c \
 		src/ft_export_sub.c \
 		src/ft_export_sub_sub.c \
 		src/ft_unset.c \
-		src/expand_variables_utils.c \
-		src/expand_variables.c \
+		src/ft_expand_variables_utils.c \
+		src/ft_expand_variables.c \
 		src/ft_cd.c \
 		src/ft_pwd.c \
 		src/ft_clear.c \
-		src/redirect_and_pipe_helpers.c \
-		src/heredoc.c \
-		src/helpers_builtins.c \
-		src/helpers_fds.c \
+		src/ft_redirect_and_pipe_helpers.c \
+		src/ft_heredoc.c \
+		src/ft_helpers_builtins.c \
+		src/ft_helpers_fds.c \
 		src/ft_wait_and_exit.c
 
 
