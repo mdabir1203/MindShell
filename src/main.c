@@ -1,15 +1,15 @@
 #include "../inc/minishell.h"
 
-/** It removes the visual feedback
- *  after signal gets handled
+/* It removes the visual feedback
+ * after signal gets handled
  * -> ICANON flag when removed input
- *  is processed immediately as each
- *  char is typed.
+ * is processed immediately as each
+ * char is typed.
  * &= ~: bitwise negation -> to disable attributes
  * ECHOCTL: Control chars are not displayed
  * TCSANOW: change term attrib in midsession
  *          wout waiting for next read/write 
- **/
+ */
 void	remove_ctrl_c_feed(void)
 {
 	struct termios	term;
@@ -19,33 +19,29 @@ void	remove_ctrl_c_feed(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-/**	SIGQUIT should do nothing
- * 
- **/
+/*
+ * SIGQUIT should do nothing
+ */
 void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
 	{
-		// exit status 130
-		//clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
 	remove_ctrl_c_feed();
-	(void) context;
-	(void) *info;
+	(void)context;
+	(void)*info;
 }
 
-int	ft_signal(struct sigaction	sa)
+int	ft_signal(struct sigaction sa)
 {
-	sa = (struct sigaction){.sa_sigaction = signal_handler}; // new
-	//sa.sa_sigaction = &signal_handler;  // let's leave it in for now;
-	sa.sa_flags = SA_SIGINFO; // without 5 errors from 5 contexts;
-	//sigemptyset(&sa.sa_mask); // without maybe an error, depending on other errors, let's leave this line in for now;
+	sa = (struct sigaction){.sa_sigaction = signal_handler};
+	sa.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
-		return (2);							// why returning 2?
+		return (2);
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		return (2);
 	return (0);
@@ -60,13 +56,32 @@ int	ft_signal(struct sigaction	sa)
               establishing a signal handler.
 **envp environment for env.
  **/
-int g_exit_status = 0;
-int errno = 0;
+int		g_exit_status = 0;
+//int		errno = 0;
+
+int	main_loop(t_info *info)
+{
+	if (!(info->prompt = readline("minishelly> ")))
+	{
+		write(1, "\n", 1);
+		clean_up(CTRL_D_PRESSED, info);
+	}
+	if (!parser(info) || !ft_strncmp(info->prompt, "minishell\0", 10)
+		|| !ft_strncmp(info->prompt, ".\0", 2) || !ft_strncmp(info->prompt,
+			"..\0", 3))
+	{
+		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+		return (1);
+	}
+	executer(info->groups);
+	clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+	return (0);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa;
-	t_info	*info;
+	t_info				*info;
 
 	ft_memset(&sa, 0, sizeof(sa));
 	if (argc > 1 || argv[1])
@@ -74,33 +89,12 @@ int	main(int argc, char **argv, char **envp)
 	ft_signal(sa);
 	if (!(info = init(envp)))
 		return (1);
-	if(info->prompt)
-		printf("prompt"); //to silence the warning
+	if (info->prompt)
+		printf("prompt");
 	printf("Welcome to the minishell!\n");
-	//printf("line 5 = %s\n", envp[4]);
-	//test_env_vars(info); //uncomment if you want to see the env and path arrays in info
 	while (1)
 	{
-		//printf("exit status from last prompt = %d", g_exit_status);
-		if (!(info->prompt = readline("minishelly> "))) // test ersetzen durch "benutzer@machine Ordner % "
-		{
-			write(1, "\n", 1);
-			clean_up(CTRL_D_PRESSED, info); // ATTENTION, hand over info somehow !!!
-		}
-		if (!parser(info) || !ft_strncmp(info->prompt, "minishell\0", 10) || \
-			!ft_strncmp(info->prompt, ".\0", 2) || !ft_strncmp(info->prompt, "..\0", 3))
-		{
-			clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);  // extract clean_up_path_before_executable
-			continue;
-		}
-		executer(info->groups);
-		// if( !ft_strncmp(info->groups[0].arguments[0], "export", 6))
-		// ft_export(info->groups[0].arguments, info); // for testing
-		// else
-		// {
-		// 	ft_unset(info->groups[0].arguments, info); // for testing
-		// }
-		clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+		main_loop(info);
 	}
 	clean_up(CLEAN_UP_REST_BEFORE_EXIT, info);
 	return (0);

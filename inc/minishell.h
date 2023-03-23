@@ -247,6 +247,7 @@ void				ft_cd(char **args, t_info *info);
 
 //**** ft_echo.c ****//
 
+void				ft_echo_helper(char **args, int arg_j);
 void				ft_echo(char **args, int pipe_out);
 
 //**** ft_exit.c ****//
@@ -321,7 +322,7 @@ void				make_env(char **envp, t_info *info);
 
 int					count_groups(t_info *info);
 void				shift_str_left(char *str);
-void	      delete_quotationmarks_one_string(char *str);
+void				delete_quotationmarks_one_string(char *str);
 void				delete_quotationmarks(char **array);
 
 //**** parser_utils_2.c ****//
