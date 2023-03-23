@@ -348,6 +348,7 @@ void				delete_quotationmarks(char **array);
 
 //**** parser.c ****//
 
+int					parser_loop(t_info *info, t_parse_lexer *pl, int i);
 int					parser(t_info *info);
 
 //**** redirect_and_pipe_helpers.c ****//
