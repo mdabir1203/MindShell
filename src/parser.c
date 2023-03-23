@@ -6,9 +6,9 @@
  **/
 /*void	cmd_identifier(char **cmd, t_info *info)
 {
-	if (!strncmp(cmd[0], "echo", 5))
+	if (!ft_strncmp(cmd[0], "echo", 5))
 		ft_echo(cmd);
-	else if (!strncmp(cmd[0], "exit", 5))
+	else if (!ft_strncmp(cmd[0], "exit", 5))
 		ft_exit(cmd);
 	else if (is_an_executable(cmd[0], info))
 		printf("cmd[0] is root_cmd = %s\n", info->root_cmd);
@@ -46,7 +46,7 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	i = -1;
 	while (info->input_lexer[++i]) //if we also want to handle " | echo hallo" then pl->act_group < info->num_groups
 	{
-		if (!strncmp(info->input_lexer[0], "exit", 5)) // check for leaks and segfault
+		if (!ft_strncmp(info->input_lexer[0], "exit", 5)) // check for leaks and segfault
 			ft_exit(info);
 		if (!ft_strncmp(info->input_lexer[i], "|", 2) && ft_strncmp(info->input_lexer[0], "|", 2)) // we can use categorize here
 			pl->act_group++;				// this construct cannot handle a pipe as first argument in group 0

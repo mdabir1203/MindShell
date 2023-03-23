@@ -2,14 +2,14 @@
 
 int	parser_error_check_sub(t_info *info, int i)
 {
-	if (!strncmp(info->input_lexer[i], "|", 2))
+	if (!ft_strncmp(info->input_lexer[i], "|", 2))
 	{
 		g_exit_status = 3;
 		input_message(PIPE_ERROR_2, 0);
 		return (0);
 	}
-	if (!strncmp(info->input_lexer[i], " ", 1) && \
-		!strncmp(info->input_lexer[++i], "|", 2))
+	if (!ft_strncmp(info->input_lexer[i], " ", 1) && \
+		!ft_strncmp(info->input_lexer[++i], "|", 2))
 	{
 		g_exit_status = 2;
 		input_message(PIPE_ERROR_1, 0);
@@ -23,7 +23,7 @@ int	parser_error_check_sub(t_info *info, int i)
  * Needs to be handled proper, later. 
  * //Max added first statement in:
  * if (info->input_lexer[1] != NULL && ..
- * !strncmp(info->input_lexer[0], " ", 1))
+ * !ft_strncmp(info->input_lexer[0], " ", 1))
  */
 int	parser_error_check(t_info *info, t_parse_lexer *pl, int i)
 {
