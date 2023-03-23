@@ -36,7 +36,7 @@ void	fork_and_execve(t_group *group)
 		{
 			if (execve(group->path, group->arguments, NULL) == -1)
 			{
-				g_exit_status = 1; //not needeed whole bracket?
+				g_exit_status = 1;
 				perror("exec didnt work\n");
 			}
 		}
@@ -52,8 +52,9 @@ void	piping_builtin_and_exec(t_group *group)
 	if (group->pipe_out)
 		make_pipe(group);
 	if (group->builtin == CMD_EXPORT || group->builtin == CMD_UNSET \
-		|| group->builtin == CMD_EXIT || group->builtin == CMD_CD || group->builtin == CMD_CLEAR)
-			builtin_no_piping(group);
+		|| group->builtin == CMD_EXIT || group->builtin == CMD_CD || \
+		group->builtin == CMD_CLEAR)
+		builtin_no_piping(group);
 	else if (group->path || group->builtin || group->redir_out)
 		fork_and_execve(group);
 }
@@ -65,10 +66,9 @@ void	executer(t_group	*group)
 
 	tmp = group;
 	i = -1;
-	//print_groups(group, group->info);
 	while (++i < group->info->num_groups)
 	{
-		g_exit_status = 0; //should not be like this
+		g_exit_status = 0;
 		if (!group->builtin && !group->path)
 		{
 			input_message(STR_WRITE_ERROR, 0);

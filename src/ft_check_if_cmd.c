@@ -11,10 +11,6 @@ char *slash_not_added, char *cmd)
 	{
 		return (ft_strdup(slash_added));
 	}
-	// if (!access(slash_not_added, X_OK))
-	// {
-	// 	return (ft_strdup(slash_not_added));
-	// }
 	if (!access(cmd, X_OK))
 	{
 		return (ft_strdup(cmd));
@@ -41,7 +37,8 @@ char	*add_slash(char *cmd, char *path)
  * to the executable. You have to free the space!!
  */
 
-int	check_if_access_in_parser(char *cmd, t_info *t_info, char	**path_to_executable)
+int	check_if_access_in_parser(char *cmd, t_info *t_info, \
+char	**path_to_executable)
 {
 	if (!t_info->paths)
 	{
@@ -72,7 +69,7 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 	path_to_executable = NULL;
 	if (check_if_access_in_parser(cmd, t_info, &path_to_executable) == 1)
 		return (path_to_executable);
-	if (check_if_access_in_parser(cmd, t_info, &path_to_executable) == 0)
+	if (!check_if_access_in_parser(cmd, t_info, &path_to_executable))
 		return (NULL);
 	if (path_to_executable)
 		return (path_to_executable);
@@ -81,13 +78,10 @@ char	*is_an_executable(char *cmd, t_info *t_info)
 		slash_added = add_slash(cmd, t_info->paths[i]);
 		slash_not_added = ft_strjoin(t_info->paths[i], cmd);
 		path_to_executable = check_and_return_path(slash_added, \
-		slash_not_added, cmd);   //leak!!! stdup inside
-		if (path_to_executable)
-		{
-			t_info->nb_root_cmd++;
-			free_slash(slash_added, slash_not_added);
+		slash_not_added, cmd);
+		if (check_if_path_found(path_to_executable, t_info, slash_added, \
+		slash_not_added))
 			return (path_to_executable);
-		}
 		free_slash(slash_added, slash_not_added);
 	}
 	return (NULL);

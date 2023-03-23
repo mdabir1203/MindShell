@@ -182,8 +182,15 @@ typedef struct s_parse_lexer
 int		categorize(char *str);
 
 //**** check_if_cmd.c ****//
+void	free_slash(char *slash_added, char *slash_not_added);
+int	check_if_access_in_parser(char *cmd, t_info *t_info, \
+char	**path_to_executable);
 
 char	*is_an_executable(char *cmd, t_info *t_info);
+
+//**** check_if_cmd_utils.c****//
+char *check_if_path_found(char *path_to_executable, t_info *t_info, \
+char *slash_added, char *slash_not_added);
 
 //**** input_check.c ****//
 

@@ -26,6 +26,7 @@ SRCS =	src/main.c \
 		src/tests.c \
 		src/ft_make_env_arr.c \
 		src/ft_check_if_cmd.c \
+		src/ft_check_if_cmd_utils.c \
 		src/ft_message.c \
 		src/ft_categorize.c \
 		src/ft_parser.c \
