@@ -7,6 +7,7 @@ void	f_s_exe_sub(t_parse_lexer *pl, t_info *info, \
 
 	pl->is_exe = 1;
 	*already_found_exe = 1;
+	delete_quotationmarks_one_string(act_input_lexer_str);
 	path_to_executable = is_an_executable(act_input_lexer_str, info);
 	if (is_builtin(act_input_lexer_str))
 	{
