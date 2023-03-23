@@ -323,6 +323,17 @@ t_group	*init_groups(t_info *info);
 
 void	make_env(char **envp, t_info *info);
 
+//**** parser_utils_2.c ****//
+
+int	is_redirect(int num);
+int	found_save_redirect_sub(int *before_cat, t_info *info, \
+	char *act_lexer, t_parse_lexer *pl);
+int	found_save_redirect(t_parse_lexer *pl, t_info *info, \
+	char *act_input_lexer_str, int i);
+int	is_builtin(char *str);
+
+
+
 //**** parser_utils.c ****//
 
 int		found_save_redirect(t_parse_lexer *pl, t_info *info, \
