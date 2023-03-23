@@ -28,7 +28,7 @@
 # define REDIR_INPUT_APPEND 7
 # define PIPE 8
 # define WORD 9
-# define FLAG 11 // we don't need to cat it if the ft_order says ok to that ( > -n) then we need to check that again, when using open() it will return a -1 I think if it's not a valid file name.
+# define FLAG 11
 # define SEPARATOR 12
 
 # define SEPARATOR_ONE " " // this is not so nice
@@ -97,8 +97,8 @@
  * arguments, emptyspacec, pipes and so on are separated
  * @env: 3d array to all the environment variables.
  * *env is an array of ptrs for the different vars.
- * each of the ptrs point to an array of 2 ptrs. [0] points to
- * the string of the env variables name.
+ * each of the ptrs point to an array of 2 ptrs. 
+ * [0] points to the string of the env variables name.
  * [1] points to the string of the variables value.
  * @paths: 2d char array that holds all the paths to the bin folders
  * that are saved in the env variable PATH
@@ -106,8 +106,9 @@
  * @nb_root_cmd: ask Nick
  * @num_groups: number of groups in the prompt (separated by pipes | )
  * @groups: ptr to all the groups. All groups are behind each other
- * in the memory. There are no pointers in between that point to 
- * every group. The last group is 0. Cannot check in while loop
+ * in the memory.
+ * There are no pointers in between that point to every group. 
+ * The last group is 0. Cannot check in while loop
  * like this while(group[i]) -> has to be done like this
  * while(++i < info->num_groups) don't know why.
  */
@@ -122,36 +123,18 @@ typedef struct s_info
 	struct s_group	*groups;
 }	t_info;
 
-/**
- * @brief there is one group for every command that is typed into the minishell
- * we assume, that every command is separated by a | . 
- * For example if is typed in> echo Hallo | cat
- * there will be 2 groups. in group[0] echo is the command and Hallo the argument. 
- * We put both into **arguments: {"echo", "Hallo", NULL}. The command itself 
- * will allways be the first argument. group[1].arguments: {"cat", NULL}.
- * This for example: <infile echo -n <infile_2 Hallo >>outfile du | cat >out_2
- * will give us :
- * group[0].arguments: {"echo", "-n", "Hallo", "du", NULL}
- * group[0].path: NULL -> we shall code echo ourselfs, so no path to the executable
- * group[0].builtin: 31 -> CMD_ECHO is defined to 31, see line 38 in this Headerfile
- * group[0].redir_in: 4 -> REDIR_INPUT is defined to 4, see line 24 in this file
- * group[0].redir_infile: "infile_2" -> only the last redirect 
- * in the category input will be saved. The redirect from infile will be ignored.
- * group[0].redir_out: 6 -> # define REDIR_OUTPUT_APPEND 6
- * group[0].redir_outfile: "outfile"
- * group[0].pipe_in: 0
- * group[0].pipe_out: 1
- * *pipe_fd_in, *pipe_fd_out, pid: will be later used in the executer
- * info ist a pointer to the info struct.
- * For group[1] there will only be showed the variables 
- * group[1].arguments: {"cat", NULL}
- * group[1].path: "usr/bin/cat" -> the path will be something like this (including the executable)
- * group[1].builtin: 0
- * group[1].redir_out: 5 -> # define REDIR_OUTPUT 5
- * group[1].redir_outfile: "out_2"
- * group[1].pipe_in: 1
- * 
- */
+/*
+The code is designed to parse commands typed into the minishell,
+assuming that each command is separated by a pipe symbol (|).
+The parsed commands are stored in groups, where each group contains
+information about the command, its arguments, 
+and any input/output redirection or piping.
+The first argument in each group is always the command itself. 
+The code also handles built-in commands and executable commands
+with their respective 
+paths.
+The parsed information is then used in the executer.
+*/
 typedef struct s_group
 {
 	int		exit_status;
@@ -172,10 +155,13 @@ typedef struct s_group
 /**
  * @brief temp struct for the while loop in the parser
  * 
- * @cat: 	the int value the categorizer returns f.e. (REDIRECT_OUTPUT)
- * @act_group:	actual group of commands f.e. (echo Hallo | cat) before the | it's 0 after it's 1
- * @is_red:		is redirect -> the int value that found_save_redirect() returns -> 1 for yes, 0 no redirect
- * @is_exe:		is executable -> int value that found_save_executable() returns -> 1 for yes, 0 no exe
+ * @cat: 	    the int value the categorizer returns f.e. (REDIRECT_OUTPUT)
+ * @act_group:	actual group of commands f.e. (echo Hallo | cat) before the 
+ *              | it's 0 after it's 1
+ * @is_red:		is redirect -> the int value that found_save_redirect()
+ *              returns -> 1 for yes, 0 no redirect
+ * @is_exe:		is executable -> int value that found_save_executable() 
+ *              returns -> 1 for yes, 0 no exe
  */
 typedef struct s_parse_lexer
 {
@@ -331,12 +317,12 @@ void	delete_quotationmarks(char	**array);
 
 //**** parser_utils_2.c ****//
 
-int	is_redirect(int num);
-int	found_save_redirect_sub(int *before_cat, t_info *info, \
+int		is_redirect(int num);
+int		found_save_redirect_sub(int *before_cat, t_info *info, \
 	char *act_lexer, t_parse_lexer *pl);
-int	found_save_redirect(t_parse_lexer *pl, t_info *info, \
+int		found_save_redirect(t_parse_lexer *pl, t_info *info, \
 	char *act_input_lexer_str, int i);
-int	is_builtin(char *str);
+int		is_builtin(char *str);
 
 //**** parser_utils.c ****//
 
