@@ -321,6 +321,7 @@ void				make_env(char **envp, t_info *info);
 
 int					count_groups(t_info *info);
 void				shift_str_left(char *str);
+void	      delete_quotationmarks_one_string(char *str);
 void				delete_quotationmarks(char **array);
 
 //**** parser_utils_2.c ****//

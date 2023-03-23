@@ -30,31 +30,39 @@ void	shift_str_left(char *str)
 		str[i] = str[i + 1];
 }
 
+void	delete_quotationmarks_one_string(char *str)
+{
+	int	d_quote;
+	int	s_quote;
+	int j;
+
+	d_quote = 0;
+	s_quote = 0;
+	j = -1;
+	while (str[++j])
+	{
+		if (!d_quote && str[j] == '\'')
+		{
+			shift_str_left(&str[j--]);
+			s_quote = !s_quote;
+		}
+		else if (!s_quote && str[j] == '\"')
+		{
+			shift_str_left(&str[j--]);
+			d_quote = !d_quote;
+		}
+	}
+}
+
 void	delete_quotationmarks(char	**array)
 {
 	int	i;
-	int	j;
-	int	d_quote;
-	int	s_quote;
 
 	i = -1;
-	d_quote = 0;
-	s_quote = 0;
 	while (array[++i])
 	{
-		j = -1;
-		while (array[i][++j])
-		{
-			if (!d_quote && array[i][j] == '\'')
-			{
-				shift_str_left(&array[i][j--]);
-				s_quote = !s_quote;
-			}
-			else if (!s_quote && array[i][j] == '\"')
-			{
-				shift_str_left(&array[i][j--]);
-				d_quote = !d_quote;
-			}
-		}
+		if (i == 0)
+			continue ;
+		delete_quotationmarks_one_string(array[i]);
 	}
 }

@@ -25,9 +25,10 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 	// expand_variables(info->input_lexer, info->env, info);
 	if (!expand_variables(info->input_lexer, info))
 		return (0);
-	delete_quotationmarks(info->input_lexer);
+	// delete_quotationmarks(info->input_lexer);
 	info->num_groups = count_groups(info);
 	info->groups = init_groups(info);
+	// p2d(info->input_lexer); // muss weg
 	while (++i < info->num_groups)
 		info->groups[i].arguments = ft_array_args(info->prompt, info);
 	i = -1;
@@ -53,9 +54,10 @@ int	parser(t_info *info) // after lexer.. groups and make space for ptr to group
 
 		pipe_detector(pl, info);
 	}
-	// p2d(info->paths);
+	delete_quotationmarks(info->input_lexer);
+	// p2d(info->input_lexer);// muss weg
 	
-	// print_groups(info->groups, info); // möglich <> ??
+	// print_groups(info->groups, info); // möglich <> ??  // muss weg
 	// ft_unset(info->groups[0].arguments, info);
 	
 	// ft_echo(info->groups[0].arguments, info->groups[0].pipe_out);
