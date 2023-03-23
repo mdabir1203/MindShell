@@ -6,11 +6,13 @@ static void	ft_fill_array(char const *s, char c, char **newstrings)
 	unsigned int	j;
 
 	i = -1;
-	while (s[++i] != c);
+	while (s[++i] != c)
+		;
 	newstrings[0] = ft_calloc(i + 1, sizeof(char));
 	ft_strlcpy(newstrings[0], s, i + 1);
 	j = i++;
-	while (s[++j]);
+	while (s[++j])
+		;
 	newstrings[1] = ft_calloc(j - i + 1, sizeof(char));
 	ft_strlcpy(newstrings[1], s + i, j - i + 1);
 	newstrings[2] = NULL;
