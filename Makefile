@@ -29,6 +29,7 @@ SRCS =	src/main.c \
 		src/ft_message.c \
 		src/categorize.c \
 		src/parser.c \
+		src/parser_utils_3.c \
 		src/parser_utils_2.c \
 		src/parser_utils.c \
 		src/executer.c \

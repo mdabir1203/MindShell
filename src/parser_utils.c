@@ -80,12 +80,14 @@ void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 	}
 }
 
+/**
+ * why gets this one (first if) overwritten when going
+ * to the next group and 
+ * why doesn't it understand group 0?
+ */
 void	pipe_detector(t_parse_lexer *pl, t_info *info)
 {
-	//info->groups->pipe_in = 0;		init in init file!!!
-	//info->groups->pipe_out = 0;
-	// printf("act_group %d num_groups %d\n", pl->act_group, info->num_groups);
-	if (info->num_groups > 1 && pl->act_group == 0)	// why gets this one overwritten when going to the next group and why doesn't it understand group 0?
+	if (info->num_groups > 1 && pl->act_group == 0)
 	{
 		info->groups[pl->act_group].pipe_in = 0;
 		info->groups[pl->act_group].pipe_out = 1;
@@ -100,67 +102,4 @@ void	pipe_detector(t_parse_lexer *pl, t_info *info)
 		info->groups[pl->act_group].pipe_in = 1;
 		info->groups[pl->act_group].pipe_out = 0;
 	}
-	// printf("act pipe in %d act pipe out %d\n", info->groups[pl->act_group].pipe_in, info->groups[pl->act_group].pipe_out);
-	// printf("pipe_in[0] %d pipe_out[0] %d\n", info->groups[0].pipe_in, info->groups[0].pipe_out);
 }
-
-int	count_groups(t_info *info)
-{
-	int num_groups;
-	int run;
-
-	num_groups = 1;
-	run = -1;
-	while (info->input_lexer[++run])
-	{
-		if (info->input_lexer[1] == NULL) // added by Max 
-			return (1);
-		if (!strncmp(info->input_lexer[0], "|", 2) || (!strncmp(info->input_lexer[0], " ", 2) && !strncmp(info->input_lexer[1], "|", 2))) // delete second part, if we don't wanna implement that case
-			return (1);
-		if (!ft_strncmp(info->input_lexer[run], "|", 2))
-			num_groups++;
-	}
-	return (num_groups);
-}
-
-void	shift_str_left(char *str)
-{
-	int i;
-
-	i = -1;
-	while (str[++i])
-		str[i] = str[i + 1];
-}
-
-void	delete_quotationmarks(char	**array)
-{
-	int	i;
-	int	j;
-	int	d_quote;
-	int	s_quote;
-
-	i = -1;
-	d_quote = 0;
-	s_quote = 0;
-	while (array[++i])
-	{
-		j = -1;
-		while (array[i][++j])
-		{
-			if (!d_quote && array[i][j] == '\'')
-			{
-				shift_str_left(&array[i][j--]);
-				s_quote = !s_quote;
-			}
-			else if (!s_quote && array[i][j] == '\"')
-			{
-				shift_str_left(&array[i][j--]);
-				d_quote = !d_quote;
-			}
-		}
-	}
-}
-
-// vor else if()
-// if (!d_quote && buf == '\'')
-// 	s_quote = !s_quote;
