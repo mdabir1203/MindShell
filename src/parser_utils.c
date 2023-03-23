@@ -1,131 +1,51 @@
 #include "../inc/minishell.h"
 
-int	is_redirect(int num)
+void	f_s_exe_sub(t_parse_lexer *pl, t_info *info, \
+	int *already_found_exe, char *act_input_lexer_str)
 {
-	if (num == REDIR_INPUT_APPEND)
-		return (1);
-	if (num == REDIR_INPUT)
-		return (1);
-	if (num == REDIR_OUTPUT_APPEND)
-		return (1);
-	if (num == REDIR_OUTPUT)
-		return (1);
-	return (0);
-}
+	char		*path_to_executable;
 
-// *ret = 1; in the if before the two ifs
-int	found_save_redirect_sub(int *before_cat, t_info *info, \
-	char *act_lexer, t_parse_lexer *pl)
-{
-	if (is_redirect(*before_cat))
+	pl->is_exe = 1;
+	*already_found_exe = 1;
+	path_to_executable = is_an_executable(act_input_lexer_str, info);
+	if (is_builtin(act_input_lexer_str))
 	{
-		if (pl->cat == WORD || pl->cat == FLAG || \
-			(pl->cat > BUILTIN_START && pl->cat < BUILTIN_END))
-		{
-			if (*before_cat == REDIR_INPUT_APPEND || \
-				*before_cat == REDIR_INPUT)
-				info->groups[pl->act_group].redir_infile = act_lexer;
-			if (*before_cat == REDIR_OUTPUT_APPEND || \
-				*before_cat == REDIR_OUTPUT)
-				info->groups[pl->act_group].redir_outfile = act_lexer;
-			*before_cat = 0;
-			return (1);
-		}
+		info->groups[pl->act_group].builtin = is_builtin(act_input_lexer_str);
+		info->groups[pl->act_group].arguments[0] = act_input_lexer_str;
+		free(path_to_executable);
+		path_to_executable = NULL;
 	}
-	return (0);
+	else if (path_to_executable)
+	{
+		info->groups[pl->act_group].path = path_to_executable;
+		info->groups[pl->act_group].arguments[0] = act_input_lexer_str;
+	}
 }
 
-/**
- * @brief only call ONCE in the loop? it changes status it is called
- * it returns 1 if it identifies the given str as an redirect 
- * i.e. (">", " ", "filename")
- * else returns 0
- * it saves the redirect in the struct groups
- */
-int	found_save_redirect(t_parse_lexer *pl, t_info *info, \
+int	found_save_executable(t_parse_lexer *pl, t_info *info, \
 	char *act_input_lexer_str, int i)
 {
-	int			ret;
-	static int	before_cat = 0;
-
-	ret = 0;
-	if (pl->act_group == 0 && i == 0)
-		before_cat = 0;
-	if (pl->cat == REDIR_INPUT_APPEND || pl->cat == REDIR_INPUT)
-	{
-		ret = 1;
-		before_cat = pl->cat;
-		info->groups[pl->act_group].redir_in = pl->cat;
-	}
-	if (pl->cat == REDIR_OUTPUT_APPEND || pl->cat == REDIR_OUTPUT)
-	{
-		ret = 1;
-		before_cat = pl->cat;
-		info->groups[pl->act_group].redir_out = pl->cat;
-	}
-	if (pl->cat == SEPARATOR && is_redirect(before_cat))
-		ret = 1;
-	if (found_save_redirect_sub(&before_cat, info, \
-		act_input_lexer_str, pl) == 1)
-		ret = 1;
-	return (ret);
-}
-
-int	is_builtin(char *str)
-{
-	if (!ft_strncmp(str, "echo\0", 5))
-		return (CMD_ECHO);
-	if (!ft_strncmp(str, "exit", 5))
-		return (CMD_EXIT);
-	if (!ft_strncmp(str, "cd", 3))
-		return (CMD_CD);
-	if (!ft_strncmp(str, "pwd", 4))
-		return (CMD_PWD);
-	if (!ft_strncmp(str, "export", 7))
-		return (CMD_EXPORT);
-	if (!ft_strncmp(str, "unset", 6))
-		return (CMD_UNSET);
-	if (!ft_strncmp(str, "env", 4))
-		return (CMD_ENV);
-	if (!ft_strncmp(str, "clear", 5))
-		return (CMD_CLEAR);
-	return (0);
-}
-
-int	found_save_executable(t_parse_lexer *pl, t_info *info, char *act_input_lexer_str, int i) // malloc so groß wie der lexer string ist
-{
-	static int already_found_exe = 0;
-	char		*path_to_executable;
+	static int	already_found_exe = 0;
 
 	if (pl->cat == PIPE || i == 0)
 		already_found_exe = 0;
-	if (already_found_exe == 0 && !pl->is_red && pl->cat != PIPE && pl->cat != SEPARATOR)// (pl->cat == WORD || pl->cat == FLAG || (pl->cat > BUILTIN_START && pl->cat < BUILTIN_END)))
+	if (already_found_exe == 0 && !pl->is_red && pl->cat != PIPE \
+		&& pl->cat != SEPARATOR)
 	{
-		// info->groups[pl->act_group].cmd = act_input_lexer_str;
-		pl->is_exe = 1;
-		already_found_exe = 1;
-		path_to_executable = is_an_executable(act_input_lexer_str, info);
-		if (is_builtin(act_input_lexer_str))
-		{
-			info->groups[pl->act_group].builtin = is_builtin(act_input_lexer_str);
-			info->groups[pl->act_group].arguments[0] = act_input_lexer_str;
-			free(path_to_executable);
-			path_to_executable = NULL;
-		}
-		else if (path_to_executable)
-		{
-			info->groups[pl->act_group].path = path_to_executable; // and needs to be the first arg
-			info->groups[pl->act_group].arguments[0] = act_input_lexer_str; // and needs to be the first arg
-		}
-		//else
-		//	pl->is_exe = -1;
+		f_s_exe_sub(pl, info, &already_found_exe, act_input_lexer_str);
 		return (pl->is_exe);
 	}
-	// printf("%p\n", act_input_lexer_str);	// prints out storage adress
 	if (act_input_lexer_str == NULL)
 		already_found_exe = 0;
 	pl->is_exe = 0;
 	return (pl->is_exe);
+}
+
+void	fs_args_sub(t_parse_lexer *pl, t_info *info, int *arg_j, int i)
+{
+	*arg_j += 1;
+	info->groups[pl->act_group].arguments[*arg_j] = \
+		info->input_lexer[i];
 }
 
 /**
@@ -138,38 +58,24 @@ void	found_save_arguments(t_parse_lexer *pl, t_info *info, int i)
 
 	arg_j = -1;
 	temp = pl->cat;
-	//printf("i %d\n", i);
 	if (pl->is_exe == 1)
 	{
-		// printf("is_exe %d\n", pl->is_exe);
-		i--; // change that a bit nicer
+		i--;
 		while (info->input_lexer[++i])
 		{
-			//printf("str: %s\n", info->input_lexer[i]);
-			pl->cat = categorize(info->input_lexer[i]); // pl->cat steht wenn wir zurück gehen immernoch auf der PIPE oder so wichtig?
-			//printf("cat %d\n", pl->cat);
+			pl->cat = categorize(info->input_lexer[i]);
 			pl->is_red = found_save_redirect(pl, info, info->input_lexer[i], i);
 			if (pl->cat == SEPARATOR || pl->is_red)
-				continue;
+				continue ;
 			else if (pl->cat == PIPE)
 			{
-				info->groups[pl->act_group].arguments[arg_j + 1] = NULL; //
-				//arg_j = 0;
-				break;
+				info->groups[pl->act_group].arguments[arg_j + 1] = NULL;
+				break ;
 			}
 			else
-			{
-				++arg_j;
-				//printf("arg_j %d\n", arg_j);
-				info->groups[pl->act_group].arguments[arg_j] = info->input_lexer[i];	// creates seg fault for > 1 group
-				//printf("arg_string %s\n", info->groups[pl->act_group].arguments[arg_j]);				// creates seg fault for > 1 group
-				//printf("adress_arg %p\n", info->groups[pl->act_group].arguments[arg_j]);	// creates seg fault for > 1 group	
-				// printf("word\n");
-			}	
-			//printf("i2 %d\n", i);
+				fs_args_sub(pl, info, &arg_j, i);
 		}
 		info->groups[pl->act_group].arguments[arg_j + 1] = NULL;
-		//printf("arg_string %s\n", info->groups[pl->act_group].arguments[arg_j + 1]);
 		pl->cat = temp;
 	}
 }
