@@ -17,3 +17,4 @@ link: https://en.wikipedia.org/wiki/ANSI_escape_code
 
 https://user-images.githubusercontent.com/66947064/227410116-982f60ca-f264-4173-8201-5cf016dc4e01.mov
 
+2. Add sound effects with successful exit
