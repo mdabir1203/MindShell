@@ -1,5 +1,17 @@
 #include "../inc/minishell.h"
 
+/** To color the prompt **/
+
+void	change_promptcolor(void)
+{
+	int	index;
+	const char *colors[] = {"\033[31m", "\033[32m", "\033[33m", //
+							"\033[34m", "\033[35m", "\033[36m", "\033[37m"};
+	index = rand() % 7;
+	printf("%s", colors[index]);
+
+}
+
 /*
 * function to shorten parser function to < 25 lines.
 */

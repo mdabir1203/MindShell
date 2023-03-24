@@ -19,6 +19,12 @@
 //*********************************************************//
 //**                FLAGS                               **//
 
+//**                COLORS                   **//
+
+#define BLINK "\033[5m"
+#define REVERSED "\033[4m"
+#define RESET   ""
+
 //**                PARSER CATEGORIES                    **//
 
 # define REDIR_INPUT 4
@@ -174,6 +180,10 @@ typedef struct s_parse_lexer
 //*********************************************************//
 //**                FUNCTIONS                           **//
 //*******************************************************//
+
+//**** prompt.c ****//
+
+void 				change_promptcolor(void);
 
 //**** categorize.c ****//
 

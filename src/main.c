@@ -57,11 +57,12 @@ int	ft_signal(struct sigaction sa)
 **envp environment for env.
  **/
 int		g_exit_status = 0;
-//int		errno = 0;
 
 int	main_loop(t_info *info)
 {
-	if (!(info->prompt = readline("minishelly> ")))
+	change_promptcolor();
+	info->prompt = readline("minishelly> ");
+	if (info->prompt == NULL)
 	{
 		write(1, "\n", 1);
 		clean_up(CTRL_D_PRESSED, info);
@@ -75,6 +76,7 @@ int	main_loop(t_info *info)
 	}
 	executer(info->groups);
 	clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
+	printf("%s", BLINK);
 	return (0);
 }
 
@@ -87,7 +89,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv[1])
 		return (1);
 	ft_signal(sa);
-	if (!(info = init(envp)))
+	info = init(envp);
+	if (!info)
 		return (1);
 	if (info->prompt)
 		printf("prompt");
