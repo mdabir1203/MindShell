@@ -1,5 +1,4 @@
-# minishell is a program that interacts with the user through a terminal.
-
+# Minishell is a program that interacts with the user through a terminal. It replicates the behaviour of bash terminal
 
 
 A preview of the Mindmap for the Project
