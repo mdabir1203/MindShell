@@ -21,9 +21,7 @@
 
 //**                COLORS                   **//
 
-#define BLINK "\033[5m"
-#define REVERSED "\033[4m"
-#define RESET   ""
+# define BLINK "\033[5m"
 
 //**                PARSER CATEGORIES                    **//
 
@@ -183,7 +181,7 @@ typedef struct s_parse_lexer
 
 //**** prompt.c ****//
 
-void 				change_promptcolor(void);
+void				change_promptcolor(void);
 
 //**** categorize.c ****//
 
