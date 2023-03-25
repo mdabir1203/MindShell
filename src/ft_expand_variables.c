@@ -69,9 +69,7 @@ int	expand_variables(char	**array, t_info *info)
 	int	s_quote;
 	int	d_quote;
 	int	ret;
-	// int	flag;
 
-	// flag = 0;
 	i = -1;
 	s_quote = 0;
 	d_quote = 0;
@@ -87,15 +85,7 @@ int	expand_variables(char	**array, t_info *info)
 				if (ret != 1)
 					return (ret);
 				j--;
-				// flag = 1;
-				// handle_quotes(&array[i][j--], &d_quote, &s_quote);
-				// continue ;
 			}
-			
-			// if (flag == 1)
-			// {
-
-			// }
 		}
 	}
 	return (1);
