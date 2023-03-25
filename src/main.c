@@ -61,7 +61,6 @@ int		g_exit_status = 0;
 int	main_loop(t_info *info)
 {
 	change_promptcolor();
-	printf("%s", RESET);
 	info->prompt = readline("minishelly> ");
 	if (info->prompt == NULL)
 	{
@@ -77,7 +76,6 @@ int	main_loop(t_info *info)
 	}
 	executer(info->groups);
 	clean_up(CLEAN_UP_FOR_NEW_PROMPT, info);
-	//printf("%s%s", BLINK, RESET);
 	return (0);
 }
 
