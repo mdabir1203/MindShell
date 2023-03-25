@@ -22,6 +22,7 @@
 //**                COLORS                   **//
 
 # define BLINK "\033[5m"
+# define RESET "\e[0m"
 
 //**                PARSER CATEGORIES                    **//
 
