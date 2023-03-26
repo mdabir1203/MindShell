@@ -17,7 +17,7 @@ void	change_promptcolor(void)
 */
 int	parser_loop(t_info *info, t_parse_lexer *pl, int i)
 {
-	if (!ft_strncmp(info->input_lexer[i], "|", 2))
+	if (!ft_strncmp(info->input_lexer[i], "|", 2) && info->input_lexer[1])
 	{
 		if (ft_strncmp(info->input_lexer[0], "|", 2)
 			|| (ft_strncmp(info->input_lexer[0], " ", 1)
