@@ -121,6 +121,7 @@ typedef struct s_info
 	char			*prompt;
 	char			**input_lexer;
 	char			***env;
+	char 			**envp;
 	char			**paths;
 	int				nb_root_cmd;
 	int				num_groups;

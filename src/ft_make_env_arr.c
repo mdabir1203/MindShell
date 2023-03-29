@@ -11,6 +11,7 @@ void	make_env(char **envp, t_info *info)
 	while (envp[i])
 		i++;
 	info->env = ft_calloc(i + 1, sizeof(char *));
+	info->envp = envp;
 	if (!(info->env))
 	{
 		write(2, "Error: malloc failed", 20);

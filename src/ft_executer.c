@@ -34,7 +34,7 @@ void	fork_and_execve(t_group *group)
 			builtins_with_output(group);
 		else if (group->path)
 		{
-			if (execve(group->path, group->arguments, NULL) == -1)
+			if (execve(group->path, group->arguments, group->info->envp) == -1)
 			{
 				g_exit_status = 1;
 				perror("exec didnt work\n");
